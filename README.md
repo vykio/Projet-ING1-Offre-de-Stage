@@ -18,14 +18,14 @@
 
  
 
- - [ ] Le site devra comporter 3 parties : Utilisateur, Gestionnaire, Administrateur
- - [ ] Le Gestionnaire pourra insérer des offres aux formats de son choix
- - [ ] L'étudiant devrai avoir accès aux offres qui le concerne
+ - [ ]  Le site devra comporter 3 parties : Utilisateur, Gestionnaire, Administrateur
+ - [ ]  Le Gestionnaire pourra insérer des offres aux formats de son choix
+ - [ ]  L'étudiant devrai avoir accès aux offres qui le concerne
 
 ### Cahier des Charges
 
- - [ ] Charte graphique moderne et aux couleurs de l'école
- - [ ] Authentification à l'application par base de données et sécurisée
- - [ ] La sécurité du site sera sans failles (impossible, mais on peut la rendre plus robuste)
- - [ ] La partie administrative devra gérer toutes les données de la BDD
- - [ ] Les offres ne seront plus visibles après date d'expiration
+ - [ ]  Charte graphique moderne et aux couleurs de l'école
+ - [ ]  Authentification à l'application par base de données et sécurisée
+ - [ ]  La sécurité du site sera sans failles (impossible, mais on peut la rendre plus robuste)
+ - [ ]  La partie administrative devra gérer toutes les données de la BDD
+ - [ ]  Les offres ne seront plus visibles après date d'expiration
