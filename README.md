@@ -29,3 +29,7 @@
  - [ ]  La sécurité du site sera sans failles (impossible, mais on peut la rendre plus robuste)
  - [ ]  La partie administrative devra gérer toutes les données de la BDD
  - [ ]  Les offres ne seront plus visibles après date d'expiration
+
+### Description
+
+► Lien de la page web GitHub: [https://vykio.github.io/Projet-ING1-Offre-de-Stage/](https://vykio.github.io/Projet-ING1-Offre-de-Stage/)
