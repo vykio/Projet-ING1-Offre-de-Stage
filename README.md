@@ -2,6 +2,7 @@
 ## Obligations du projet
 |Obligations|  |
 |--|--|
+|--|--|
 | Charte graphique | Avoir un site développé de toute part. *(utilisation de CMS non autorisée)* |
 | Codes sources | Codes sources *commentés* et *indentés*, sans *aucun avertissements* lors de la présentation. |
 | Langage web| Javascript, PHP, MySQL en majorité. |
