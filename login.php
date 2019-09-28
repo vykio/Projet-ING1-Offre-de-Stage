@@ -10,7 +10,7 @@
 
 <body>
 
-<div id="header" class="header" style="/*ackground-image: url('imgs/abstract_login.png');*/ background-color: lightblue">
+<div id="header" class="header" style="/*ackground-image: url('imgs/abstract_login.png');*/ background-color: #EEEEEE">
 		
 	</div>
 
@@ -27,12 +27,12 @@
 	  		<div class="lower">
 	  			<h2><strong>Connexion au service en ligne</strong></h2>
 	  			<div class="row">
-		      <label for="exampleEmailInput">Nom d'utilisateur</label>
-		      <input class="u-full-width" type="text" placeholder="Utilisateur" id="userInput" style="border-radius: 50px;" required>
+		      <label for="usernameInput">Nom d'utilisateur</label>
+		      <input class="u-full-width" type="text" placeholder="Utilisateur" id="usernameInput" style="border-radius: 50px;" required>
 		    
 		  </div>
 		  <div class="row">
-		      <label for="exampleEmailInput">Mot de passe</label>
+		      <label for="passwordInput">Mot de passe</label>
 		      <input class="u-full-width" type="password" placeholder="Mot de passe" id="passwordInput" style="border-radius: 50px;" required>
 		    
 		  </div>
