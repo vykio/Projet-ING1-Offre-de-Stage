@@ -1,4 +1,4 @@
-<!-- Page login -->
+
 <!DOCTYPE html>
 <html>
 <head>
