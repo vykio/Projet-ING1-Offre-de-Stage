@@ -1,3 +1,5 @@
+![Issues](https://img.shields.io/github/issues/vykio/Projet-ING1-Offre-de-Stage?label=Issues)
+
 # Projet [ING1] Offre de Stage
 ## Obligations du projet
 
