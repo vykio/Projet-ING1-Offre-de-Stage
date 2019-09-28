@@ -33,3 +33,11 @@
 ### Description
 
 ► Lien de la page web GitHub: [https://vykio.github.io/Projet-ING1-Offre-de-Stage/](https://vykio.github.io/Projet-ING1-Offre-de-Stage/)
+
+# Comment utiliser ce répertoire GitHub ?
+
+## En tant que développeur
+
+1. Installer [Github Desktop](https://desktop.github.com/) sur Windows ou sur Mac
+2. Installer [WAMP](http://www.wampserver.com/) (Windows) ou [MAMP](https://www.mamp.info/en/) (Mac)
+2. Se connecter à votre compte GitHub et cloner ce répertoire dans le do
