@@ -41,7 +41,7 @@
 1. Installer [Github Desktop](https://desktop.github.com/) sur Windows ou sur Mac
 2. Installer [WAMP](http://www.wampserver.com/) (Windows) ou [MAMP](https://www.mamp.info/en/) (Mac)
 3. Se connecter à votre compte GitHub et cloner ce répertoire dans le dossier utilisé par WAMP ou MAMP
-> Exemple: Sur Windows, WAMP utilise par défaut le répertoire C:\wamp64\www\. Il suffit de cloner le répertoire dans le dossier "www". Une fois WAMP lancé, je peux accéder au dossier "www" (qui contient le projet Github) par l'URL http://localhost/Projet-ING1-Offre-de-Stage
+> Exemple: Sur Windows, WAMP utilise par défaut le répertoire C:\wamp64\www\. Il suffit de cloner le répertoire dans le dossier "www". Une fois WAMP lancé, je peux accéder au dossier "www" (qui contient le projet Github) par l'URL http://localhost/Projet-ING1-Offre-de-Stage (par défaut, mais peut être différent)
 4. Je modifie les fichiers que je souhaite et je sauvegarde
 5. Une fois sur l'application GitHub Desktop, celle-ci m'affiche les fichiers qui ont été modifiés
 6. Par défaut, la branche **master** sera sélectionnée (en haut de l'application). **Lors d'un ajout**, je dois absolument créer une branche adéquat ou utiliser une branche "in-dev" ou une branche à mon nom ! (**Il ne faut pas publier directement dans la branche "master"**)
