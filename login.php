@@ -11,7 +11,11 @@
 
 <body>
 
-<div id="header" class="header" style="/*ackground-image: url('imgs/abstract_login.png');*/ background-color: #EEEEEE">
+<div id="header" class="header" style="background: url('imgs/login.jpg') no-repeat center center fixed; background-color: #EEEEEE;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;">
 		
 	</div>
 
