@@ -1,15 +1,22 @@
 <!-- login page -->
+<?php 
+
+$pagename = "Authentification";
+define('PAGE_NAME', $pagename);
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Authentification</title>
+	<?php
+	//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
+	include('templates/header.php');
+	?>
 
-	<!-- Skeleton CSS -->
-	<link rel="stylesheet" type="text/css" href="src/css/skeleton/normalize.css">
-	<link rel="stylesheet" type="text/css" href="src/css/skeleton/skeleton.css">
-
-	<!-- CSS custom -->
+	<!-- CSS custom pour la page login (non utilisé par les autres pages -->
 	<link rel="stylesheet" type="text/css" href="src/css/login/login.css">
+
 </head>
 
 <body>
@@ -65,13 +72,9 @@
 
 </div>
 
-
 <div class="footer">
 	Projet informatique - 1ère année Ecole d'Ingénieurs du Littoral Côte d'Opale - Groupe TP12
 </div>
-
-
-	
 
 </body>
 </html>
