@@ -26,7 +26,7 @@
 
  - [ ]  Le site devra comporter 3 parties : Utilisateur, Gestionnaire, Administrateur
  - [ ]  Le Gestionnaire pourra insérer des offres aux formats de son choix
- - [ ]  L'étudiant devrai avoir accès aux offres qui le concerne
+ - [ ]  L'étudiant doit avoir accès aux offres qui le concerne
 
 ### Cahier des Charges
 
