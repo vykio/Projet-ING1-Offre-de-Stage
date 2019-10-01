@@ -21,6 +21,7 @@ define('PAGE_NAME', $pagename);
 
 <body>
 
+
 <!-- Image de fond pour tous les navigateurs -->
 <div class="header" style="background: url('imgs/login.jpg') no-repeat center center fixed; background-color: #EEEEEE;
 	-webkit-background-size: cover;
@@ -35,7 +36,7 @@ define('PAGE_NAME', $pagename);
 
 	
 	<!-- div blanche sur le site contenant la form -->
-	<div id="login" class="super">
+	<div class="super">
 
 	  	<form>
 	  		
