@@ -51,7 +51,7 @@ define('PAGE_NAME', $pagename);
 	  			<div class="row">
 					<label for="usernameInput">Nom d'utilisateur</label>
 					<!-- Classe u-full-width créée par Skeleton.css et permet de mettre la longueur (width) au maximum de la div dans lequel il est contenu -->
-					<input class="u-full-width" type="text" placeholder="Utilisateur" id="usernameInput" style="border-radius: 50px;" required>
+					<input class="u-full-width" type="text" placeholder="Utilisateur" id="usernameInput" style="border-radius: 50px;" autofocus required>
 				</div>
 
 		  		<div class="row">
