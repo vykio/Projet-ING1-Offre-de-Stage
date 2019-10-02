@@ -1,3 +1,22 @@
+/*
+
+Le code utilisé par défaut correspond à celui pour mobile
+
+Si l'on veut afficher du code différent pour un ordinateur ou une tablette on utilise le :
+@media (min-width: AAAApx) {
+	//Code utilisé pour les écran supérieurs à AAAA pixels	
+}
+
+    Desktop HD: 1200px
+    Desktop: 1000px
+    Tablet: 750px
+    Phablet: 550px
+    Mobile: 400px
+
+(source: http://www.getskeleton.com)
+*/
+
+/* Utilisé pour afficher l'image (de l'école) de fond avec un index sur coordonnée z = -1 (afficher en dessous des éléments de la page) */
 .header {
 	position: fixed;
 	width: 100%;
@@ -5,43 +24,64 @@
 	z-index: -1;
 }
 
-.home_container {
-
-	/*padding-top: 300px; /* Header height */
-
-}
-
+/* Style pour le slogan du site (affiché au milieu de searchContainer ) */
 .header_slogan  {
-	position: absolute;
-	font-size: 1.4em;
-	color: white;
-	top: 0;
+/* Non relatif aux éléments dans la div parent, mais équivaut je pense à prendre comme réf de base le container parent*/
+	position: absolute; 
+	
+/* Ancrages en haut, en bas, a droite et a gauche pour centrer */
+	top: 0;			
 	bottom: 0;
 	right: 0;
 	left: 0;
-	padding-top: 70px;
-	max-height: 100px;
-	/*padding-bottom: 100px;*/
-	text-align: center;
-	text-shadow: 1px solid black;
+
+/* Ce qui parait le mieux pour les utilisateurs mobiles, tout en évitant les débordements */
+	font-size: 1.4em; 
+/* Couleur du texte blanc */
+	color: white;
+/* Alignement du texte au milieu de sa propre div */
+	text-align: center; 
+/* Ombre de texte noire avec opacité de 0.3/1 */
 	text-shadow: rgba(0,0,0,0.3) 1px 0 10px; 
+	
+/* Espacement depuis le haut de 70px */
+	padding-top: 70px; 
+/* Hauteur maximal de la div */
+	max-height: 100px;	
+	/*padding-bottom: 100px;*/
 }
 
+/* Afficher les info rapides sur l'utilisateur */
 .header_information_utilisateur {
-	content: "ok";
+/* Position par rapport au body de la page */
+	position: fixed; 
+/* Ancrage en haut et à droite */
+	top: 0;
+	right: 0;
+
+/* Espacements par rapport a la droite et le haut */
+	padding-right: 50px;
+	padding-top: 15px;
+
+/* Couleur du texte */
+	color: lightgrey;
 }
 
+
+/* Taille de notre header */
 .home_header {
 	height: 300px;
 }
 
+/* Notre container searchContainer */
 .searchContainer {
 	max-width: 700px;
 	padding-top: 180px;
 }
 
-
+/* min-width trouvée avec plusieurs tests pour éviter les débordements du texte du slogan et avoir un rendu plus fluide */
 @media (min-width: 460px) {
+/* Les propriétés de .header_slogan écrites au dessus sont quand meme éxécutées. Les propriétés écrites en dessous vont modifier les autres sans modifier celles qui n'ont pas bougées.  */
 
 	.header_slogan {
 		padding-top: 50px;
