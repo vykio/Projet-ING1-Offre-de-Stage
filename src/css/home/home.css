@@ -18,7 +18,7 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 
 /* Utilisé pour afficher l'image (de l'école) de fond avec un index sur coordonnée z = -1 (afficher en dessous des éléments de la page) */
 .header {
-	position: fixed;
+	position: absolute;
 	width: 100%;
 	height: 300px;
 	z-index: -1;
