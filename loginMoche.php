@@ -38,8 +38,8 @@ if(isset($_POST['creerCompte'])){
 
 
 
- 							// header('Location: http://localhost/projet-ing1-offre-de-stage/login.php');
- 							//exit();
+ 							header('Location: http://localhost/projet-ing1-offre-de-stage/login.php');
+ 							exit();
 
 
 
@@ -93,13 +93,13 @@ if(isset($_POST['creerCompte'])){
 </div>
 
 <!-- Container centré et réduit par Skeleton.css et re-réduit par la classe CSS "login" -->
-<div class="container login" style="border: 0px solid black">
+<div class="container register" style="border: 0px solid black">
 
 	
 	<!-- div blanche sur le site contenant la form -->
 	<div class="super">
 
-	  	<form>
+	  	<form action="loginMoche.php" method="post">
 	  		
 	  		<!-- Contenu dans la form pour mettre un padding left et right sur le contenu de la forme -->
 	  		<div class="lower">
@@ -108,40 +108,44 @@ if(isset($_POST['creerCompte'])){
 
 	  			<!-- class = "row" créé par Skeleton CSS pour faire une "ligne" -->
 	  			<div class="row">
-					<label for="first_nameInput">Prénom</label>
-					<!-- Classe u-full-width créée par Skeleton.css et permet de mettre la longueur (width) au maximum de la div dans lequel il est contenu -->
-					<input class="u-full-width" type="text" placeholder="Prénom" id="first_nameInput" style="border-radius: 50px;" autofocus required>
-				</div>
-
-		  		<div class="row">
-					<label for="last_nameInput">Nom de famille</label>
-		      		<input class="u-full-width" type="text" placeholder="Nom de famille" id="last_nameInput" style="border-radius: 50px;" required>
+	  				<label class="six columns" for="first_nameInput">Prénom</label>
+	  				<label class="six columns" for="last_nameInput">Nom de famille</label>
+	  			</div>
+	  		<!-- <label class='offset-by-six columns' for="last_nameInput">Nom de famille</label> -->
+	  			<div class="row">
+					
+					<input class="six columns" type="text" name="first_name" value="" placeholder="Prénom"  style="border-radius: 50px;" autofocus required>
+					<!-- <label for="last_nameInput">Nom de famille</label> -->
+		      		<input class="six columns" type="text" name="last_name" value="" placeholder="Nom de famille" style="border-radius: 50px;" required>
 		  		</div>
 
 		  		<div class="row">
 					<label for="usernameInput">Nom d'utilisateur</label>
-		      		<input class="u-full-width" type="text" placeholder="Nom d'utilisateur" id="usernameInput" style="border-radius: 50px;" required>
+		      		<input class="u-full-width" type="text" name="username" value="" placeholder="Nom d'utilisateur" style="border-radius: 50px;" required>
 		  		</div>
 
 		  		<div class="row">
 					<label for="emailInput">Adresse électronique</label>
-		      		<input class="u-full-width" type="text" placeholder="blabla@bla.bla" id="emailInput" style="border-radius: 50px;" required>
+		      		<input class="u-full-width" type="text" name="email" value="" placeholder="blabla@bla.bla" style="border-radius: 50px;" required>
 		  		</div>
 
 		  		<div class="row">
-					<label for="passwordInput">Mot de passe</label>
-		      		<input class="u-full-width" type="password" placeholder="Mot de passe" id="passwordInput" style="border-radius: 50px;" required>
+		  			<label class="six columns" for="passwordInput">Mot de passe</label>
+		  			<label class="six columns" for="passwordInput">Confirmer mot de passe</label>
 		  		</div>
 
+
 		  		<div class="row">
-					<label for="password_verifInput">Mot de passe</label>
-		      		<input class="u-full-width" type="password" placeholder="Confirmer mot de passe" id="passwordInput" style="border-radius: 50px;" required>
+					
+		      		<input class="six columns" type="password" name="password" value="" placeholder="Mot de passe" style="border-radius: 50px;" required>
+		 
+		      		<input class="six columns" type="password" name="password_verif" value="" placeholder="Confirmer mot de passe" style="border-radius: 50px;" required>
 		  		</div>
 
 		  		<br>
 		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
 		  		<!-- type="submit" pour confirmer la form -->
-		  		<input class="u-full-width button-primary" type="submit" value="S'inscrire" style="border-radius: 50px;">
+		  		<input class="u-full-width button-primary" type="submit" name="creerCompte" value="S'inscrire" style="border-radius: 50px;">
 	  		
 	  		</div>
 		  
