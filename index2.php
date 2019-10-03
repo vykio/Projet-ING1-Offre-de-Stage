@@ -29,7 +29,7 @@ $username_id_etu_test = "17003678"; //Numéro étudiant test
 <body>
 
 	<!-- Image Derriere le header -->
-	<div class="header" style="background: url('imgs/login.jpg') no-repeat center center fixed; background-color: #EEEEEE;
+	<div class="header" style="background: url('imgs/login_3.jpg') no-repeat center center fixed; background-color: #EEEEEE;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
@@ -39,13 +39,11 @@ $username_id_etu_test = "17003678"; //Numéro étudiant test
 	<!-- Header (contenant la barre de recherche et quelques boutons) -->
 	<div class="home_header">
 		
+
+
 		<!-- Class Container de SKELETON CSS et searchContainer de src/css/home/home.css -->
 		<div class="container searchContainer">
-			<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
-			<div class="header_information_utilisateur">
-				Bonjour, <?php echo $username_test ?> (n°<?php echo $username_id_etu_test ?>)
-			</div>
-
+			
 			<!-- Slogan pour le site -->
 			<div class="header_slogan">
 				Vous recherchez un stage ?<br>Ce site est fait pour vous
@@ -63,11 +61,21 @@ $username_id_etu_test = "17003678"; //Numéro étudiant test
 			</div>
 			
 		</div>
+
+		<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
+			<div class="header_information_utilisateur">
+				Bonjour, <?php echo $username_test ?> (n°<?php echo $username_id_etu_test ?>)
+			</div>
+
 		
 	</div>
-	<div class="container">
+	<div class="container main_container">
 		<!-- Contenus de la page -->
 		ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>
+	</div>
+
+	<div class="footer">
+		Projet informatique - 1ère année Ecole d'Ingénieurs du Littoral Côte d'Opale - Groupe TP12
 	</div>
 
 </body>

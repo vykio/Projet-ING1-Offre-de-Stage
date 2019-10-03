@@ -16,6 +16,11 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 (source: http://www.getskeleton.com)
 */
 
+.main_container {
+	padding-top: 50px;
+	padding-bottom: 100px;
+}
+
 /* Utilisé pour afficher l'image (de l'école) de fond avec un index sur coordonnée z = -1 (afficher en dessous des éléments de la page) */
 .header {
 	position: absolute;
@@ -42,7 +47,7 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 /* Alignement du texte au milieu de sa propre div */
 	text-align: center; 
 /* Ombre de texte noire avec opacité de 0.3/1 */
-	text-shadow: rgba(0,0,0,0.3) 1px 0 10px; 
+	text-shadow: rgba(0,0,0,0.5) 1px 0 10px; 
 	
 /* Espacement depuis le haut de 70px */
 	padding-top: 70px; 
@@ -54,7 +59,7 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 /* Afficher les info rapides sur l'utilisateur */
 .header_information_utilisateur {
 /* Position par rapport au body de la page */
-	position: fixed; 
+	position: absolute; 
 /* Ancrage en haut et à droite */
 	top: 0;
 	right: 0;
@@ -64,7 +69,9 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	padding-top: 15px;
 
 /* Couleur du texte */
-	color: lightgrey;
+	color: white;
+
+	text-shadow: rgba(0,0,0,0.5) 3px 3px 5px;
 }
 
 
@@ -79,6 +86,20 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	padding-top: 180px;
 }
 
+.footer {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+	text-align: center;
+	border-top: 1px solid lightgrey;
+
+	color: black;
+	opacity: 0.5;
+}
+
+
 /* min-width trouvée avec plusieurs tests pour éviter les débordements du texte du slogan et avoir un rendu plus fluide */
 @media (min-width: 460px) {
 /* Les propriétés de .header_slogan écrites au dessus sont quand meme éxécutées. Les propriétés écrites en dessous vont modifier les autres sans modifier celles qui n'ont pas bougées.  */
@@ -88,4 +109,18 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 		font-size: 2em;
 	}
 
+}
+
+@media (min-width: 750px) {
+	/*.footer {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		padding: 1rem;
+		background-color: #efefef;
+		text-align: center;
+		opacity: 0.3;
+		color: black;
+	}*/
 }
