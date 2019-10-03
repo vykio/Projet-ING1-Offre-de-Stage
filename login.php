@@ -68,6 +68,7 @@ define('PAGE_NAME', $pagename);
 		  
 		</form>
 
+		<p class="inscription"><a href="loginMoche.php">Pas de compte ? Inscrivez-vous ></a></p>
 
 	</div>
 
