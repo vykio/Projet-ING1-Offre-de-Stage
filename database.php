@@ -10,8 +10,12 @@ class database {
 		public static function query($query, $parametres = array()){ // cette fonction va aller chercher les élements dans la BD
 			$statement = self::connect()->prepare($query);
 			$statement ->execute($parametres);
-			//$data = $statement->fetchAll();
-			//return $data;	
+
+
+			if(explode(' ', $query)[0]== 'SELECT'){
+				$data = $statement->fetchAll();
+				return $data;	
+			}
 		}
 }
 
