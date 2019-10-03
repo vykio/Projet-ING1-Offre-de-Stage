@@ -55,9 +55,8 @@ body {
 /* Styles pour ordinateur et tablette */
 @media (min-width: 750px) {
 
-
-	.login {
-		max-width: 750px;
+	.register {
+		max-width: 550px;
 		padding-top: 100px;
 		
 	}
