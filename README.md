@@ -1,4 +1,5 @@
 ![Issues](https://img.shields.io/github/issues/vykio/Projet-ING1-Offre-de-Stage?label=Issues)
+![Issues closed](https://img.shields.io/github/issues-closed/Vykio/Projet-ING1-Offre-de-Stage?color=important&label=Issues)
 ![Langages](https://img.shields.io/badge/Langages-PHP%2C%20HTML%2C%20CSS%2C%20JS-informational)
 ![Taille code](https://img.shields.io/github/languages/code-size/Vykio/Projet-ING1-Offre-de-Stage?color=success&label=Taille%20du%20code)
 ![Dernier Commit](https://img.shields.io/github/last-commit/Vykio/Projet-ING1-Offre-de-Stage/master)
