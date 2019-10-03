@@ -4,6 +4,8 @@
 $pagename = "Authentification";
 define('PAGE_NAME', $pagename);
 
+include('templates/short_links.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +70,7 @@ define('PAGE_NAME', $pagename);
 		  
 		</form>
 
-		<p class="inscription"><a href="loginMoche.php">Pas de compte ? Inscrivez-vous ></a></p>
+		<p class="inscription"><a href="<?php echo REGISTER_PAGE ?>">Pas de compte ? Inscrivez-vous ></a></p>
 
 	</div>
 
