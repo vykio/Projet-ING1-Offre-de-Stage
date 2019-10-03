@@ -1,11 +1,19 @@
 /* Styles pour mobiles */
 
+html {
+	height: 100%;
+}
 
+body {
+	position: relative;
+	margin: 0;
+	min-height: 100%;
+}
 
 .login {
 	max-width: 450px;
 	padding-top: 50px;
-
+	padding-bottom: 100px;
 }
 
 .super {
@@ -22,7 +30,7 @@
 }
 
 .header {
-	position: fixed;
+	position: absolute;
 	width: 100%;
 	height: 200px;
 }
@@ -47,10 +55,10 @@
 /* Styles pour ordinateur et tablette */
 @media (min-width: 750px) {
 
+
 	.login {
 		max-width: 750px;
 		padding-top: 100px;
-
 		
 	}
 
@@ -68,7 +76,7 @@
 	}
 
 	.header {
-		position: fixed;
+		position: absolute;
 		width: 100%;
 		height: 100%;
 	}
