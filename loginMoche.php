@@ -1,6 +1,7 @@
 <?php 
 include('database.php');
 
+include('templates/short_links.php');
 
 $nompage = "Inscription au service en ligne";
 define('PAGE_NAME', $nompage);
@@ -33,12 +34,11 @@ if(isset($_POST['creerCompte'])){
 						if (filter_var($email, FILTER_VALIDATE_EMAIL)){
 		
 		
-							database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :password_verif, :email, :first_name, :last_name)', array('id'=>NULL, ':username'=>$username,':password'=>$password, ':password_verif'=>$password_verif, ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name));
-							echo "ok ça marche !!!";
+							database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :email, :first_name, :last_name)', array('id'=>NULL, ':username'=>$username,':password'=>$password, ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name));
 
+							//Tout fonctionne
 
-
- 							header('Location: http://localhost/projet-ing1-offre-de-stage/login.php');
+ 							header('Location: '. LOGIN_PAGE);
  							exit();
 
 
@@ -151,6 +151,7 @@ if(isset($_POST['creerCompte'])){
 		  
 		</form>
 
+		<p class="inscription"><a href="<?php echo LOGIN_PAGE ?>">< Un compte ? Connectez-vous</a></p>
 
 	</div>
 
