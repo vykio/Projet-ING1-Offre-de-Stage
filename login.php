@@ -5,33 +5,33 @@ $pagename = "Authentification";
 define('PAGE_NAME', $pagename);
 
 include('templates/short_links.php');
-// include('database.php');
+include('database.php');
 
-// 	if(isset($_POST['login'])){
+	if(isset($_POST['login'])){
 
-// 	$username = $_POST['username'];
-// 	$password = $_POST['password'];
+	$username = $_POST['username'];
+	$password = $_POST['password'];
 
-// 		if(database::query('SELECT username FROM utilisateur WHERE username=:username', array(':username'=>$username))){
-
-
-// 			if(password_verify($password, database::query('SELECT password FROM utilisateur WHERE username=:username', array(':username'=>$username))))[0]['password'] {
-
-// 				echo'Connecté!';
-
-// 			} else {
-
-// 				echo'Mot de passe incorrect!';
-
-// 			}
+		if(database::query('SELECT username FROM utilisateurs WHERE username=:username', array(':username'=>$username))){
 
 
-// 		} else {
-// 			echo'Utilisateur inconnu';
+			if(password_verify($password, database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'])) {
 
-// 		}
+			echo'Connecté!';
 
-// 	}
+			} else {
+
+			echo'Mot de passe incorrect!';
+
+			}
+
+
+		} else {
+			echo'Utilisateur inconnu';
+
+		}
+
+	}
 
 
 

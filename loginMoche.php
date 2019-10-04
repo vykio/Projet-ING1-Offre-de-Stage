@@ -33,7 +33,7 @@ if(isset($_POST['creerCompte'])){
 						if (filter_var($email, FILTER_VALIDATE_EMAIL)){
 		
 		
-							database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :password_verif, :email, :first_name, :last_name)', array('id'=>NULL, ':username'=>$username,':password'=>$password, ':password_verif'=>$password_verif, ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name));
+							database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password,:email, :first_name, :last_name)', array('id'=>NULL, ':username'=>$username,':password'=>$password,':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name));
 							echo "ok ça marche !!!";
 
 
