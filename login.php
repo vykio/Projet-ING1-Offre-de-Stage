@@ -17,11 +17,13 @@ include('database.php');
 
 			if(password_verify($password, database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'])) {
 
-			echo'Connecté!';
+				echo "Connecté!";
+							header('Location: http://localhost/projet-ing1-offre-de-stage/index.php');
+ 							exit();
 
 			} else {
 
-			echo'Mot de passe incorrect!';
+				echo'Mot de passe incorrect!';
 
 			}
 
@@ -89,7 +91,7 @@ include('database.php');
 
 		  		<div class="row">
 					<label for="passwordInput">Mot de passe</label>
-		      		<input class="u-full-width" type="password" placeholder="Mot de passe" id="passwordInput" style="border-radius: 50px;" required>
+		      		<input class="u-full-width" type="password" placeholder="Mot de passe" id="passwordInput" style="border-radius: 50px;" required >
 		  		</div>
 		  		<br>
 		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
