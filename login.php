@@ -5,6 +5,47 @@ $pagename = "Authentification";
 define('PAGE_NAME', $pagename);
 
 include('templates/short_links.php');
+include('database.php');
+
+	if(isset($_POST['login'])){
+
+		/* Ne pas oublier de donner les ttributs, name="login", name="username" et name="password" aux input dans le html */
+	$username = $_POST['username'];
+	$password = $_POST['password'];
+
+	echo $username . " " . $password;
+
+		if(database::query('SELECT username FROM utilisateurs WHERE username=:username', array(':username'=>$username))){
+			//echo "OK1";
+			//echo database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'];
+			
+			/* Utiliser password_verify seulement quand on aura "hash" le mot de passe, pour l'instant utiliser que la simple égalité (pas du tout sécurisé) */
+			/* PS: Je vais m'occuper du hash (cryptage du mdp) */
+
+			/*if(password_verify($password, database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'])) {*/
+
+			if ($password == database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password']) {
+
+				echo "Connecté!";
+				header('Location: ' . INDEX_PAGE);
+				exit();
+
+			} else {
+
+				echo'Mot de passe incorrect!';
+
+			}
+
+
+		} else {
+			echo'Utilisateur inconnu';
+
+		}
+
+	}
+
+
+
 
 ?>
 
@@ -40,7 +81,7 @@ include('templates/short_links.php');
 	<!-- div blanche sur le site contenant la form -->
 	<div class="super">
 
-	  	<form>
+	  	<form action="login.php" method="post">
 	  		
 	  		<!-- Contenu dans la form pour mettre un padding left et right sur le contenu de la forme -->
 	  		<div class="lower">
@@ -54,17 +95,17 @@ include('templates/short_links.php');
 	  			<div class="row">
 					<label for="usernameInput">Nom d'utilisateur</label>
 					<!-- Classe u-full-width créée par Skeleton.css et permet de mettre la longueur (width) au maximum de la div dans lequel il est contenu -->
-					<input class="u-full-width" type="text" placeholder="Utilisateur" id="usernameInput" style="border-radius: 50px;" autofocus required>
+					<input class="u-full-width" type="text" placeholder="Utilisateur" id="usernameInput" style="border-radius: 50px;" name="username" autofocus required>
 				</div>
 
 		  		<div class="row">
 					<label for="passwordInput">Mot de passe</label>
-		      		<input class="u-full-width" type="password" placeholder="Mot de passe" id="passwordInput" style="border-radius: 50px;" required>
+		      		<input class="u-full-width" type="password" placeholder="Mot de passe" id="passwordInput" name="password" style="border-radius: 50px;" required >
 		  		</div>
 		  		<br>
 		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
 		  		<!-- type="submit" pour confirmer la form -->
-		  		<input class="u-full-width button-primary" type="submit" value="Connexion" style="border-radius: 50px;">
+		  		<input class="u-full-width button-primary" type="submit" value="Connexion" name="login" style="border-radius: 50px;">
 	  		
 	  		</div>
 		  

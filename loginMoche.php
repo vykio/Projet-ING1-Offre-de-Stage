@@ -36,9 +36,10 @@ if(isset($_POST['creerCompte'])){
 		
 							database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :email, :first_name, :last_name)', array('id'=>NULL, ':username'=>$username,':password'=>$password, ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name));
 
+
 							//Tout fonctionne
 
- 							header('Location: '. LOGIN_PAGE);
+ 							header('Location: ' . LOGIN_PAGE);
  							exit();
 
 
