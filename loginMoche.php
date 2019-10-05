@@ -1,6 +1,8 @@
 <?php 
 include('database.php');
 
+include('templates/short_links.php');
+
 
 $nompage = "Inscription au service en ligne";
 define('PAGE_NAME', $nompage);
@@ -38,7 +40,7 @@ if(isset($_POST['creerCompte'])){
 
 
 
- 							header('Location: http://localhost/projet-ing1-offre-de-stage/login.php');
+ 							header('Location: ' . LOGIN_PAGE);
  							exit();
 
 
