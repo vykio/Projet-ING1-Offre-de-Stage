@@ -71,7 +71,146 @@ $username_id_etu_test = "17003678"; //Numéro étudiant test
 	</div>
 	<div class="container main_container">
 		<!-- Contenus de la page -->
-		ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>ok<br>
+
+		<div class="annonce_container">
+			<div class="annonce_inner_container">
+				<div class="annonce_titre">
+					<a href="login.php">
+					Titre de l'annonce un peu long mais bon, tu veux du pain ?
+					</a>
+					
+				</div>
+				<div class="row">
+					<div class="annonce_entreprise four columns">Entrepriseqzdqzdqzd</div>
+					<div class="annonce_location three columns"><span>&#128204 </span>Calais</div>
+					<div class="annonce_duree five columns">3 mois et plus</div>
+				</div>
+				
+				<div class="annonce_description">
+					<!-- La requete SQL doit nous donner que les 100 premiers caractères de la description, et nous n'afficerons que les 100 premiers caractères -->
+					Lorem ipsum dolor sit amet, ex per lorem vituperata. Sed et iusto officiis persecuti, mea at scripta numquam iracundia, id vivendum percipitur comprehensam eos. Mutat semper sed in, eu dolore eloquentiam consectetuer mea, erat epicurei appareat at eum. Id eum malis solet elaboraret.
+
+	
+				</div>
+			</div>
+		</div>
+
+		<div class="annonce_container">
+			<div class="annonce_inner_container">
+				<div class="annonce_titre">
+					<a href="login.php">
+					Titre de l'annonce un peu long mais bon, tu veux du pain ?
+					</a>
+					
+				</div>
+				<div class="row">
+					<div class="annonce_entreprise four columns">Entrepriseqzdqzdqzd</div>
+					<div class="annonce_location three columns"><span>&#128204 </span>Calais</div>
+					<div class="annonce_duree five columns">3 mois et plus</div>
+				</div>
+				
+				<div class="annonce_description">
+					<!-- La requete SQL doit nous donner que les 100 premiers caractères de la description, et nous n'afficerons que les 100 premiers caractères -->
+					Lorem ipsum dolor sit amet, ex per lorem vituperata. Sed et iusto officiis persecuti, mea at scripta numquam iracundia, id vivendum percipitur comprehensam eos. Mutat semper sed in, eu dolore eloquentiam consectetuer mea, erat epicurei appareat at eum. Id eum malis solet elaboraret.
+
+	
+				</div>
+			</div>
+		</div>
+
+		<div class="annonce_container">
+			<div class="annonce_inner_container">
+				<div class="annonce_titre">
+					<a href="login.php">
+					Titre de l'annonce un peu long mais bon, tu veux du pain ?
+					</a>
+					
+				</div>
+				<div class="row">
+					<div class="annonce_entreprise four columns">Entrepriseqzdqzdqzd</div>
+					<div class="annonce_location three columns"><span>&#128204 </span>Calais</div>
+					<div class="annonce_duree five columns">3 mois et plus</div>
+				</div>
+				
+				<div class="annonce_description">
+					<!-- La requete SQL doit nous donner que les 100 premiers caractères de la description, et nous n'afficerons que les 100 premiers caractères -->
+					Lorem ipsum dolor sit amet, ex per lorem vituperata. Sed et iusto officiis persecuti, mea at scripta numquam iracundia, id vivendum percipitur comprehensam eos. Mutat semper sed in, eu dolore eloquentiam consectetuer mea, erat epicurei appareat at eum. Id eum malis solet elaboraret.
+
+	
+				</div>
+			</div>
+		</div>
+
+		<div class="annonce_container">
+			<div class="annonce_inner_container">
+				<div class="annonce_titre">
+					<a href="login.php">
+					Titre de l'annonce un peu long mais bon, tu veux du pain ?
+					</a>
+					
+				</div>
+				<div class="row">
+					<div class="annonce_entreprise four columns">Entrepriseqzdqzdqzd</div>
+					<div class="annonce_location three columns"><span>&#128204 </span>Calais</div>
+					<div class="annonce_duree five columns">3 mois et plus</div>
+				</div>
+				
+				<div class="annonce_description">
+					<!-- La requete SQL doit nous donner que les 100 premiers caractères de la description, et nous n'afficerons que les 100 premiers caractères -->
+					Lorem ipsum dolor sit amet, ex per lorem vituperata. Sed et iusto officiis persecuti, mea at scripta numquam iracundia, id vivendum percipitur comprehensam eos. Mutat semper sed in, eu dolore eloquentiam consectetuer mea, erat epicurei appareat at eum. Id eum malis solet elaboraret.
+
+	
+				</div>
+			</div>
+		</div>
+
+		<div class="annonce_container">
+			<div class="annonce_inner_container">
+				<div class="annonce_titre">
+					<a href="login.php">
+					Titre de l'annonce un peu long mais bon, tu veux du pain ?
+					</a>
+					
+				</div>
+				<div class="row">
+					<div class="annonce_entreprise four columns">Entrepriseqzdqzdqzd</div>
+					<div class="annonce_location three columns"><span>&#128204 </span>Calais</div>
+					<div class="annonce_duree five columns">3 mois et plus</div>
+				</div>
+				
+				<div class="annonce_description">
+					<!-- La requete SQL doit nous donner que les 100 premiers caractères de la description, et nous n'afficerons que les 100 premiers caractères -->
+					Lorem ipsum dolor sit amet, ex per lorem vituperata. Sed et iusto officiis persecuti, mea at scripta numquam iracundia, id vivendum percipitur comprehensam eos. Mutat semper sed in, eu dolore eloquentiam consectetuer mea, erat epicurei appareat at eum. Id eum malis solet elaboraret.
+
+	
+				</div>
+			</div>
+		</div>
+
+		<div class="annonce_container">
+			<div class="annonce_inner_container">
+				<div class="annonce_titre">
+					<a href="login.php">
+					Titre de l'annonce un peu long mais bon, tu veux du pain ?
+					</a>
+					
+				</div>
+				<div class="row">
+					<div class="annonce_entreprise four columns">Entrepriseqzdqzdqzd</div>
+					<div class="annonce_location three columns"><span>&#128204 </span>Calais</div>
+					<div class="annonce_duree five columns">3 mois et plus</div>
+				</div>
+				
+				<div class="annonce_description">
+					<!-- La requete SQL doit nous donner que les 100 premiers caractères de la description, et nous n'afficerons que les 100 premiers caractères -->
+					Lorem ipsum dolor sit amet, ex per lorem vituperata. Sed et iusto officiis persecuti, mea at scripta numquam iracundia, id vivendum percipitur comprehensam eos. Mutat semper sed in, eu dolore eloquentiam consectetuer mea, erat epicurei appareat at eum. Id eum malis solet elaboraret.
+
+	
+				</div>
+			</div>
+		</div>
+
+		
 	</div>
 
 	<div class="footer">

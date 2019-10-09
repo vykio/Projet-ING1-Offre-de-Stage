@@ -100,6 +100,64 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 }
 
 
+
+/* Annonces */
+.annonce_container {
+	padding: 10px 20px 10px 20px;
+}
+
+.annonce_container:hover {
+	background-color: #EFEFEF;
+}
+
+.annonce_inner_container {
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; 
+}
+
+.annonce_titre {
+	font-size: 1.4em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.annonce_titre a {
+	color: #006BA8;
+	text-decoration: none;
+}
+
+.annonce_titre a:hover {
+	text-decoration: underline;
+}
+
+.annonce_entreprise {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	color: #006BA8;
+}
+
+.annonce_location {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.annonce_duree {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.annonce_description {
+	
+	
+	overflow: hidden;
+	/*white-space: nowrap;*/
+}
+
+
 /* min-width trouvée avec plusieurs tests pour éviter les débordements du texte du slogan et avoir un rendu plus fluide */
 @media (min-width: 460px) {
 /* Les propriétés de .header_slogan écrites au dessus sont quand meme éxécutées. Les propriétés écrites en dessous vont modifier les autres sans modifier celles qui n'ont pas bougées.  */
@@ -124,3 +182,4 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 		color: black;
 	}*/
 }
+
