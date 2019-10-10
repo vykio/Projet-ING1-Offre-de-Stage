@@ -2,9 +2,16 @@
 include('database.php');
 
 include('templates/short_links.php');
+include('src/classes/CLASS_login.php');
 
 $nompage = "Inscription au service en ligne";
 define('PAGE_NAME', $nompage);
+
+if (Login::isLoggedIn()) {
+	
+	header('Location: ' . INDEX_PAGE);
+	die(); //On arrete tout et on n'execute pas le reste (évite les erreurs)
+}
 
 if(isset($_POST['creerCompte'])){
 
@@ -32,17 +39,21 @@ if(isset($_POST['creerCompte'])){
 					if (strlen($password) >= 6 && strlen($password) <= 60 && strlen($password_verif) >= 6 && strlen($password_verif) <= 60 ) {
 						//Si l'email est sous la forme d'une vraie email
 						if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+
+							if(!database::query('SELECT email FROM utilisateurs WHERE email=:email', array(':email'=>$email))) {
 		
 		
-							database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :email, :first_name, :last_name)', array('id'=>NULL, ':username'=>$username,':password'=>$password, ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name));
+								database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :email, :first_name, :last_name)', array('id'=>NULL, ':username'=>$username,':password'=>password_hash($password, PASSWORD_BCRYPT), ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name));
 
 
-							//Tout fonctionne
+								//Tout fonctionne
 
- 							header('Location: ' . LOGIN_PAGE);
- 							exit();
+	 							header('Location: ' . LOGIN_PAGE);
+	 							exit();
 
-
+	 						} else {
+	 							echo 'Email deja utilisée';
+	 						}
 
 
 						}else{

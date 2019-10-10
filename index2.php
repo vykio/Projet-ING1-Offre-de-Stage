@@ -4,13 +4,21 @@
 $pagename = "Accueil";
 define('PAGE_NAME', $pagename);
 
-?>
+include('templates/short_links.php');
+include('database.php');
+include('src/classes/CLASS_login.php');
 
-<?php 
+//La fonction isLoggedIn() de la classe Login, return l'id de l'utilisateur connecté
+if (Login::isLoggedIn()) {
+	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0]; //[0] premier résultat, car il est unique donc pas de pb
+	//$user contient les champs username, email, first_name et last_name
+} else {
+	echo 'Not logged in';
+	
+	header('Location: ' . LOGIN_PAGE);
+	die(); //On arrete tout et on n'execute pas le reste (évite les erreurs)
+}
 
-/* Variables test (A SUPPRIMER) */
-$username_test = "Jante Paul"; //Prénom Nom Etudiant test
-$username_id_etu_test = "17003678"; //Numéro étudiant test
 
 ?>
 
@@ -56,7 +64,8 @@ $username_id_etu_test = "17003678"; //Numéro étudiant test
 				<!-- Dans SKELETON CSS on peut diviser les lignes en colonnes en spécifiant pour chaque élément, la place qu'il va prendre 
 				sur 12. Par exemple, ici on a dit que la textbox doit prendre 8 colonnes (class "eight columns") sur 12. Et 4 / 12 pour le bouton.
 				 -->
-				<input type="text" name="searchBox" placeholder="Rechercher un stage par mots clés ..." class="eight columns home_header_searchbox">
+				<input type="text" name="searchBox" placeholder="Rechercher un stage par mots clés ..." class="five columns home_header_searchbox">
+				<input type="text" name="searchBox_Ville" placeholder="Ville" class="three columns home_header_searchbox">
 				<input type="button" name="clickSearchBox" value="&#10095; Recherche" class="four columns button-primary" style="font-size: 1.2rem;">
 			</div>
 			
@@ -64,7 +73,11 @@ $username_id_etu_test = "17003678"; //Numéro étudiant test
 
 		<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
 			<div class="header_information_utilisateur">
-				Bonjour, <?php echo $username_test ?> (n°<?php echo $username_id_etu_test ?>)
+				<div class="row">
+					Bonjour, <?php echo $user['username'] ?> (<?php echo $user['email'] ?>)
+				</div>
+				
+				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none" title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a>
 			</div>
 
 		
