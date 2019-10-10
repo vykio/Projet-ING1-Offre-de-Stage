@@ -72,6 +72,9 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	color: white;
 
 	text-shadow: rgba(0,0,0,0.5) 3px 3px 5px;
+
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 

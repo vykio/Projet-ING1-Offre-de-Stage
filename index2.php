@@ -74,7 +74,7 @@ if (Login::isLoggedIn()) {
 		<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
 			<div class="header_information_utilisateur">
 				<div class="row">
-					Bonjour, <?php echo $user['username'] ?> (<?php echo $user['email'] ?>)
+					<?php echo $user['username'] ?> (<?php echo $user['email'] ?>)
 				</div>
 				
 				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none" title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a>
