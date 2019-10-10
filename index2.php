@@ -64,7 +64,8 @@ if (Login::isLoggedIn()) {
 				<!-- Dans SKELETON CSS on peut diviser les lignes en colonnes en spécifiant pour chaque élément, la place qu'il va prendre 
 				sur 12. Par exemple, ici on a dit que la textbox doit prendre 8 colonnes (class "eight columns") sur 12. Et 4 / 12 pour le bouton.
 				 -->
-				<input type="text" name="searchBox" placeholder="Rechercher un stage par mots clés ..." class="eight columns home_header_searchbox">
+				<input type="text" name="searchBox" placeholder="Rechercher un stage par mots clés ..." class="five columns home_header_searchbox">
+				<input type="text" name="searchBox_Ville" placeholder="Ville" class="three columns home_header_searchbox">
 				<input type="button" name="clickSearchBox" value="&#10095; Recherche" class="four columns button-primary" style="font-size: 1.2rem;">
 			</div>
 			
