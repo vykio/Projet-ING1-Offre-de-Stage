@@ -6,6 +6,10 @@ define('PAGE_NAME', $pagename);
 
 include('templates/short_links.php');
 include('database.php');
+include('src/classes/CLASS_login.php');
+
+if (!Login::isLoggedIn()) {
+
 
 	if(isset($_POST['login'])){
 
@@ -23,10 +27,30 @@ include('database.php');
 			/* PS: Je vais m'occuper du hash (cryptage du mdp) */
 
 			/*if(password_verify($password, database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'])) {*/
+			if (password_verify($password, database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'])) {
 
-			if ($password == database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password']) {
+				//génération d'un token de longueur 64
+				$cstrong = True;
+				$token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
 
-				echo "Connecté!";
+				//Récupération de l'id de l'utilisateur avec ce nom
+				$user_id = database::query('SELECT id FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['id'];
+
+				//Insertion du token codé en sha256 dans la BDD dans la table login_tokens
+				database::query('INSERT INTO login_tokens VALUES (null, :token, :user_id)', array(':token' => hash('sha256', $token), ':user_id' => $user_id));
+
+
+				//Définition des cookies
+				//Le premier (7 jours) contient le token non codé
+				setcookie("SFID", $token, time() + 60* 60 * 24 * 7, '/', NULL, NULL, TRUE);
+				// 		1er NULL : Domain cookie's valid on
+				//		2me NULL : Pour que le cookie soit accessible en HTTP et HTTPS
+								//METTRE A TRUE
+				//		3me NULL : Prevent Javascript from accessing the cookie!
+
+				//Le deuxième (3 jours) contient nimporte quoi et nous sert à regénérer le token de connection au dela de 3 jours sans connexion
+				setcookie("SFID_verif", '1', time() + 60* 60 * 24 * 2, '/', NULL, NULL, TRUE);
+
 				header('Location: ' . INDEX_PAGE);
 				exit();
 
@@ -44,7 +68,10 @@ include('database.php');
 
 	}
 
-
+} else {
+	header('Location: ' . INDEX_PAGE);
+	die();
+}
 
 
 ?>
