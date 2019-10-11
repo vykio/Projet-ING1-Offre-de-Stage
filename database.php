@@ -1,8 +1,11 @@
 <?php
+
+include('database_info.php');
+
 class database {
 	
 		private static function connect() { // cette fonction permet de se connecter à la BD
-			$pdo = new PDO('mysql:host=127.0.0.1;dbname=projeting1;charset=utf8', 'root',''); // pour BD locale
+			$pdo = new PDO(db_inf::getMySqlCmd(), db_inf::getMySqlUser(),db_inf::getMySqlPass()); // pour BD locale
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			return $pdo;			
 		}
