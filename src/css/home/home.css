@@ -157,6 +157,7 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	
 	
 	overflow: hidden;
+  word-break: break-word;
 	/*white-space: nowrap;*/
 }
 
