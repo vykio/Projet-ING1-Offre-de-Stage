@@ -154,6 +154,18 @@ if(isset($_POST['creerCompte'])){
 		      		<input class="six columns" type="password" name="password_verif" value="" placeholder="Confirmer mot de passe" style="border-radius: 50px;" required>
 		  		</div>
 
+		  		<div class="row">
+		  			<center>
+			  			<input type="radio" id="acc_check" name="account_check" onclick="" checked="checked">&emsp;Etudiant</input>
+			  			&emsp;
+						<input type="radio" id="acc_check2" name="account_check" onclick="checkbox_test()" >&emsp;Gestionnaire</input>
+					</center>
+		  		</div>
+
+		  		<div class="row">
+		  			<input class="six columns" type="text" name="gest_entreprise" value="" placeholder="Nom de l'entreprise" style="border-radius: 50px; display: none" required>
+		  		</div>
+
 		  		<br>
 		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
 		  		<!-- type="submit" pour confirmer la form -->
@@ -174,6 +186,10 @@ if(isset($_POST['creerCompte'])){
 </div>
 
 
+<script type="text/javascript">
+	var radio_gest = document.getElementById("acc_check2");
+
+</script>
 	
 	<!-- <h1> Authentification </h1>
 		<form action="loginMoche.php" method="post">
