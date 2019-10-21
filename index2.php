@@ -93,7 +93,7 @@ if (Login::isLoggedIn()) {
 			$searchValue = $_POST['searchBox'];
 			$searchValue_Ville = $_POST['searchBox_Ville'];
 
-			$annonces = database::query("SELECT * FROM annonces WHERE titre LIKE '%{$searchValue}%' || ville LIKE '%{$searchValue_Ville}%'");
+			$annonces = database::query("SELECT * FROM annonces WHERE titre LIKE '%{$searchValue}%' AND ville LIKE '%{$searchValue_Ville}%'");
 
 
 		} else if (isset($_POST['searchBox']) && !empty($_POST['searchBox'])) {
