@@ -119,6 +119,11 @@ if (Login::isLoggedIn()) {
 			
 
 			foreach ($annonces as $annonce) {
+				$annonce["titre"] = filter_var($annonce["titre"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+				//Supprime les balises et les char ASCII > 127
+				$annonce["entreprise"] = filter_var($annonce["entreprise"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+				$annonce["ville"] = filter_var($annonce["ville"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+				$annonce["duree"] = filter_var($annonce["duree"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 				?>
 
 				<div class="annonce_container">
