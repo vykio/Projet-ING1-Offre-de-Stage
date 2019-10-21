@@ -138,7 +138,7 @@ if(isset($_POST['creerCompte'])){
 
 		  		<div class="row">
 					<label for="emailInput">Adresse électronique</label>
-		      		<input class="u-full-width" type="text" name="email" value="" placeholder="blabla@bla.bla" style="border-radius: 50px;" required>
+		      		<input class="u-full-width" type="text" name="email" value="" placeholder="Adresse Mail de connexion" style="border-radius: 50px;" required>
 		  		</div>
 
 		  		<div class="row">
@@ -154,10 +154,39 @@ if(isset($_POST['creerCompte'])){
 		      		<input class="six columns" type="password" name="password_verif" value="" placeholder="Confirmer mot de passe" style="border-radius: 50px;" required>
 		  		</div>
 
+		  		<div class="row">
+		  			<center>
+			  			<input type="radio" id="acc_check" name="account_check" onclick="checkbox_test()" checked="checked">&emsp;Etudiant</input>
+			  			&emsp;
+						<input type="radio" id="acc_check2" name="account_check" onclick="checkbox_test()" >&emsp;Gestionnaire</input>
+					</center>
+		  		</div>
+
+		  		<div id="gestionaire_form">
+		  			
+		  			<div class="row">
+			  			<input class="six columns" id="gest_entreprise" type="text" name="gest_entreprise" value="" placeholder="Nom de l'entreprise" style="border-radius: 50px;" required>
+			  			<input class="six columns" id="gest_phone" type="text" name="gest_phone" value="" placeholder="Numéro de téléphone" style="border-radius: 50px;" required>
+
+			  		</div>
+			  		<div class="row">
+			  			<input class="u-full-width" type="text" name="email" value="" placeholder="Adresse Mail de contact" style="border-radius: 50px;" required>
+			  		</div>
+		  		</div>
+		  		
+
+
+
 		  		<br>
+		  		<div class="row" style="color: green">
+		  			<center>
+		  			L'administrateur devra vérifier votre compte avant de l'activer
+		  			</center>
+		  		</div>
 		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
 		  		<!-- type="submit" pour confirmer la form -->
 		  		<input class="u-full-width button-primary" type="submit" name="creerCompte" value="S'inscrire" style="border-radius: 50px;">
+
 	  		
 	  		</div>
 		  
@@ -174,6 +203,27 @@ if(isset($_POST['creerCompte'])){
 </div>
 
 
+<script type="text/javascript">
+
+	function checkbox_test() {
+		var radio_gest = document.getElementById("acc_check2");
+		var text_gest = document.getElementById("gestionaire_form").getElementsByTagName('input');
+		if (radio_gest.checked == true) {
+			for(i=0; i < text_gest.length; i++) {
+				text_gest[i].style.display = "block";
+				text_gest[i].disabled = false;
+			}
+			
+		} else {
+			for(i=0; i < text_gest.length; i++) {
+				text_gest[i].style.display = "none";
+				text_gest[i].disabled = true;
+			}			
+		}
+	}
+	
+	checkbox_test();
+</script>
 	
 	<!-- <h1> Authentification </h1>
 		<form action="loginMoche.php" method="post">

@@ -64,10 +64,12 @@ if (Login::isLoggedIn()) {
 				<!-- Dans SKELETON CSS on peut diviser les lignes en colonnes en spécifiant pour chaque élément, la place qu'il va prendre 
 				sur 12. Par exemple, ici on a dit que la textbox doit prendre 8 colonnes (class "eight columns") sur 12. Et 4 / 12 pour le bouton.
 				 -->
-				<input type="text" name="searchBox" placeholder="Rechercher un stage par mots clés ..." class="five columns home_header_searchbox">
-				<input type="text" name="searchBox_Ville" placeholder="Ville" class="three columns home_header_searchbox">
-				<input type="button" name="clickSearchBox" value="&#10095; Recherche" class="four columns button-primary" style="font-size: 1.2rem;">
-			</div>
+				 <form action="index2.php" method="POST">
+				 	<input type="text" name="searchBox" placeholder="Rechercher un stage par mots clés ..." class="five columns home_header_searchbox">
+					<input type="text" name="searchBox_Ville" placeholder="Ville" class="three columns home_header_searchbox">
+					<input type="submit" name="clickSearchBox" value="&#10095; Recherche" class="four columns button-primary" style="font-size: 1.2rem;">
+				 </form>
+				</div>
 			
 		</div>
 
@@ -86,7 +88,35 @@ if (Login::isLoggedIn()) {
 		<!-- Contenus de la page -->
 
 		<?php 
+		if(isset($_POST['searchBox']) && isset($_POST['searchBox_Ville']) && !empty($_POST['searchBox']) && !empty($_POST['searchBox_Ville']) ){
+
+			$searchValue = $_POST['searchBox'];
+			$searchValue_Ville = $_POST['searchBox_Ville'];
+
+			$annonces = database::query("SELECT * FROM annonces WHERE titre LIKE '%{$searchValue}%' || ville LIKE '%{$searchValue_Ville}%'");
+
+
+		} else if (isset($_POST['searchBox']) && !empty($_POST['searchBox'])) {
+
+			$searchValue = $_POST['searchBox'];
+
+			$annonces = database::query("SELECT * FROM annonces WHERE titre LIKE '%{$searchValue}%'");
+
+		} else if (isset($_POST['searchBox_Ville']) && !empty($_POST['searchBox_Ville'])) {
+
+			$searchValue_Ville = $_POST['searchBox_Ville'];
+
+			$annonces = database::query("SELECT * FROM annonces WHERE ville LIKE '%{$searchValue_Ville}%'");
+
+
+		} else {
+
 			$annonces = database::query("SELECT * FROM annonces");
+
+		}
+
+
+			
 
 			foreach ($annonces as $annonce) {
 				?>
@@ -116,6 +146,7 @@ if (Login::isLoggedIn()) {
 				</div>
 
 				<?php
+			
 			}
 		?>
 		
