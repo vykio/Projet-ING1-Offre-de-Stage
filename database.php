@@ -7,7 +7,7 @@ class database {
 		private static function connect() { // cette fonction permet de se connecter à la BD
 			$pdo = new PDO(db_inf::getMySqlCmd(), db_inf::getMySqlUser(),db_inf::getMySqlPass()); // pour BD locale
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			return $pdo;			
+			return $pdo;
 		}
 		
 		public static function query($query, $parametres = array()){ // cette fonction va aller chercher les élements dans la BD

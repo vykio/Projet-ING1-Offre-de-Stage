@@ -64,10 +64,10 @@ if (Login::isLoggedIn()) {
 				<!-- Dans SKELETON CSS on peut diviser les lignes en colonnes en spécifiant pour chaque élément, la place qu'il va prendre 
 				sur 12. Par exemple, ici on a dit que la textbox doit prendre 8 colonnes (class "eight columns") sur 12. Et 4 / 12 pour le bouton.
 				 -->
-				 <form action="index2.php" method="POST">
-				 	<input type="text" name="searchBox" placeholder="Rechercher un stage par mots clés ..." class="five columns home_header_searchbox">
-					<input type="text" name="searchBox_Ville" placeholder="Ville" class="three columns home_header_searchbox">
-					<input type="submit" name="clickSearchBox" value="&#10095; Recherche" class="four columns button-primary" style="font-size: 1.2rem;">
+				 <form action="index2.php" method="GET">
+				 	<input type="text" name="search" placeholder="Rechercher un stage par mots clés ..." class="five columns home_header_searchbox">
+					<input type="text" name="position" placeholder="Ville" class="three columns home_header_searchbox">
+					<input type="submit" value="&#10095; Recherche" class="four columns button-primary" style="font-size: 1.2rem;">
 				 </form>
 				</div>
 			
@@ -88,33 +88,47 @@ if (Login::isLoggedIn()) {
 		<!-- Contenus de la page -->
 
 		<?php 
-		if(isset($_POST['searchBox']) && isset($_POST['searchBox_Ville']) && !empty($_POST['searchBox']) && !empty($_POST['searchBox_Ville']) ){
 
-			$searchValue = $_POST['searchBox'];
-			$searchValue_Ville = $_POST['searchBox_Ville'];
+
+
+		if(isset($_GET['search']) && isset($_GET['position']) && !empty($_GET['search']) && !empty($_GET['position']) ){
+
+			$searchValue = $_GET['search'];
+			$searchValue_Ville = $_GET['position'];
+
+			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
 			$annonces = database::query("SELECT * FROM annonces WHERE titre LIKE '%{$searchValue}%' AND ville LIKE '%{$searchValue_Ville}%'");
 
+			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages contenant <b>'" . $searchValue . "'</b>, à <b>'" . $searchValue_Ville . "'</b></h5>";
 
-		} else if (isset($_POST['searchBox']) && !empty($_POST['searchBox'])) {
 
-			$searchValue = $_POST['searchBox'];
+		} else if (isset($_GET['search']) && !empty($_GET['search'])) {
 
+			$searchValue = $_GET['search'];
+
+			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			
 			$annonces = database::query("SELECT * FROM annonces WHERE titre LIKE '%{$searchValue}%'");
 
-		} else if (isset($_POST['searchBox_Ville']) && !empty($_POST['searchBox_Ville'])) {
+			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages pour <b>'" . $searchValue . "'</b></h5>";
 
-			$searchValue_Ville = $_POST['searchBox_Ville'];
+		} else if (isset($_GET['position']) && !empty($_GET['position'])) {
+
+			$searchValue_Ville = $_GET['position'];
+
+			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
 			$annonces = database::query("SELECT * FROM annonces WHERE ville LIKE '%{$searchValue_Ville}%'");
 
+			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 		} else {
 
 			$annonces = database::query("SELECT * FROM annonces");
 
 		}
-
 
 			
 

@@ -17,8 +17,6 @@ if (!Login::isLoggedIn()) {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
-	echo $username . " " . $password;
-
 		if(database::query('SELECT username FROM utilisateurs WHERE username=:username', array(':username'=>$username))){
 			//echo "OK1";
 			//echo database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'];
@@ -56,13 +54,13 @@ if (!Login::isLoggedIn()) {
 
 			} else {
 
-				echo'Mot de passe incorrect!';
+				echo'<center><b>Utilisateur ou mot de passe incorrect!</b></center>';
 
 			}
 
 
 		} else {
-			echo'Utilisateur inconnu';
+			echo'<center><b>Utilisateur ou mot de passe incorrect!</b></center>';
 
 		}
 
