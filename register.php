@@ -198,9 +198,10 @@ if(isset($_POST['creerCompte'])){
 
 </div>
 
-<div class="footer">
-	Projet informatique - 1ère année Ecole d'Ingénieurs du Littoral Côte d'Opale - Groupe TP12
-</div>
+<?php 
+	include("templates/footer.php");
+?>
+
 
 
 <script type="text/javascript">

@@ -17,7 +17,7 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 */
 
 .main_container {
-	padding-top: 50px;
+	padding-top: 10px;
 	padding-bottom: 100px;
 }
 
@@ -86,21 +86,9 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 /* Notre container searchContainer */
 .searchContainer {
 	max-width: 800px;
-	padding-top: 180px;
+	padding-top: 150px;
 }
 
-.footer {
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	padding: 1rem;
-	text-align: center;
-	border-top: 1px solid lightgrey;
-
-	color: black;
-	opacity: 0.5;
-}
 
 
 
@@ -161,6 +149,58 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	/*white-space: nowrap;*/
 }
 
+/* nav_menu contient .menu */
+.nav_menu {
+	margin-bottom: 10px;
+}
+
+.nav_menu li {
+	margin-bottom: 0px;
+	flex-grow: 1;
+
+}
+.nav_menu li:hover {
+	background-color: #EFEFEF;
+}
+
+.nav_menu ul {
+	padding: 0px;
+	margin: 0px;
+	list-style: none; /*enleve les points de ul */
+
+}
+
+.nav_menu a {
+	text-decoration: none;
+	text-align: center;
+	display: block;
+	padding: 1em;
+	vertical-align: center;
+	font-size: 1.6rem;
+}
+
+.nav_menu .menu {
+	display: flex;
+	flex-direction: row; /* En ligne */
+	justify-content: space-around;
+	flex-flow: column wrap;
+
+}
+
+.menu_item {
+	display:none;
+
+}
+
+.menu_toggle_icon {
+	align-self: flex-end;
+	display: initial;
+	cursor: pointer;
+	position: absolute;
+	top: 10px;
+
+}
+
 
 /* min-width trouvée avec plusieurs tests pour éviter les débordements du texte du slogan et avoir un rendu plus fluide */
 @media (min-width: 460px) {
@@ -170,6 +210,8 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 		padding-top: 50px;
 		font-size: 2em;
 	}
+
+	
 
 }
 
@@ -182,7 +224,19 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	.header {
 		height: 300px;
 	}
-	/*.footer {
+	.nav_menu .menu {
+		flex-flow: row;
+	}
+
+	.menu_item {
+		display: block;
+	}
+	.menu_toggle_icon {
+		display: none;
+	}
+
+
+		/*.footer {
 		position: absolute;
 		right: 0;
 		bottom: 0;

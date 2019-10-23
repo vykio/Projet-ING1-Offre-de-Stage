@@ -65,5 +65,10 @@ if (isset($_POST['confirm'])) {
 	</center>
 </div>
 
+<?php 
+	include("templates/footer.php");
+?>
+
+
 </body>
 </html>
