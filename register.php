@@ -111,7 +111,7 @@ if(isset($_POST['creerCompte'])){
 	<!-- div blanche sur le site contenant la form -->
 	<div class="super">
 
-	  	<form action="loginMoche.php" method="post">
+	  	<form action="<?php echo REGISTER_PAGE ?>" method="post">
 	  		
 	  		<!-- Contenu dans la form pour mettre un padding left et right sur le contenu de la forme -->
 	  		<div class="lower">
