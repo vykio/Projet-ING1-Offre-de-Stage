@@ -65,7 +65,7 @@ if (Login::isLoggedIn()) {
 				<!-- Dans SKELETON CSS on peut diviser les lignes en colonnes en spécifiant pour chaque élément, la place qu'il va prendre 
 				sur 12. Par exemple, ici on a dit que la textbox doit prendre 8 colonnes (class "eight columns") sur 12. Et 4 / 12 pour le bouton.
 				 -->
-				 <form action="index2.php" method="GET">
+				 <form action="<?php echo INDEX_PAGE ?>" method="GET">
 				 	<div class="row" >
 					 	<select class="three columns" style="padding-left: 15px" >
 					 		<option value="1">Categorie 1</option>
@@ -101,7 +101,7 @@ if (Login::isLoggedIn()) {
 		<nav class="nav_menu" role="navigation">
 			<!-- Liste d'éléments <li> -->
 		    <ul class="menu">
-	    		<li><a href="#"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
+	    		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 	    		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
 	  			<li class="menu_item"><a href="#">Catégories</a></li>
 		        <li class="menu_item"><a href="#">À Propos</a></li>
@@ -113,7 +113,7 @@ if (Login::isLoggedIn()) {
 		<?php 
 
 
-
+		//Si on recherche par mots clés et par ville
 		if(isset($_GET['search']) && isset($_GET['position']) && !empty($_GET['search']) && !empty($_GET['position']) ){
 
 			$searchValue = $_GET['search'];
@@ -127,6 +127,7 @@ if (Login::isLoggedIn()) {
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages contenant <b>'" . $searchValue . "'</b>, à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 
+			//Si on recherche seulement par mots clés
 		} else if (isset($_GET['search']) && !empty($_GET['search'])) {
 
 			$searchValue = $_GET['search'];
@@ -137,6 +138,7 @@ if (Login::isLoggedIn()) {
 
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages pour <b>'" . $searchValue . "'</b></h5>";
 
+			//Si on recherche seulement par ville
 		} else if (isset($_GET['position']) && !empty($_GET['position'])) {
 
 			$searchValue_Ville = $_GET['position'];
@@ -153,9 +155,10 @@ if (Login::isLoggedIn()) {
 
 		}
 
-			
+			//Pour chaque annonces trouvées selon les critères au dessus
 
 			foreach ($annonces as $annonce) {
+				//Filtrage
 				$annonce["titre"] = filter_var($annonce["titre"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 				//Supprime les balises et les char ASCII > 127
 				$annonce["entreprise"] = filter_var($annonce["entreprise"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
@@ -163,6 +166,7 @@ if (Login::isLoggedIn()) {
 				$annonce["duree"] = filter_var($annonce["duree"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 				?>
 
+				<!-- affichage des résultats -->
 				<div class="annonce_container">
 					<div class="annonce_inner_container">
 						<div class="annonce_titre">
