@@ -67,9 +67,15 @@ if (Login::isLoggedIn()) {
 				 -->
 				 <form action="<?php echo INDEX_PAGE ?>" method="GET">
 				 	<div class="row" >
-					 	<select class="three columns" style="padding-left: 15px" >
-					 		<option value="1">Categorie 1</option>
-					 		<option value="2">Categorie 2</option>
+					 	<select class="three columns" name="categorie" style="padding-left: 15px" >
+					 		<?php 
+					 			$categ = database::query("SELECT * FROM categorie_annonce");
+					 			foreach ($categ as $categorie) {
+
+					 				echo "<option value=\"".$categorie["Nom_url"]."\">".$categorie["Nom"]."</option>";
+						 		
+					 			}
+					 		?>
 					 	</select>
 					 	<input type="text" name="search" placeholder="Rechercher un stage par mots clés ..." class="six columns home_header_searchbox" maxlength="60" style="padding-left: 20px; padding-right: 20px">
 						<input type="text" name="position" placeholder="Ville" maxlength="20" class="three columns home_header_searchbox" style="padding-left: 20px; padding-right: 20px">
@@ -155,6 +161,8 @@ if (Login::isLoggedIn()) {
 
 		}
 
+		/** Tronquer par rapport à la catégorie */
+
 			//Pour chaque annonces trouvées selon les critères au dessus
 
 			foreach ($annonces as $annonce) {
@@ -170,7 +178,7 @@ if (Login::isLoggedIn()) {
 				<div class="annonce_container">
 					<div class="annonce_inner_container">
 						<div class="annonce_titre">
-							<a href="login.php">
+							<a href="<?php echo ANNONCE_PAGE . "?id=" . $annonce["id"] ?>"> <!-- LIEN OFFRE référencé par l'id de l'annonce -->
 							<?php echo $annonce["titre"] ?>
 							</a>
 							
