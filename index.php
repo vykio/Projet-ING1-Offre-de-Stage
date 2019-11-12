@@ -118,50 +118,76 @@ if (Login::isLoggedIn()) {
 
 		<?php 
 
+		/* Categorie par défaut numéro 1
+		si elle est trouvé on donne son id sinon on fixe son id à 1 (toutes catégories) */ 
+		if (!isset($_GET['categorie']) || empty($_GET['categorie'])) {
+			$get_categorie = 1; // Categorie par défaut : Toutes catégories (id=1)
+		} else {
+			$get_categorie = filter_var($_GET['categorie'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			if (database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$get_categorie))) {
+				$get_categorie = database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$get_categorie))[0]["id"];
+			} else {
+				$get_categorie = 1;
+			}
+		}
+
+
+
+		$searchValue = (!empty($_GET['search']) ? $_GET['search'] : "");
+		$searchValue_Ville = (!empty($_GET['position']) ? $_GET['position'] : "");
+
+		$text_search = "titre LIKE '%{$searchValue}%'";
+		$text_position = "ville LIKE '%{$searchValue_Ville}%'";
+		$text_categorie = "numCategorie={$get_categorie}";
+		$text_categorie_greater = "1=1";
+		$text_order_by = "ORDER BY id DESC";
+
+		$text_total = "";
+
+		$categorie_if_not_1 = (($get_categorie != "1") ? (" AND " . $text_categorie) : " AND 1=1");
 
 		//Si on recherche par mots clés et par ville
 		if(isset($_GET['search']) && isset($_GET['position']) && !empty($_GET['search']) && !empty($_GET['position']) ){
 
-			$searchValue = $_GET['search'];
-			$searchValue_Ville = $_GET['position'];
 
 			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
-			$annonces = database::query("SELECT * FROM annonces WHERE titre LIKE '%{$searchValue}%' AND ville LIKE '%{$searchValue_Ville}%'");
-
+			$text_total = "SELECT * FROM annonces WHERE " . $text_search . " AND " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
+			
+			echo $text_total;
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages contenant <b>'" . $searchValue . "'</b>, à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 
 			//Si on recherche seulement par mots clés
 		} else if (isset($_GET['search']) && !empty($_GET['search'])) {
 
-			$searchValue = $_GET['search'];
 
 			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 			
-			$annonces = database::query("SELECT * FROM annonces WHERE titre LIKE '%{$searchValue}%'");
+			$text_total = "SELECT * FROM annonces WHERE " . $text_search .  $categorie_if_not_1 . " " . $text_order_by;
 
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages pour <b>'" . $searchValue . "'</b></h5>";
 
 			//Si on recherche seulement par ville
 		} else if (isset($_GET['position']) && !empty($_GET['position'])) {
 
-			$searchValue_Ville = $_GET['position'];
 
 			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
-			$annonces = database::query("SELECT * FROM annonces WHERE ville LIKE '%{$searchValue_Ville}%'");
+			$text_total = "SELECT * FROM annonces WHERE " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
 
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 		} else {
-
-			$annonces = database::query("SELECT * FROM annonces");
+			
+			$text_total = "SELECT * FROM annonces WHERE 1=1 " . $categorie_if_not_1 . " " . $text_order_by;
 
 		}
 
-		/** Tronquer par rapport à la catégorie */
+		//Execution
+		$annonces = database::query($text_total);
+
 
 			//Pour chaque annonces trouvées selon les critères au dessus
 
