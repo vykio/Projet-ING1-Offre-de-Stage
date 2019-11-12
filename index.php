@@ -201,7 +201,7 @@ if (Login::isLoggedIn()) {
 				?>
 
 				<!-- affichage des résultats -->
-				<div class="annonce_container">
+				<div class="annonce_container" onclick="location.href='<?php echo ANNONCE_PAGE . "?id=" . $annonce["id"] ?>'">
 					<div class="annonce_inner_container">
 						<div class="annonce_titre">
 							<a href="<?php echo ANNONCE_PAGE . "?id=" . $annonce["id"] ?>"> <!-- LIEN OFFRE référencé par l'id de l'annonce -->
