@@ -15,12 +15,18 @@ if (Login::isLoggedIn()) {
 
 if(isset($_POST['creerCompte'])){
 
+	$account_type = 0;
+
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	$password_verif =$_POST['password_verif'];
 	$email = $_POST['email'];
 	$first_name = $_POST['first_name'];
 	$last_name = $_POST['last_name'];
+
+	$company_name = $_POST['gest_entreprise'];
+	$phone = $_POST ['gest_phone'];
+	$contact_mail = $_POST ['gest_mail'];
 		
 
 	//Si le nom d'utilisateur n'est pas utilisé
@@ -40,21 +46,30 @@ if(isset($_POST['creerCompte'])){
 						//Si l'email est sous la forme d'une vraie email
 						if (filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-							if(!database::query('SELECT email FROM utilisateurs WHERE email=:email', array(':email'=>$email))) {
-		
-		
-								database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :email, :first_name, :last_name)', array('id'=>NULL, ':username'=>$username,':password'=>password_hash($password, PASSWORD_BCRYPT), ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name));
+							if(strlen($phone) == 10) {
+
+								if(filter_var($contact_mail, FILTER_VALIDATE_EMAIL)){
+
+									if(!database::query('SELECT email FROM utilisateurs WHERE email=:email', array(':email'=>$email))) {
+				
+				
+										database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :email, :first_name, :last_name, :account_type , :company_name, :phone, :contact_mail)', array('id'=>NULL, ':username'=>$username,':password'=>password_hash($password, PASSWORD_BCRYPT), ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name, 'account_type' =>$account_type, 'company_name'=>$company_name, 'phone'=>$phone, 'contact_mail'=>$contact_mail));
 
 
-								//Tout fonctionne
+										//Tout fonctionne
 
-	 							header('Location: ' . LOGIN_PAGE);
-	 							exit();
+			 							header('Location: ' . LOGIN_PAGE);
+			 							exit();
 
-	 						} else {
-	 							echo 'Email deja utilisée';
-	 						}
-
+			 						} else {
+			 							echo 'Email deja utilisée';
+		 							}
+		 						} else {
+		 							echo 'Email de contact invalide';
+		 						}
+		 					} else {
+		 						echo'numéro de telephone incorrect';
+		 					}
 
 						}else{
 							echo'Votre adresse mail ressemble a R';
@@ -170,7 +185,7 @@ if(isset($_POST['creerCompte'])){
 
 			  		</div>
 			  		<div class="row">
-			  			<input class="u-full-width" type="text" name="email" value="" placeholder="Adresse Mail de contact" style="border-radius: 50px;" required>
+			  			<input class="u-full-width" type="text" name="gest_mail" value="" placeholder="Adresse Mail de contact" style="border-radius: 50px;" required>
 			  		</div>
 		  		</div>
 		  		
@@ -214,12 +229,14 @@ if(isset($_POST['creerCompte'])){
 				text_gest[i].style.display = "block";
 				text_gest[i].disabled = false;
 			}
+			<?php $account_type = 1; ?>
 			
 		} else {
 			for(i=0; i < text_gest.length; i++) {
 				text_gest[i].style.display = "none";
 				text_gest[i].disabled = true;
-			}			
+			}	
+			<?php $account_type = 0; ?>		
 		}
 	}
 	
