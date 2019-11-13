@@ -25,8 +25,8 @@ if(isset($_POST['creerCompte'])){
 	$last_name = $_POST['last_name'];
 
 	$company_name = (isset($_POST['gest_entreprise']) ? $_POST['gest_entreprise'] : NULL);
-	$phone = $_POST ['gest_phone'];
-	$contact_mail = $_POST ['gest_mail'];
+	$phone = (isset($_POST ['gest_phone']) ? $_POST ['gest_phone'] : NULL);
+	$contact_mail = (isset($_POST ['gest_mail']) ? $_POST ['gest_mail'] : NULL);
 		
 
 	//Si le nom d'utilisateur n'est pas utilisé
