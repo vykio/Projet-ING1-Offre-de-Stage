@@ -208,6 +208,11 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 
 }
 
+.img_logo {
+	max-width: 300px;
+	margin-top: -30px;
+}
+
 
 /* min-width trouvée avec plusieurs tests pour éviter les débordements du texte du slogan et avoir un rendu plus fluide */
 @media (min-width: 460px) {

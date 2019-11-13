@@ -55,7 +55,7 @@ if (Login::isLoggedIn()) {
 			
 			<!-- Slogan pour le site -->
 			<div class="header_slogan">
-				Recherche de stages étudiants
+				<img src="imgs/logo1.png" class="img_logo">
 			</div>
 
 			<!-- class="row" de SKELETON CSS permet d'avoir sur la meme ligne la textbox et le bouton rechercher.
