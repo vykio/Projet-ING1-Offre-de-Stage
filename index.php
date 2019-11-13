@@ -133,13 +133,12 @@ if (Login::isLoggedIn()) {
 
 
 
-		$searchValue = (!empty($_GET['search']) ? $_GET['search'] : "");
+		$searchValue = (!empty($_GET['search']) ? $_GET['search'] : ""); // ":" = sinon
 		$searchValue_Ville = (!empty($_GET['position']) ? $_GET['position'] : "");
 
 		$text_search = "titre LIKE '%{$searchValue}%'";
 		$text_position = "ville LIKE '%{$searchValue_Ville}%'";
 		$text_categorie = "numCategorie={$get_categorie}";
-		$text_categorie_greater = "1=1";
 		$text_order_by = "ORDER BY id DESC";
 
 		$text_total = "";
@@ -149,19 +148,17 @@ if (Login::isLoggedIn()) {
 		//Si on recherche par mots clés et par ville
 		if(isset($_GET['search']) && isset($_GET['position']) && !empty($_GET['search']) && !empty($_GET['position']) ){
 
-
+			/* filtrage des deux valeurs */
 			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
 			$text_total = "SELECT * FROM annonces WHERE " . $text_search . " AND " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
 			
-			echo $text_total;
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages contenant <b>'" . $searchValue . "'</b>, à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 
 			//Si on recherche seulement par mots clés
 		} else if (isset($_GET['search']) && !empty($_GET['search'])) {
-
 
 			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 			
@@ -171,7 +168,6 @@ if (Login::isLoggedIn()) {
 
 			//Si on recherche seulement par ville
 		} else if (isset($_GET['position']) && !empty($_GET['position'])) {
-
 
 			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
