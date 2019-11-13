@@ -15,7 +15,6 @@ if (Login::isLoggedIn()) {
 
 if(isset($_POST['creerCompte'])){
 
-	$account_type = 0;
 
 	$username = $_POST['username'];
 	$password = $_POST['password'];
@@ -23,6 +22,8 @@ if(isset($_POST['creerCompte'])){
 	$email = $_POST['email'];
 	$first_name = $_POST['first_name'];
 	$last_name = $_POST['last_name'];
+
+	$account_type = $_POST['accountType'];
 
 	$company_name = (isset($_POST['gest_entreprise']) ? $_POST['gest_entreprise'] : NULL);
 	$phone = (isset($_POST ['gest_phone']) ? $_POST ['gest_phone'] : NULL);
@@ -46,9 +47,9 @@ if(isset($_POST['creerCompte'])){
 						//Si l'email est sous la forme d'une vraie email
 						if (filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-							if(strlen($phone) == 10) {
+							if((strlen($phone) == 10 && $account_type == 1) || ($account_type == 0)) {
 
-								if(filter_var($contact_mail, FILTER_VALIDATE_EMAIL)){
+								if((filter_var($contact_mail, FILTER_VALIDATE_EMAIL) && $account_type == 1) || ($account_type == 0)){
 
 									if(!database::query('SELECT email FROM utilisateurs WHERE email=:email', array(':email'=>$email))) {
 				
@@ -187,17 +188,19 @@ if(isset($_POST['creerCompte'])){
 			  		<div class="row">
 			  			<input class="u-full-width" type="text" name="gest_mail" value="" placeholder="Adresse Mail de contact" style="border-radius: 50px;" required>
 			  		</div>
+			  		<div class="row" id="text_warning_gest" style="color: green">
+		  				<center>
+			  			L'administrateur devra vérifier votre compte avant de l'activer
+			  			</center>
+			  		</div>
 		  		</div>
 		  		
+		  		<input type="hidden" name="accountType" id="accType" value="0">
 
 
 
 		  		<br>
-		  		<div class="row" style="color: green">
-		  			<center>
-		  			L'administrateur devra vérifier votre compte avant de l'activer
-		  			</center>
-		  		</div>
+		  		
 		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
 		  		<!-- type="submit" pour confirmer la form -->
 		  		<input class="u-full-width button-primary" type="submit" name="creerCompte" value="S'inscrire" style="border-radius: 50px;">
@@ -229,14 +232,17 @@ if(isset($_POST['creerCompte'])){
 				text_gest[i].style.display = "block";
 				text_gest[i].disabled = false;
 			}
-			<?php $account_type = 1; ?>
 			
+			document.getElementById("accType").value = "1";
+
+			document.getElementById("text_warning_gest").style.display = "block";
 		} else {
 			for(i=0; i < text_gest.length; i++) {
 				text_gest[i].style.display = "none";
 				text_gest[i].disabled = true;
 			}	
-			<?php $account_type = 0; ?>		
+			document.getElementById("accType").value = "0";
+			document.getElementById("text_warning_gest").style.display = "none";
 		}
 	}
 	
