@@ -142,19 +142,19 @@ if(isset($_POST['creerCompte'])){
 	  		<!-- <label class='offset-by-six columns' for="last_nameInput">Nom de famille</label> -->
 	  			<div class="row">
 					
-					<input class="six columns" type="text" name="first_name" value="" placeholder="Prénom"  style="border-radius: 50px;" autofocus required>
+					<input class="six columns" type="text" name="first_name" value="" placeholder="Prénom"  style="border-radius: 50px;" autofocus required maxlength="60">
 					<!-- <label for="last_nameInput">Nom de famille</label> -->
-		      		<input class="six columns" type="text" name="last_name" value="" placeholder="Nom de famille" style="border-radius: 50px;" required>
+		      		<input class="six columns" type="text" name="last_name" value="" placeholder="Nom de famille" style="border-radius: 50px;" required maxlength="60">
 		  		</div>
 
 		  		<div class="row">
 					<label for="usernameInput">Nom d'utilisateur</label>
-		      		<input class="u-full-width" type="text" name="username" value="" placeholder="Nom d'utilisateur" style="border-radius: 50px;" required>
+		      		<input class="u-full-width" type="text" name="username" value="" placeholder="Nom d'utilisateur" style="border-radius: 50px;" required maxlength="60">
 		  		</div>
 
 		  		<div class="row">
 					<label for="emailInput">Adresse électronique</label>
-		      		<input class="u-full-width" type="text" name="email" value="" placeholder="Adresse Mail de connexion" style="border-radius: 50px;" required>
+		      		<input class="u-full-width" type="text" name="email" value="" placeholder="Adresse Mail de connexion" style="border-radius: 50px;" required maxlength="60">
 		  		</div>
 
 		  		<div class="row">
@@ -165,9 +165,9 @@ if(isset($_POST['creerCompte'])){
 
 		  		<div class="row">
 					
-		      		<input class="six columns" type="password" name="password" value="" placeholder="Mot de passe" style="border-radius: 50px;" required>
+		      		<input class="six columns" type="password" name="password" value="" placeholder="Mot de passe" style="border-radius: 50px;" required maxlength="60">
 		 
-		      		<input class="six columns" type="password" name="password_verif" value="" placeholder="Confirmer mot de passe" style="border-radius: 50px;" required>
+		      		<input class="six columns" type="password" name="password_verif" value="" placeholder="Confirmer mot de passe" style="border-radius: 50px;" required maxlength="60">
 		  		</div>
 
 		  		<div class="row">
@@ -181,12 +181,12 @@ if(isset($_POST['creerCompte'])){
 		  		<div id="gestionaire_form">
 		  			
 		  			<div class="row">
-			  			<input class="six columns" id="gest_entreprise" type="text" name="gest_entreprise" value="" placeholder="Nom de l'entreprise" style="border-radius: 50px;" required>
-			  			<input class="six columns" id="gest_phone" type="text" name="gest_phone" value="" placeholder="Numéro de téléphone" style="border-radius: 50px;" required>
+			  			<input class="six columns" id="gest_entreprise" type="text" name="gest_entreprise" value="" placeholder="Nom de l'entreprise" style="border-radius: 50px;" required maxlength="60">
+			  			<input class="six columns" id="gest_phone" type="text" name="gest_phone" value="" placeholder="Numéro de téléphone" style="border-radius: 50px;" required maxlength="10">
 
 			  		</div>
 			  		<div class="row">
-			  			<input class="u-full-width" type="text" name="gest_mail" value="" placeholder="Adresse Mail de contact" style="border-radius: 50px;" required>
+			  			<input class="u-full-width" type="text" name="gest_mail" value="" placeholder="Adresse Mail de contact" style="border-radius: 50px;" required maxlength="60">
 			  		</div>
 			  		<div class="row" id="text_warning_gest" style="color: green">
 		  				<center>
