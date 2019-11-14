@@ -24,7 +24,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 		$annonce = database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))[0];
 
-		echo "<span style=\"white-space: pre-line;\">" . $annonce["description"] ."</span>";
+		// echo "<span style=\"white-space: pre-line;\">" . $annonce["description"] ."</span>";
 
 	} else {
 
@@ -46,4 +46,26 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 ?>
 
+<!DOCTYPE html>
+<html>
+<head>
+	<?php
+	//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
+	include('templates/header.php');
+	?>
 
+
+	<!-- Fichier uniquement importé pour la page d'accueil donc pas dans le fichier générique -->
+	<link rel="stylesheet" type="text/css" href="src/css/home/home.css">
+	
+</head>
+
+<body>
+	<div class="annonce_titre"> 
+		 <span class= six columns> <b> <?php echo $annonce["titre"] ?> </b> </span>
+	</div>
+	<div class ="annonce_description">
+		 <?php echo "<span class=\"six columns;\" style=\"white-space: pre-line;\"> <b>" . $annonce["description"] . "</b> </span>";?>
+	</div>
+</body>
+</html>
