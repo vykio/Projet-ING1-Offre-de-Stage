@@ -6,6 +6,7 @@ define('PAGE_NAME', $pagename);
 include('templates/short_links.php');
 include('database.php');
 include('src/classes/CLASS_login.php');
+include('src/classes/CLASS_url.php');
 
 if (!Login::isLoggedIn()) {
 
@@ -17,7 +18,8 @@ if (!Login::isLoggedIn()) {
 	$password = $_POST['password'];
 
 		if(database::query('SELECT username FROM utilisateurs WHERE username=:username', array(':username'=>$username))){
-			//echo "OK1";
+		
+		    
 			//echo database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'];
 			
 			/* Utiliser password_verify seulement quand on aura "hash" le mot de passe, pour l'instant utiliser que la simple égalité (pas du tout sécurisé) */
@@ -25,7 +27,6 @@ if (!Login::isLoggedIn()) {
 
 			/*if(password_verify($password, database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'])) {*/
 			if (password_verify($password, database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'])) {
-
 				//génération d'un token de longueur 64
 				$cstrong = True;
 				$token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
@@ -47,8 +48,7 @@ if (!Login::isLoggedIn()) {
 
 				//Le deuxième (3 jours) contient nimporte quoi et nous sert à regénérer le token de connection au dela de 3 jours sans connexion
 				setcookie("SFID_verif", '1', time() + 60* 60 * 24 * 2, '/', NULL, NULL, TRUE);
-
-				header('Location: ' . INDEX_PAGE);
+				echo "<script type='text/javascript'> window.top.location='" . INDEX_PAGE . "';</script>";
 				exit();
 
 			} else {
@@ -75,7 +75,7 @@ if (!Login::isLoggedIn()) {
 
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<?php
 	//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
 	include('templates/header.php');
