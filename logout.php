@@ -17,7 +17,6 @@ if (!Login::isLoggedIn()) {
 
 if (isset($_POST['confirm'])) {
 	if (isset($_POST['alldevices'])){
-		echo "1";
 		database::query('DELETE FROM login_tokens WHERE user_id=:userid', array(':userid'=>Login::isLoggedIn()));
 	} else {
 		if (isset($_COOKIE['ppwid'])){ 

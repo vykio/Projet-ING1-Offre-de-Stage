@@ -13,7 +13,6 @@ if (Login::isLoggedIn()) {
 	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0]; //[0] premier résultat, car il est unique donc pas de pb
 	//$user contient les champs username, email, first_name et last_name
 } else {
-	echo 'Not logged in';
 	
 	header('Location: ' . LOGIN_PAGE);
 	die(); //On arrete tout et on n'execute pas le reste (évite les erreurs)

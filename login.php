@@ -1,4 +1,3 @@
-<!-- login page -->
 <?php 
 
 $pagename = "Authentification";
