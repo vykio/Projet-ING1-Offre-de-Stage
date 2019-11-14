@@ -24,17 +24,17 @@ if (Login::isLoggedIn()) {
 
 <!DOCTYPE html>
 <html>
-<head>
-	<?php
-	//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
-	include('templates/header.php');
-	?>
+	<head>
+		<?php
+		//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
+		include('templates/header.php');
+		?>
 
 
-	<!-- Fichier uniquement importé pour la page d'accueil donc pas dans le fichier générique -->
-	<link rel="stylesheet" type="text/css" href="src/css/home/home.css">
-	
-</head>
+		<!-- Fichier uniquement importé pour la page d'accueil donc pas dans le fichier générique -->
+		<link rel="stylesheet" type="text/css" href="src/css/home/home.css">
+		
+	</head>
 <body>
 
 	<!-- Image Derriere le header -->
