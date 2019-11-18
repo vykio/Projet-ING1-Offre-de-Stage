@@ -144,6 +144,7 @@ if (Login::isLoggedIn()) {
 
 		$categorie_if_not_1 = (($get_categorie != "1") ? (" AND " . $text_categorie) : " AND 1=1");
 
+
 		//Si on recherche par mots clés et par ville
 		if(isset($_GET['search']) && isset($_GET['position']) && !empty($_GET['search']) && !empty($_GET['position']) ){
 
@@ -181,7 +182,14 @@ if (Login::isLoggedIn()) {
 		}
 
 		//Execution
+		$time_start = microtime(true);
+
 		$annonces = database::query($text_total);
+
+		$time_end = microtime(true);
+		$time = $time_end - $time_start;
+
+		echo "<span style=\" color: grey; \">Résultats trouvés en " . round($time,4) . " secondes</span>";
 
 
 			//Pour chaque annonces trouvées selon les critères au dessus
