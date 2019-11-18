@@ -122,7 +122,7 @@ if (Login::isLoggedIn()) {
 		if (!isset($_GET['categorie']) || empty($_GET['categorie'])) {
 			$get_categorie = 1; // Categorie par défaut : Toutes catégories (id=1)
 		} else {
-			$get_categorie = filter_var($_GET['categorie'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			$get_categorie = filter_var($_GET['categorie'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 			if (database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$get_categorie))) {
 				$get_categorie = database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$get_categorie))[0]["id"];
 			} else {
@@ -149,8 +149,8 @@ if (Login::isLoggedIn()) {
 		if(isset($_GET['search']) && isset($_GET['position']) && !empty($_GET['search']) && !empty($_GET['position']) ){
 
 			/* filtrage des deux valeurs */
-			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 
 			$text_total = "SELECT * FROM annonces WHERE " . $text_search . " AND " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
 			
@@ -160,7 +160,7 @@ if (Login::isLoggedIn()) {
 			//Si on recherche seulement par mots clés
 		} else if (isset($_GET['search']) && !empty($_GET['search'])) {
 
-			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 			
 			$text_total = "SELECT * FROM annonces WHERE " . $text_search .  $categorie_if_not_1 . " " . $text_order_by;
 
@@ -169,7 +169,7 @@ if (Login::isLoggedIn()) {
 			//Si on recherche seulement par ville
 		} else if (isset($_GET['position']) && !empty($_GET['position'])) {
 
-			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 
 			$text_total = "SELECT * FROM annonces WHERE " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
 
@@ -196,11 +196,11 @@ if (Login::isLoggedIn()) {
 
 			foreach ($annonces as $annonce) {
 				//Filtrage
-				$annonce["titre"] = filter_var($annonce["titre"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+				$annonce["titre"] = filter_var($annonce["titre"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				//Supprime les balises et les char ASCII > 127
-				$annonce["entreprise"] = filter_var($annonce["entreprise"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-				$annonce["ville"] = filter_var($annonce["ville"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-				$annonce["duree"] = filter_var($annonce["duree"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+				$annonce["entreprise"] = filter_var($annonce["entreprise"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+				$annonce["ville"] = filter_var($annonce["ville"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+				$annonce["duree"] = filter_var($annonce["duree"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				?>
 
 				<!-- affichage des résultats -->
