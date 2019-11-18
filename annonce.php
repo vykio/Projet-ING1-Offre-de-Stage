@@ -64,12 +64,12 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 
 	<!-- Image Derriere le header -->
-	<div class="header" style="background: url('imgs/login.jpg') no-repeat center center fixed; background-color: #EEEEEE;
+	<!-- <div class="header" style="background: url('imgs/login.jpg') no-repeat center center fixed; background-color: #EEEEEE;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
 		background-size: cover;">
-	</div>
+	</div> -->
 
 	<div class="container main_container">
 		<!-- Contenus de la page -->

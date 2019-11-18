@@ -234,7 +234,7 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	}
 
 	.header {
-		height: 300px;
+		height: 80px;
 	}
 	.nav_menu .menu {
 		flex-flow: row;
