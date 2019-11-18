@@ -115,13 +115,10 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 
 
-		<div class="annonce_container" onclick="location.href='<?php echo ANNONCE_PAGE . "?id=" . $annonce["id"] ?>'">
+		<div class="annonce_container">
 						<div class="annonce_inner_container">
 							<div class="annonce_titre">
-								<a href="<?php echo ANNONCE_PAGE . "?id=" . $annonce["id"] ?>"> <!-- LIEN OFFRE référencé par l'id de l'annonce -->
 								<?php echo $annonce["titre"] ?>
-								</a>
-							
 							</div>
 							<div class="row">
 								<div class="annonce_entreprise four columns"><?php echo $annonce["entreprise"] ?></div>
@@ -130,7 +127,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 							</div>
 						
 							<div class="annonce_description">
-								<!-- La requete SQL doit nous donner que les 100 premiers caractères de la description, et nous n'afficerons que les 100 premiers caractères -->
 								<span style="white-space: pre-line;"><?php
 									echo $annonce["description"];
 								?></span>
@@ -138,7 +134,51 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 							</div>
 						</div>
 		</div>
+	
+
+		<div class= "postuler_buttom">
+
+							<div class="annonce_titre">
+								<h3> Postuler</h3>
+							</div>
+							<form>
+  						
+  							<div class="row">
+    							<div class="six columns">
+    								  <label for="exampleEmailInput">Email</label>
+    								  <input class="u-full-width" type="email" placeholder=".....@gmail.com" id="exampleEmailInput">
+   								</div>
+
+   								<div class="six columns">
+   									<div class= "row">
+   										<label for="exampleEmailInput">CV Upload</label>
+   										<button>chercher le fichier</button>
+   										<input class="button-primary" type="button" value=" Telechargement">
+   									</div>
+   								</div>
+
+   
+  							</div>
+ 
+			 						 <label for="exampleMessage">Message</label>
+			 						 <textarea class="u-full-width" placeholder="Votre motivation en quelques lignes" id="exampleMessage"></textarea>
+			 						 <label class="example-send-yourself-copy">
+			  						  <input type="checkbox">
+			  						  <span class="label-body">Envoi d'une confirmation par mail</span>
+			  							</label>
+			  						<input class="button-primary" type="submit" value="Envoyer">
+								</form>
+							
+						
+							
+							</div>
+			
+
+		</div>
+
+
 	</div>
+
 
 
 </html>
