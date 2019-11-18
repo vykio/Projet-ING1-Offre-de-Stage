@@ -48,7 +48,7 @@ if (!Login::isLoggedIn()) {
 
 				//Le deuxième (3 jours) contient nimporte quoi et nous sert à regénérer le token de connection au dela de 3 jours sans connexion
 				setcookie("SFID_verif", '1', time() + 60* 60 * 24 * 2, '/', NULL, NULL, TRUE);
-				echo "<script type='text/javascript'> window.top.location='" . INDEX_PAGE . "';</script>";
+				header('Location: ' . INDEX_PAGE);
 				exit();
 
 			} else {
