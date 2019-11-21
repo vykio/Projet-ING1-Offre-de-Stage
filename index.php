@@ -91,10 +91,11 @@ if (Login::isLoggedIn()) {
 		<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
 			<div class="header_information_utilisateur">
 				<div class="row">
-					<?php echo $user['username'] ?> (<?php echo $user['email'] ?>)
+					<a href="<?php echo PROFILE_PAGE ?>" style="color: white; text-decoration: none" title ="Profil" ><?php echo $user['username'] ?> (<?php echo $user['email'] ?>) <br> Vers mon Profil &emsp; </br></a>
+
 				</div>
-				
-				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none" title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a>
+				<br>
+				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none"  title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a> </br>
 			</div>
 
 		
@@ -111,7 +112,7 @@ if (Login::isLoggedIn()) {
 	    		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
 	  			<li class="menu_item"><a href="#">Catégories</a></li>
 		        <li class="menu_item"><a href="#">À Propos</a></li>
-		        <li class="menu_item"><a href="#"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
+		        <li class="menu_item"><a href="<?php echo PROFILE_PAGE ?>"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
 		    </ul>
 		</nav>
 		
