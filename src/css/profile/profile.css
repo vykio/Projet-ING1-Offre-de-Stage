@@ -2,6 +2,7 @@
 	padding-top: 10px;
 	padding-bottom: 100px;
 }
+.line:after,
 
 /* Taille de notre header */
 .profile_header {
@@ -70,13 +71,20 @@
 	margin-bottom: 20px;
 	border-radius: 6px;
 }
-
+.profile_titre_container {
+	padding: 10px 20px 10px 20px;
+	/*box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);*/
+	margin-bottom: 20px;
+	border-bottom-width: 2px;
+	border-bottom-style: groove;
+}
 
 .profile_titre {
 	text-transform: none;
     font-weight: 300;
-
-
+    font-size: 1.6em;
+    color: #34495E;
+    text-align: center;
 }
 
 .profile_titre a {
@@ -87,6 +95,14 @@
 .profile_titre a:hover {
 	text-decoration: underline;
 }
+
+.profile_data {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+
+
 
 /* nav_menu contient .menu */
 .nav_menu {
@@ -116,7 +132,7 @@
 	padding: 1em;
 	vertical-align: center;
 	font-size: 1.6rem;
-	background-color: grey;
+	
 
 }
 

@@ -9,13 +9,37 @@ include('database.php');
 include('src/classes/CLASS_login.php');
 
 //La fonction isLoggedIn() de la classe Login, return l'id de l'utilisateur connecté
-if (!Login::isLoggedIn()) {
-	
+if (Login::isLoggedIn()) {
+	$user = database::query('SELECT username, email, first_name, last_name, account_type, company_name, phone, contact_mail FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
+} else {
 	header('Location: ' . LOGIN_PAGE);
-	die(); //On arrete tout et on n'execute pas le reste (évite les erreurs)
+	die(); 
 }
+// voir pour les differents cas : utilisateur normal
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+	$requested_id = $_GET['id'];
+	$requested_id = filter_var($requested_id, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+
+	if (database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))) {
+
+		$annonce = database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))[0];
+
+		// echo "<span style=\"white-space: pre-line;\">" . $annonce["description"] ."</span>";
+
+	} else {
+
+		header('Location: ' . LOGIN_PAGE);
+		die(); 
 
 
+	}
+
+} else {
+
+	header('Location: ' . LOGIN_PAGE);
+	die(); 
+
+}
 
 ?>
 
@@ -71,10 +95,16 @@ if (!Login::isLoggedIn()) {
 		    </ul>
 		</nav>
 
-		<div class="profile_container">
-			<h1 class="profile_titre">	Mon Compte	</h1>
-		</div>
 
+
+	<div class="profile_titre_container">
+		<h1 class="profile_titre">Mon Compte</h1>
+	</div>
+
+
+
+	<div class="profile_container">
+		
 	</div>
 
 	
