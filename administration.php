@@ -147,6 +147,14 @@ if (Login::isLoggedIn()) {
 			padding-bottom: 20px;
 		}
 
+		.sql-output {
+			border : 1px solid lightgrey;
+			margin-top: 20px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			width: 100%;
+		}
+
 		@media screen and (max-width: 600px) {
 			.tabs .tab {
 				background: #EFEFEF;
@@ -256,13 +264,11 @@ if (Login::isLoggedIn()) {
 				</div>
 
 				<div class="bg-white">
-					<input type="text" name="sql-cmd" class="u-full-width" placeholder="Commande SQL...">
-					<input type="button" name="sql-confirm" value="Envoyer Commande" class="u-full-width">
+					<input type="text" name="sql-cmd" class="u-full-width" placeholder="Commande SQL..." id="sql-cmd">
+					<input type="button" name="sql-confirm" value="Envoyer Commande" class="u-full-width" onclick="getSqlOutput()" id="sql-confirm">
 				</div>
 
-				<div class="sql-output">
-					
-				</div>
+				<div class="sql-output" id="sql-output"></div>
 			</div>
 		</div>
 
@@ -331,6 +337,51 @@ if (Login::isLoggedIn()) {
 		    }
 		};
     }
+
+ 	function getSqlOutput() {
+
+        // Creating a built-in AJAX object
+        var ajax = new XMLHttpRequest();
+
+        cmd = document.getElementById("sql-cmd").value;
+
+ 		if (document.getElementById("sql-output").innerHTML != "") {
+ 			document.getElementById("sql-output").innerHTML = "";
+ 		}
+
+        // Sending starting position
+        ajax.open("GET", "src/ajax/sqlOutput.php?cmd=" + cmd, true);
+
+        // Actually sending the request
+        ajax.send();
+
+        document.getElementById("sql-confirm").disabled = true;
+        document.getElementById("sql-confirm").style.backgroundColor = "lightgrey";
+
+        // Detecting request state change
+        ajax.onreadystatechange = function () {
+		    if (this.readyState == 4 && this.status == 200) {
+
+		    	document.getElementById("sql-confirm").disabled = false;
+		    	document.getElementById("sql-confirm").style.backgroundColor = "";
+		        
+		        // Converting JSON string to Javasript array
+		        //console.log(this.responseText);
+		        var data = JSON.parse(this.responseText);
+		        for (var a = 0; a < data.length; a++) {
+		        	for ( var b = 0; b < Object.keys(data[a]).length /2 ; b++) {
+		        	//for (var b in data[a]) {
+		        		document.getElementById("sql-output").innerHTML += JSON.stringify(data[a][b]) + " ";
+		        	}
+		        	document.getElementById("sql-output").innerHTML += "<br>";
+		        }
+		        
+		    }
+		};
+    }
+
+
+
 
     // Calling the function on page load
     getUserData();

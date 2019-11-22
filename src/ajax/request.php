@@ -16,6 +16,8 @@ class Request {
 
 		} 
 	}
+
+
 }
 
 //Pas mettre if !empty($_GET["start"]) car parfois, start = 0 => empty($_GET["start"]) = true (ce que l'on ne veut pas)
