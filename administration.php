@@ -36,15 +36,6 @@ if (Login::isLoggedIn()) {
 	include('templates/header.php');
 	?>
 	<style type="text/css">
-		.card {
-			border: 1px solid lightgrey;
-			border-radius: 5px;
-		}
-
-		.card-title {
-			text-align: center;
-			font-size: 2rem;
-		}
 
 		.tabs {
 			display: flex;
@@ -59,13 +50,14 @@ if (Login::isLoggedIn()) {
 			width: auto;
 			padding: 5px;
 			margin-right: 10px;
+			color: white;
 		}
 		.tabs .tab {
 			order: 2; /* puts the tabs last */
 			flex-grow: 1;
 			width: 100%;
 			display: none;
-			background: #fff;
+			/*background: #fff;*/
 			margin-top: -5px;
 
 		}
@@ -74,23 +66,140 @@ if (Login::isLoggedIn()) {
 		}
 		.tabs input[type="radio"]:checked + label {
 			background: #fff;
+			color: #006BA8;
 		}
 		.tabs input[type="radio"]:checked + label + .tab {
 			display: block;
 		}
 
-		@media (max-width: 45em) {
-			.tabs .tab,
-			  .tabs label {
-			  	margin: 0px;
-			    order: initial;
-			    width: 100%;
-			  }
-		}
+		
 
 		body {
 			box-sizing: border-box;
 			background-color: #EFEFEF;
+		}
+
+
+		table {
+		  /*border: 1px solid #ccc;*/
+		  border-collapse: collapse;
+		  margin: 0;
+		  padding: 0;
+		  width: 100%;
+		  table-layout: fixed;
+		}
+
+		table tr {
+		  /*border: 1px solid #ddd;*/
+		}
+
+		table th,
+		table td {
+		  padding: .625em;
+		  text-align: center;
+		  background-color: #fff;
+		}
+
+		
+
+		table th {
+		  font-size: .85em;
+		  letter-spacing: .1em;
+		  text-transform: uppercase;
+		}
+
+		.load-more {
+			border: 1px solid lightgrey;
+			border-radius: 20px;
+			padding: 5px;
+			cursor: pointer;
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			background-color: white;
+			color: #006BA8;
+		}
+
+		.load-more a {
+			width: 100%;
+		}
+
+		.load-more:hover {
+			background-color: #006BA8;
+			color: white;
+		}
+
+		.welcome {
+			text-align: center;
+			text-transform: uppercase;
+			font-family: "Open Sans", sans-serif;
+			font-size: 1.5em;
+			margin: .5em 0 .75em;
+			padding-top: 20px;
+		}
+
+		.bg-white {
+			background-color: white;
+		}
+
+		.lien-accueil {
+			text-align: center;
+			padding-bottom: 20px;
+		}
+
+		@media screen and (max-width: 600px) {
+			.tabs .tab {
+				background: #EFEFEF;
+			}
+
+		  table {
+		    border: 0;
+		  }
+		  
+		  table thead {
+		    border: none;
+		    height: 1px;
+		    margin: -1px;
+		    overflow: hidden;
+		    padding: 0;
+		    position: absolute;
+		    width: 1px;
+		  }
+		  
+		  table tr {
+		    border-bottom: 3px solid #ddd;
+		    display: block;
+		    margin-bottom: .625em;
+		  }
+		  
+		  table td {
+		    border-bottom: 1px solid #ddd;
+		    display: block;
+		    font-size: .8em;
+		    text-align: right;
+		    padding-right: .625em;
+		    background-color: #fff;
+		  }
+
+		  table td:first-child {
+			padding-left: .625em;
+			}
+
+			table td:last-child {
+				padding-right: .625em;
+			}
+		  
+		  table td::before {
+		    /*
+		    * aria-label has no advantage, it won't be read inside a table
+		    content: attr(aria-label);
+		    */
+		    content: attr(data-label);
+		    float: left;
+		    font-weight: bold;
+		    text-transform: uppercase;
+		  }
+		  
 		}
 
 	</style>
@@ -98,6 +207,13 @@ if (Login::isLoggedIn()) {
 <body>
 
 	<div class="container">
+
+		<div class="welcome">
+			Bienvenue <?php echo $user["first_name"] ?>
+		</div>
+		<div class="lien-accueil">
+			<a href="<?php echo INDEX_PAGE ?>">< Retour sur le site</a>
+		</div>
 
 
 
@@ -109,15 +225,19 @@ if (Login::isLoggedIn()) {
 				  <thead>
 				    <tr>
 				      <th>Name</th>
-				      <th>Age</th>
-				      <th>Sex</th>
-				      <th>Location</th>
+				      <th>Prénom</th>
+				      <th>Nom</th>
+				      <th>Email</th>
+				      <th>Type</th>
 				    </tr>
 				  </thead>
 				  <tbody id="users-data"></tbody>
 				</table>
 
-				 <a onclick="getUserData()" style="cursor: pointer;">Load More</a>
+				<div class="load-more" onclick="getUserData()">
+					Load More
+				</div>
+				
 
 			</div>
 
@@ -126,6 +246,23 @@ if (Login::isLoggedIn()) {
 			<div class="tab">
 				lbabaqzd qzd qzd qzdqzdqz dqzd lbdlqkzdblqdkzbqzld qlzdkb qlzdk bq
 				qzdlqzdihqz d
+			</div>
+
+			<input type="radio" name="tabs" id="tab_three">
+			<label for="tab_three">SQL</label>
+			<div class="tab">
+				<div class="sql-desc bg-white">
+					Attention, la commande SQL que vous rentrez peut affecter la majorité des données.
+				</div>
+
+				<div class="bg-white">
+					<input type="text" name="sql-cmd" class="u-full-width" placeholder="Commande SQL...">
+					<input type="button" name="sql-confirm" value="Envoyer Commande" class="u-full-width">
+				</div>
+
+				<div class="sql-output">
+					
+				</div>
 			</div>
 		</div>
 
@@ -158,14 +295,31 @@ if (Login::isLoggedIn()) {
 		        // Converting JSON string to Javasript array
 		        var data = JSON.parse(this.responseText);
 		        var html = "";
+		        var type = "";
 
 		        // Appending all returned data in a variable called html
 		        for (var a = 0; a < data.length; a++) {
 		            html += "<tr>";
-		                html += "<td>" + data[a].username + "</td>";
-		                html += "<td>" + data[a].first_name + "</td>";
-		                html += "<td>" + data[a].last_name + "</td>";
-		                html += "<td>" + data[a].email + "</td>";
+		                html += "<td data-label='Username' style=\"overflow: hidden; word-break: break-word\">" + data[a].username + " (" + data[a].id + ") </td>";
+		                html += "<td data-label='Prenom' style=\"overflow: hidden; word-break: break-word\">" + data[a].first_name + "</td>";
+		                html += "<td data-label='Nom' style=\"overflow: hidden; word-break: break-word\">" + data[a].last_name + "</td>";
+		                html += "<td data-label='Email' style=\"overflow: hidden; word-break: break-word\">" + data[a].email + "</td>";
+		                
+		                switch (data[a].account_type) {
+
+		                	case '0':
+		                		type = "Utilisateur";
+		                		break;
+		                	case '1':
+		                		type = "Gestionnaire";
+		                		break;
+		                	case '2':
+		                		type = "Administrateur";
+		                		break;
+		                	default:
+		                		type = "ND";
+		                }
+		                html += "<td data-label='Type' style=\"overflow: hidden; word-break: break-word\">" + type + "</td>";
 		            html += "</tr>";
 		        }
 
