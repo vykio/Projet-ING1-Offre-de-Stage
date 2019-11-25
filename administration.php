@@ -171,7 +171,9 @@ if (Login::isLoggedIn()) {
 		}
 
 		.inner-sql {
-			padding: 10px;
+			padding-left: 15px;
+			padding-right: 15px;
+			padding-top: 15px;
 		}
 
 		.tab-ext {
@@ -194,8 +196,15 @@ if (Login::isLoggedIn()) {
 
 
 		hr {
-			margin-top: 1rem;
+			margin-top: 0;
 			margin-bottom: 1rem;
+		}
+
+
+		.search_container_admin {
+			padding-left: 30px;
+			padding-right: 30px;
+			padding-top: 15px;
 		}
 
 		@media screen and (max-width: 600px) {
@@ -272,6 +281,16 @@ if (Login::isLoggedIn()) {
 			<input type="radio" name="tabs" id="tab_one" checked="checked">
 			<label for="tab_one">Utilisateurs</label>
 			<div class="tab">
+
+				<div class="search_container_admin bg-white">
+					<div class="row">
+						<input type="text" name="utilisateur" id="utilisateur" class="eight columns" placeholder="ID, utilisateur, Prénom, Nom...." required>
+						<button type="submit" class="four columns" onclick="search()">Recherche</button>
+					</div>
+				</div>
+
+				<hr>
+
 				<table class="u-full-width">
 				  <thead>
 				    <tr>
@@ -285,7 +304,7 @@ if (Login::isLoggedIn()) {
 				  <tbody id="users-data"></tbody>
 				</table>
 
-				<input type="button" value="Load More" class="load-more u-full-width" id="load-more" onclick="getUserData()">
+				<input type="button" value="Load More" class="load-more u-full-width" id="load-more" onclick="getUserData()" style="border-radius: 5px;">
 				
 
 			</div>
@@ -301,12 +320,12 @@ if (Login::isLoggedIn()) {
 			<label for="tab_three">SQL</label>
 			<div class="tab">
 						<div class="sql-desc bg-white inner-sql warning-text">
-							<i class="fas fa-exclamation-circle"></i>&emsp;Attention, la commande SQL que vous rentrez peut affecter la majorité des données
+							<i class="fas fa-exclamation-circle"></i>&emsp;Attention, la commande SQL que vous envoyez peut affecter la majorité des données
 						</div>
 
 						<div class="bg-white tab-ext">
 							<div class="inner-sql">
-								<input type="text" name="sql-cmd" class="u-full-width" placeholder="Commande SQL..." id="sql-cmd">
+								<input type="text" name="sql-cmd" class="u-full-width" placeholder="Commande SQL (SELECT / INSERT / UPDATE / DELETE)..." id="sql-cmd">
 								<input type="button" name="sql-confirm" value="Envoyer Commande" class="u-full-width" onclick="getSqlOutput()" id="sql-confirm">
 							</div>
 						</div>
@@ -330,13 +349,15 @@ if (Login::isLoggedIn()) {
 	// Starting position to get new records
     var start = 0;
 
+    var like = "";
+
     // This function will be called every time a button pressed 
     function getUserData() {
         // Creating a built-in AJAX object
         var ajax = new XMLHttpRequest();
 
         // Sending starting position
-        ajax.open("GET", "src/ajax/request.php?start=" + start + "&limit=5", true);
+        ajax.open("GET", "src/ajax/request.php?start=" + start + "&limit=5&like=" + like, true);
 
         // Actually sending the request
         ajax.send();
@@ -392,6 +413,16 @@ if (Login::isLoggedIn()) {
 		        start = start + 5;
 		    }
 		};
+    }
+
+    function search() {
+    	var temp = document.getElementById("utilisateur").value;
+    	
+		like = temp;
+		start = 0;
+		document.getElementById("users-data").innerHTML="";
+		getUserData();
+    	
     }
 
  	function getSqlOutput() {
