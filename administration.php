@@ -1,5 +1,5 @@
 <?php 
-//http://adnan-tech.com/tutorial/load-more-data-ajax-php !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//http://adnan-tech.com/tutorial/load-more-data-ajax-php !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 $pagename = "Administration";
 define('PAGE_NAME', $pagename);
@@ -153,6 +153,7 @@ if (Login::isLoggedIn()) {
 			padding-top: 10px;
 			padding-bottom: 10px;
 			width: 100%;
+			background-color: #fff;
 		}
 
 		@media screen and (max-width: 600px) {
