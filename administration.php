@@ -118,15 +118,7 @@ if (Login::isLoggedIn()) {
 			margin-bottom: 10px;
 			background-color: white;
 			color: #006BA8;
-		}
-
-		.load-more a {
-			width: 100%;
-		}
-
-		.load-more:hover {
-			background-color: #006BA8;
-			color: white;
+			margin-bottom: 10px;
 		}
 
 		.welcome {
@@ -147,13 +139,63 @@ if (Login::isLoggedIn()) {
 			padding-bottom: 20px;
 		}
 
-		.sql-output {
+		.sql-output-container {
 			border : 1px solid lightgrey;
-			margin-top: 20px;
-			padding-top: 10px;
-			padding-bottom: 10px;
+			border-radius: 5px;
 			width: 100%;
+			margin-top: 20px;
 			background-color: #fff;
+			
+		}
+
+		.sql-output-title {
+			padding-top: 5px;
+			font-size: 2em;
+			text-transform: uppercase;
+			text-align: center;
+		}
+
+		.sql-output {
+			
+			padding-left: 30px;
+			padding-right: 20px;
+			padding-top: 10px;
+			margin-bottom: 30px;
+			
+			
+		}
+
+		.warning-text {
+			color: red;
+			font-weight: bold;
+		}
+
+		.inner-sql {
+			padding: 10px;
+		}
+
+		.tab-ext {
+			border-bottom-left-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
+
+		ol {
+			list-style: none;
+		}
+		li::before {
+			content: "•";
+			color: #006BA8;
+			/* fixer la taille de la puce, et la déplacer vers la gauche */
+			display: inline-block;
+			width: 1em;
+			margin-left: -1em;
+		}
+
+
+
+		hr {
+			margin-top: 1rem;
+			margin-bottom: 1rem;
 		}
 
 		@media screen and (max-width: 600px) {
@@ -243,9 +285,7 @@ if (Login::isLoggedIn()) {
 				  <tbody id="users-data"></tbody>
 				</table>
 
-				<div class="load-more" onclick="getUserData()">
-					Load More
-				</div>
+				<input type="button" value="Load More" class="load-more u-full-width" id="load-more" onclick="getUserData()">
 				
 
 			</div>
@@ -260,16 +300,22 @@ if (Login::isLoggedIn()) {
 			<input type="radio" name="tabs" id="tab_three">
 			<label for="tab_three">SQL</label>
 			<div class="tab">
-				<div class="sql-desc bg-white">
-					Attention, la commande SQL que vous rentrez peut affecter la majorité des données.
-				</div>
+						<div class="sql-desc bg-white inner-sql warning-text">
+							<i class="fas fa-exclamation-circle"></i>&emsp;Attention, la commande SQL que vous rentrez peut affecter la majorité des données
+						</div>
 
-				<div class="bg-white">
-					<input type="text" name="sql-cmd" class="u-full-width" placeholder="Commande SQL..." id="sql-cmd">
-					<input type="button" name="sql-confirm" value="Envoyer Commande" class="u-full-width" onclick="getSqlOutput()" id="sql-confirm">
-				</div>
-
-				<div class="sql-output" id="sql-output"></div>
+						<div class="bg-white tab-ext">
+							<div class="inner-sql">
+								<input type="text" name="sql-cmd" class="u-full-width" placeholder="Commande SQL..." id="sql-cmd">
+								<input type="button" name="sql-confirm" value="Envoyer Commande" class="u-full-width" onclick="getSqlOutput()" id="sql-confirm">
+							</div>
+						</div>
+					<div class="sql-output-container">
+						<div class="sql-output-title">Sortie SQL</div>
+						<hr>
+						<div class="sql-output" id="sql-output"><center>Pas de résultats</center></div>
+					</div>
+				
 			</div>
 		</div>
 
@@ -295,14 +341,23 @@ if (Login::isLoggedIn()) {
         // Actually sending the request
         ajax.send();
 
+        document.getElementById("load-more").disabled = true;
+        document.getElementById("load-more").style.backgroundColor = "lightgrey";
+
         // Detecting request state change
         ajax.onreadystatechange = function () {
 		    if (this.readyState == 4 && this.status == 200) {
+
+		    	document.getElementById("load-more").disabled = false;
+        		document.getElementById("load-more").style.backgroundColor = "#006BA8";
+        		document.getElementById("load-more").style.color = "#fff";
+        		
 		        
 		        // Converting JSON string to Javasript array
 		        var data = JSON.parse(this.responseText);
 		        var html = "";
 		        var type = "";
+
 
 		        // Appending all returned data in a variable called html
 		        for (var a = 0; a < data.length; a++) {
@@ -368,14 +423,36 @@ if (Login::isLoggedIn()) {
 		        
 		        // Converting JSON string to Javasript array
 		        //console.log(this.responseText);
-		        var data = JSON.parse(this.responseText);
-		        for (var a = 0; a < data.length; a++) {
-		        	for ( var b = 0; b < Object.keys(data[a]).length /2 ; b++) {
-		        	//for (var b in data[a]) {
-		        		document.getElementById("sql-output").innerHTML += JSON.stringify(data[a][b]) + " ";
-		        	}
-		        	document.getElementById("sql-output").innerHTML += "<br>";
+		        try {
+		        	var data = JSON.parse(this.responseText);
+
+			        var html = "";
+
+			        html += "<ol>";
+			        
+			        for (var a = 0; a < data.length; a++) {
+			        	html += "<li>";
+			        	for ( var b = 0; b < Object.keys(data[a]).length /2 ; b++) {
+			        	//for (var b in data[a]) {
+			        		html += JSON.stringify(data[a][b]) + " ";
+			        	}
+			        	html += "</li>";
+			        }
+
+			        html += "</ol>";
+
+			        if (html == "<ol></ol>") {
+			        	html = "<center>Pas de résultats</center>";
+			        }
+
+		        } catch(error) {
+		        	html = "<center>Erreur de syntaxe<br>" + error + "</center>";
 		        }
+		        
+
+		        
+
+		        document.getElementById("sql-output").innerHTML = html;
 		        
 		    }
 		};
