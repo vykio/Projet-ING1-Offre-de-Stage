@@ -145,7 +145,7 @@ if (Login::isLoggedIn()) {
 			width: 100%;
 			margin-top: 20px;
 			background-color: #fff;
-			
+			margin-bottom: 30px;
 		}
 
 		.sql-output-title {
@@ -477,7 +477,7 @@ if (Login::isLoggedIn()) {
 			        }
 
 		        } catch(error) {
-		        	html = "<center>Erreur de syntaxe<br>" + error + "</center>";
+		        	html = "<center><i class=\"fas fa-bug\"></i>&emsp;Erreur<br>" + error + "</center>";
 		        }
 		        
 
