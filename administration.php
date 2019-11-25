@@ -40,7 +40,6 @@ if (Login::isLoggedIn()) {
 		.tabs {
 			display: flex;
 			flex-wrap: wrap;
-
 		}
 		.tabs label {
 			order: 1; /* puts the labels first */
@@ -51,6 +50,8 @@ if (Login::isLoggedIn()) {
 			padding: 5px;
 			margin-right: 10px;
 			color: white;
+			padding-left: 10px;
+			padding-right: 10px;
 		}
 		.tabs .tab {
 			order: 2; /* puts the tabs last */
@@ -207,10 +208,54 @@ if (Login::isLoggedIn()) {
 			padding-top: 15px;
 		}
 
+		.up-container {
+			margin-top: 0;
+			border-top: 0;
+		}
+
+		#progress {
+			padding-right: 10px;
+		}
+		.progress-bar {
+			-webkit-appearance: none;
+			width: 100%;
+		}
+		::-webkit-progress-bar {
+		   background-color:  #EFEFEF;
+		}
+		::-webkit-progress-value {
+			background-color: #006BA8;
+		}
+		::-moz-progress-bar {
+			background-color: #006BA8;
+		}
+
+		.fa-stack { font-size: 0.5em; margin-top: 0.5em;}
+
+		.fa-stack i {  vertical-align: middle; }
+
+
 		@media screen and (max-width: 600px) {
 			.tabs .tab {
 				background: #EFEFEF;
+
 			}
+
+			.tabs {
+				flex-direction: column;
+
+			}
+
+
+			.tabs input[type="radio"]:checked + label {
+				border: 2px solid red;
+			}
+
+			.tabs label {
+				margin-right: 0;
+			}
+
+			
 
 		  table {
 		    border: 0;
@@ -266,10 +311,68 @@ if (Login::isLoggedIn()) {
 </head>
 <body>
 
+	<?php
+	function Uptime() {
+        $str   = @file_get_contents('/proc/uptime');
+        $num   = floatval($str);
+        $secs  = $num % 60;
+        $num   = (int)($num / 60);
+        $mins  = $num % 60;
+        $num   = (int)($num / 60);
+        $hours = $num % 24;
+        $num   = (int)($num / 24);
+        $days  = $num;
+
+        return array(
+            "days"  => $days,
+            "hours" => $hours,
+            "mins"  => $mins,
+            "secs"  => $secs
+        );
+    }
+
+	function shapeSpace_memory_usage($noUnit = false) {
+	
+		$mem_total = memory_get_usage(true);
+		$mem_used  = memory_get_usage(false);
+		
+		$memory = array($mem_used, $mem_total);
+		
+		if ($noUnit == false) {
+
+			foreach ($memory as $key => $value) {
+				
+				if ($value < 1024) {
+					
+					$memory[$key] = $value .' B'; 
+					
+				} elseif ($value < 1048576) {
+					
+					$memory[$key] = round($value / 1024, 2) .' KB';
+					
+				} else {
+					
+					$memory[$key] = round($value / 1048576, 2) .' MB';
+					
+				}
+				
+			}
+
+		}
+		
+		return $memory;
+		
+	}
+
+	//echo Uptime()["days"] . "d " . Uptime()["hours"] . "h " . Uptime()["mins"] . "m " . Uptime()["secs"] . "s ";
+	?>
+
 	<div class="container">
 
 		<div class="welcome">
 			Bienvenue <?php echo $user["first_name"] ?>
+			<br>
+			<i class="fas fa-cogs fa-3x"></i>
 		</div>
 		<div class="lien-accueil">
 			<a href="<?php echo INDEX_PAGE ?>">< Retour sur le site</a>
@@ -279,13 +382,13 @@ if (Login::isLoggedIn()) {
 
 		<div class="tabs">
 			<input type="radio" name="tabs" id="tab_one" checked="checked">
-			<label for="tab_one">Utilisateurs</label>
+			<label for="tab_one"><i class="fas fa-user"></i> Utilisateurs</label>
 			<div class="tab">
 
 				<div class="search_container_admin bg-white">
 					<div class="row">
-						<input type="text" name="utilisateur" id="utilisateur" class="eight columns" placeholder="ID, utilisateur, Prénom, Nom...." required>
-						<button type="submit" class="four columns" onclick="search()">Recherche</button>
+						<input type="text" name="utilisateur" id="utilisateur" class="eight columns" placeholder="ID, utilisateur, Prénom, Nom...." required autofocus>
+						<button type="submit" class="four columns" onclick="search()" id="user-btn-search">Recherche</button>
 					</div>
 				</div>
 
@@ -294,7 +397,7 @@ if (Login::isLoggedIn()) {
 				<table class="u-full-width">
 				  <thead>
 				    <tr>
-				      <th>Name</th>
+				      <th>Pseudo</th>
 				      <th>Prénom</th>
 				      <th>Nom</th>
 				      <th>Email</th>
@@ -310,14 +413,46 @@ if (Login::isLoggedIn()) {
 			</div>
 
 			<input type="radio" name="tabs" id="tab_two">
-			<label for="tab_two">Annonces</label>
+			<label for="tab_two"><i class="far fa-list-alt"></i> Annonces</label>
 			<div class="tab">
+
+				<div class="search_container_admin bg-white">
+					<div class="row">
+						<input type="text" name="annonce" id="annonce" class="eight columns" placeholder="ID, Titre, Auteur...." required autofocus>
+						<button type="submit" class="four columns" onclick="searchAnnonce()" id="annonce-btn-search">Recherche</button>
+					</div>
+				</div>
+
+				<hr>
+
+				<table class="u-full-width">
+				  <thead>
+				    <tr>
+				      <th>Titre</th>
+				      <th>Auteur</th>
+				      <th>Catégorie</th>
+				      <th>Email Auteur</th>
+				      <th>Actions</th>
+				    </tr>
+				  </thead>
+				  <tbody id="annonces-data"></tbody>
+				</table>
+
+				<input type="button" value="Charger Plus" class="load-more u-full-width" id="load-more-annonce" onclick="getAnnonceData()" style="border-radius: 5px;">
+				
+
+
 				lbabaqzd qzd qzd qzdqzdqz dqzd lbdlqkzdblqdkzbqzld qlzdkb qlzdk bq
 				qzdlqzdihqz d
+
+				<span class="fa-stack" style="vertical-align: top;">
+				  <i class="fas fa-circle fa-stack-2x"></i>
+				  <i class="fas fa-check fa-stack-1x fa-inverse"></i>
+				</span>
 			</div>
 
 			<input type="radio" name="tabs" id="tab_three">
-			<label for="tab_three">SQL</label>
+			<label for="tab_three"><i class="fas fa-terminal"></i> SQL</label>
 			<div class="tab">
 						<div class="sql-desc bg-white inner-sql warning-text">
 							<i class="fas fa-exclamation-circle"></i>&emsp;Attention, la commande SQL que vous envoyez peut affecter la majorité des données
@@ -336,6 +471,47 @@ if (Login::isLoggedIn()) {
 					</div>
 				
 			</div>
+
+			<input type="radio" name="tabs" id="tab_four">
+			<label for="tab_four"><i class="fas fa-server"></i> Serveur</label>
+			<div class="tab">
+				<div class="sql-output-container up-container">
+					<div class="sql-output-title">Serveur</div>
+					<hr>
+					<div class="sql-output">
+						<ol>
+							<li>Serveur en ligne depuis : <?php echo Uptime()["days"] . " jours " . Uptime()["hours"] . " heures " . Uptime()["mins"] . " minutes " . Uptime()["secs"] . " secondes"; ?></li>
+							<li>Mémoire allouée à PHP : <?php echo shapeSpace_memory_usage()[0] . ' / ' . shapeSpace_memory_usage()[1] ?>
+								<div id="progress">
+								    <progress class="progress-bar" value="<?php echo round(shapeSpace_memory_usage(true)[0] / shapeSpace_memory_usage(true)[1], 2) * 100; ?>" min="0" max="100"><?php echo round(shapeSpace_memory_usage(true)[0] / shapeSpace_memory_usage(true)[1], 2) * 100; ?>%</progress>
+								</div>
+							</li>
+							<li><?php echo "Hôte : " . php_uname("s") . " ". php_uname("n"); ?></li>
+							<li><?php echo "Version PHP : " . phpversion(); ?></li>
+						</ol>
+					
+					</div>
+				</div>
+
+				<div class="sql-output-container">
+					<div class="sql-output-title">Site web</div>
+					<hr>
+					<div class="sql-output">
+						<ol>
+							<li>Nombre d'inscrits (global) : <?php echo database::query("SELECT COUNT(*) AS Cpt FROM utilisateurs")[0]["Cpt"] ?></li>
+							<ol>
+								<li>Nombre d'utilisateurs : <?php echo database::query("SELECT COUNT(*) AS Cpt FROM utilisateurs WHERE account_type=0")[0]["Cpt"] ?></li>
+								<li>Nombre de gestionnaires : <?php echo database::query("SELECT COUNT(*) AS Cpt FROM utilisateurs WHERE account_type=1")[0]["Cpt"] ?></li>
+								<li>Nombre d'administrateurs : <?php echo database::query("SELECT COUNT(*) AS Cpt FROM utilisateurs WHERE account_type=2")[0]["Cpt"] ?></li>
+							</ol>
+							<li>Nombre d'annonces : <?php echo database::query("SELECT COUNT(*) AS Cpt FROM annonces")[0]["Cpt"] ?></li>
+						</ol>
+					
+					</div>
+				</div>
+			</div>
+
+
 		</div>
 
 
@@ -348,8 +524,10 @@ if (Login::isLoggedIn()) {
 	
 	// Starting position to get new records
     var start = 0;
+    var start_annonce = 0;
 
     var like = "";
+    var annonce_like = "";
 
     // This function will be called every time a button pressed 
     function getUserData() {
@@ -425,6 +603,87 @@ if (Login::isLoggedIn()) {
     	
     }
 
+
+    function getAnnonceData() {
+        // Creating a built-in AJAX object
+        var ajax = new XMLHttpRequest();
+
+        // Sending starting position
+        ajax.open("GET", "src/ajax/request.php?start=" + start_annonce + "&limit=5&annonce=" + annonce_like, true);
+
+        // Actually sending the request
+        ajax.send();
+
+        document.getElementById("load-more-annonce").disabled = true;
+        document.getElementById("load-more-annonce").style.backgroundColor = "lightgrey";
+
+        // Detecting request state change
+        ajax.onreadystatechange = function () {
+		    if (this.readyState == 4 && this.status == 200) {
+
+		    	document.getElementById("load-more-annonce").disabled = false;
+        		document.getElementById("load-more-annonce").style.backgroundColor = "#006BA8";
+        		document.getElementById("load-more-annonce").style.color = "#fff";
+        		
+		        
+		        // Converting JSON string to Javasript array
+		        console.log(data);
+		        var data = JSON.parse(this.responseText);
+		        var html = "";
+		        var type = "";
+
+
+		        // Appending all returned data in a variable called html
+		        for (var a = 0; a < data.length; a++) {
+		            html += "<tr>";
+		                html += "<td data-label='Titre' style=\"overflow: hidden; word-break: break-word\"><a href=\"<?php echo ANNONCE_PAGE . "?id="?>" + data[a].id +"\">" + data[a].titre + "</a> (" + data[a].id + ") </td>";
+
+		               	html += "<td data-label='Auteur' style=\"overflow: hidden; word-break: break-word\">" + data[a].username + "</td>";
+		               	html += "<td data-label='Catégorie' style=\"overflow: hidden; word-break: break-word\">" + data[a].categorieName + "</td>";
+		               	html += "<td data-label='Email Auteur' style=\"overflow: hidden; word-break: break-word\">" + data[a].contactMail + "</td>";
+		                 
+		               /* html += "<td data-label='Prenom' style=\"overflow: hidden; word-break: break-word\">" + data[a].first_name + "</td>";
+		                html += "<td data-label='Nom' style=\"overflow: hidden; word-break: break-word\">" + data[a].last_name + "</td>";
+		                html += "<td data-label='Email' style=\"overflow: hidden; word-break: break-word\">" + data[a].email + "</td>";*/
+		                
+		                /*switch (data[a].account_type) {
+
+		                	case '0':
+		                		type = "Utilisateur";
+		                		break;
+		                	case '1':
+		                		type = "Gestionnaire";
+		                		break;
+		                	case '2':
+		                		type = "Administrateur";
+		                		break;
+		                	default:
+		                		type = "ND";
+		                }
+		                html += "<td data-label='Type' style=\"overflow: hidden; word-break: break-word\">" + type + "</td>";*/
+		            html += "</tr>";
+		        }
+
+		        // Appending the data below old data in <tbody> tag
+		        document.getElementById("annonces-data").innerHTML += html;
+
+		        // Incrementing the offset so you can get next records when that button is clicked
+		        start_annonce = start_annonce + 5;
+		    }
+		};
+    }
+
+    function searchAnnonce() {
+    	var temp = document.getElementById("annonce").value;
+    	console.log(temp);
+    	
+		annonce_like = temp;
+		start_annonce = 0;
+		document.getElementById("annonces-data").innerHTML="";
+		getAnnonceData();
+    	
+    }
+
  	function getSqlOutput() {
 
         // Creating a built-in AJAX object
@@ -477,7 +736,14 @@ if (Login::isLoggedIn()) {
 			        }
 
 		        } catch(error) {
-		        	html = "<center><i class=\"fas fa-bug\"></i>&emsp;Erreur<br>" + error + "</center>";
+		        	if (error.name === "SyntaxError") {
+		        		html = "<center><i class=\"fas fa-bug\"></i>&emsp;Code 1: Erreur de syntaxe</center>";
+		        	} else if (error.name === "TypeError") {
+		        		html = "<center><i class=\"fas fa-info-circle\"></i>&emsp;Code 2: La commande n'a rien retourné</center>";
+		        	} else {
+		        		html = "<center><i class=\"fas fa-bug\"></i>&emsp;Code 3: " + error.name + " (" + error.message + ")</center>";
+		        	}
+		        	//html = "<center>Erreur<br><i class=\"fas fa-bug\"></i>&emsp;" + error.name + "</center>";
 		        }
 		        
 
@@ -490,10 +756,25 @@ if (Login::isLoggedIn()) {
     }
 
 
+    document.getElementById("utilisateur")
+	    .addEventListener("keyup", function(event) {
+	    event.preventDefault();
+	    if (event.keyCode === 13) {
+	        document.getElementById("user-btn-search").click();
+	    }
+	});
 
+	document.getElementById("annonce")
+	    .addEventListener("keyup", function(event) {
+	    event.preventDefault();
+	    if (event.keyCode === 13) {
+	        document.getElementById("annonce-btn-search").click();
+	    }
+	});
 
     // Calling the function on page load
     getUserData();
+    getAnnonceData();
 
 </script>
 </html>
