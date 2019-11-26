@@ -24,9 +24,10 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 	if (database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))) {
 
-		 $user_all_info= database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))[0];
+	 $user_all_info= database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))[0];
 
-		}
+	}
+}
 // 	 {
  	
 //  	// Si le type de compte de l'utilisateur actuel vaut 1 -> C'est un gestionnaire
@@ -54,6 +55,60 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 // 		header('Location: ' . LOGIN_PAGE);
 // 		die(); 
 // }
+
+
+
+if(isset($_POST['modifierCompte'])){
+
+
+	$username = $_POST['username'];
+	$first_name = $_POST['first_name'];
+	$last_name = $_POST['last_name'];
+
+	$account_type = $_POST['accountType'];
+
+	$company_name = (isset($_POST['gest_entreprise']) ? $_POST['gest_entreprise'] : NULL);
+	$phone = (isset($_POST ['gest_phone']) ? $_POST ['gest_phone'] : NULL);
+	$contact_mail = (isset($_POST ['gest_mail']) ? $_POST ['gest_mail'] : NULL);
+		
+
+	
+
+		//si la taille du nom d'utilisateur est entre 3 et 32
+		if (strlen($username) >= 3 && strlen($username) <= 32){
+			//Si le nom d'utilisateur contient uniquement des lettres et des chiffres
+			if (preg_match('/[a-zA-Z0-9_]+/', $username)){
+
+				if((strlen($phone) == 10 && $account_type == 1) || ($account_type == 0)) {
+
+					if((filter_var($contact_mail, FILTER_VALIDATE_EMAIL) && $account_type == 1) || ($account_type == 0)){
+
+						
+				
+				
+							database::query('INSERT INTO utilisateurs VALUES (:id, :username, :first_name, :last_name, :company_name, :phone, :contact_mail)', array('id'=>NULL, ':username'=>$username,':first_name'=>$first_name, 'last_name'=>$last_name, 'company_name'=>$company_name, 'phone'=>$phone, 'contact_mail'=>$contact_mail));
+
+
+							//Tout fonctionne
+
+			 				header('Location: ' . LOGIN_PAGE);
+			 				exit();
+
+			 			
+		 			} else {
+		 				echo 'Email de contact invalide';
+		 			}
+		 		} else {
+		 		echo'numéro de telephone incorrect';
+		 		}		
+			}else{
+				echo'Votre nom utilisateur ne peut contenir pas contenir des caractères spécifiques';
+			}
+		}else{
+			echo'VOtre nom utilisateur doit contenir entre 3 et 32 caractères';
+		}	
+	
+}
 
 ?>
 
@@ -155,18 +210,18 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 	  		<!-- <label class='offset-by-six columns' for="last_nameInput">Nom de famille</label> -->
 	  			<div class="line">
 					
-					<input class="six columns" type="text" name="first_name" value="" placeholder="<?php echo $user["first_name"]?>"  style="border-radius: 50px;" autofocus required maxlength="60">
+					<input class="six columns" type="text" name="first_name" value="<?php echo $user["first_name"]?>" style="border-radius: 50px;" autofocus required maxlength="60">
 					<!-- <label for="last_nameInput">Nom de famille</label> -->
-		      		<input class="six columns" type="text" name="last_name" value="" placeholder="<?php echo $user["last_name"]?>" style="border-radius: 50px;" required maxlength="60">
+		      		<input class="six columns" type="text" name="last_name" value="<?php echo $user["last_name"]?>" style="border-radius: 50px;" required maxlength="60">
 		  		</div>
 
 		  		<div class="line">
 					<label for="usernameInput">Nom d'utilisateur</label>
-		      		<input class="u-full-width" type="text" name="username" value="" placeholder="<?php echo $user["username"]?>" style="border-radius: 50px;" required maxlength="60">
+		      		<input class="u-full-width" type="text" name="username" value="<?php echo $user["username"]?>" style="border-radius: 50px;" required maxlength="60">
 		  		</div>
 
 		  		
-		  			
+		  			<!-- SI L'UTILISATEUR EST UN GESTIONNAIRE -->
 		  			<!-- <div class="line">
 			  			<input class="six columns" id="gest_entreprise" type="text" name="gest_entreprise" value="" placeholder="Nom de l'entreprise" style="border-radius: 50px;" required maxlength="60">
 			  			<input class="six columns" id="gest_phone" type="text" name="gest_phone" value="" placeholder="Numéro de téléphone" style="border-radius: 50px;" required maxlength="10">
@@ -176,22 +231,19 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 			  			<input class="u-full-width" type="text" name="gest_mail" value="" placeholder="Adresse Mail de contact" style="border-radius: 50px;" required maxlength="60">
 			  		</div>
 		  		 -->
-		  		
+		  		<input type="hidden" name="accountType" id="accType" value="0">
 
 		  		<br>
+		  		
 		  		
 		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
 		  		<!-- type="submit" pour confirmer la form -->
 		  		<input class="u-full-width button-primary" type="submit" name="modifierCompte" value="Modifier les informations" style="border-radius: 50px;">
 
 	  		
-	  		</div>
+	  			</div>
 		  
-		</form>
-
-
-
- 		
+			</form>
  		</div>
 
 	</div>
