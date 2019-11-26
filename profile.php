@@ -15,31 +15,45 @@ if (Login::isLoggedIn()) {
 	header('Location: ' . LOGIN_PAGE);
 	die(); 
 }
-// voir pour les differents cas : utilisateur normal
+
+
+
 if (isset($_GET['id']) && !empty($_GET['id'])) {
 	$requested_id = $_GET['id'];
 	$requested_id = filter_var($requested_id, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
 	if (database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))) {
 
-		$annonce = database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))[0];
+		 $user_all_info= database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))[0];
 
-		// echo "<span style=\"white-space: pre-line;\">" . $annonce["description"] ."</span>";
+		}
+// 	 {
+ 	
+//  	// Si le type de compte de l'utilisateur actuel vaut 1 -> C'est un gestionnaire
+//  	case 1 :
+//  		echo 'Je suis gestionnaire';
 
-	} else {
+//  	break;
 
-		header('Location: ' . LOGIN_PAGE);
-		die(); 
+//  	// Si le type de compte de l'utilisateur actuel vaut 2 -> C'est un administrateur
+//  	case 2 :
+//  		echo"Je suis admin";
+//  	break;
+
+//  	// Si pas 1 ni 2 -> C'est un membre normal
+//  	default: 
+//  		echo"Je cherche un stage";
+//  	break;
 
 
-	}
+//  	}
 
-} else {
 
-	header('Location: ' . LOGIN_PAGE);
-	die(); 
+//  	} else {
 
-}
+// 		header('Location: ' . LOGIN_PAGE);
+// 		die(); 
+// }
 
 ?>
 
@@ -105,6 +119,81 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 	<div class="profile_container">
 		
+		<!-- <?php
+
+		// switch($user["account_type"])
+		//  {
+		 	
+		//  	// Si le type de compte de l'utilisateur actuel vaut 1 -> C'est un gestionnaire
+		//  	case 1 :
+		//  		ech"";
+
+		//  	break;
+
+		//  	// Si le type de compte de l'utilisateur actuel vaut 2 -> C'est un administrateur
+		//  	case 2 :
+		//  		echo"";
+		//  	break;
+
+		//  	// Si pas 1 ni 2 -> C'est un membre normal
+		//  	default: 
+		//  		echo"";
+		//  	break;
+
+
+		// }
+
+ 		?> -->
+
+ 		<div class="lower_profile_container">
+
+ 			<form action="<?php echo PROFILE_PAGE ?>" method="post">
+ 				<div class="line">
+	  				<label class="six columns" for="first_nameInput">Prénom</label>
+	  				<label class="six columns" for="last_nameInput">Nom de famille</label>
+	  			</div>
+	  		<!-- <label class='offset-by-six columns' for="last_nameInput">Nom de famille</label> -->
+	  			<div class="line">
+					
+					<input class="six columns" type="text" name="first_name" value="" placeholder="<?php echo $user["first_name"]?>"  style="border-radius: 50px;" autofocus required maxlength="60">
+					<!-- <label for="last_nameInput">Nom de famille</label> -->
+		      		<input class="six columns" type="text" name="last_name" value="" placeholder="<?php echo $user["last_name"]?>" style="border-radius: 50px;" required maxlength="60">
+		  		</div>
+
+		  		<div class="line">
+					<label for="usernameInput">Nom d'utilisateur</label>
+		      		<input class="u-full-width" type="text" name="username" value="" placeholder="<?php echo $user["username"]?>" style="border-radius: 50px;" required maxlength="60">
+		  		</div>
+
+		  		
+		  			
+		  			<!-- <div class="line">
+			  			<input class="six columns" id="gest_entreprise" type="text" name="gest_entreprise" value="" placeholder="Nom de l'entreprise" style="border-radius: 50px;" required maxlength="60">
+			  			<input class="six columns" id="gest_phone" type="text" name="gest_phone" value="" placeholder="Numéro de téléphone" style="border-radius: 50px;" required maxlength="10">
+
+			  		</div>
+			  		<div class="line">
+			  			<input class="u-full-width" type="text" name="gest_mail" value="" placeholder="Adresse Mail de contact" style="border-radius: 50px;" required maxlength="60">
+			  		</div>
+		  		 -->
+		  		
+
+		  		<br>
+		  		
+		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
+		  		<!-- type="submit" pour confirmer la form -->
+		  		<input class="u-full-width button-primary" type="submit" name="modifierCompte" value="Modifier les informations" style="border-radius: 50px;">
+
+	  		
+	  		</div>
+		  
+		</form>
+
+
+
+ 		
+ 		</div>
+
 	</div>
 
 	
