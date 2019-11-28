@@ -65,50 +65,75 @@ if(isset($_POST['modifierCompte'])){
 	$first_name = $_POST['first_name'];
 	$last_name = $_POST['last_name'];
 
-	$account_type = $_POST['accountType'];
+	$email = $_POST['email'];
+	$account_type = $user["account_type"];
 
-	$company_name = (isset($_POST['gest_entreprise']) ? $_POST['gest_entreprise'] : NULL);
-	$phone = (isset($_POST ['gest_phone']) ? $_POST ['gest_phone'] : NULL);
-	$contact_mail = (isset($_POST ['gest_mail']) ? $_POST ['gest_mail'] : NULL);
+	$company_name = ((isset($_POST['gest_entreprise']) && ($user["account_type"]== 1)) ? $_POST['gest_entreprise'] : NULL);
+	$phone = ((isset($_POST ['gest_phone']) && ($user["account_type"]== 1)) ? $_POST ['gest_phone'] : NULL);
+	$contact_mail = ((isset($_POST ['gest_mail']) && ($user["account_type"]== 1)) ? $_POST ['gest_mail'] : NULL);
 		
 
-	
+	if (!database::query('SELECT username FROM utilisateurs WHERE username=:username AND id<>:id', array(':username'=>$username, ':id'=>Login::isLoggedIn()))) {
+
 
 		//si la taille du nom d'utilisateur est entre 3 et 32
 		if (strlen($username) >= 3 && strlen($username) <= 32){
-			//Si le nom d'utilisateur contient uniquement des lettres et des chiffres
-			if (preg_match('/[a-zA-Z0-9_]+/', $username)){
 
-				if((strlen($phone) == 10 && $account_type == 1) || ($account_type == 0)) {
+			if (strlen($first_name) >= 2 && strlen($first_name) <= 32){
 
-					if((filter_var($contact_mail, FILTER_VALIDATE_EMAIL) && $account_type == 1) || ($account_type == 0)){
+				if (strlen($last_name) >= 2 && strlen($last_name) <= 32){
+					//Si le nom d'utilisateur contient uniquement des lettres et des chiffres
+					if (preg_match('/[a-zA-Z0-9_]+/', $username)){
 
-						
+						//Si l'email est sous la forme d'une vraie email
+						if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+
+							if((strlen($phone) == 10 && $account_type == 1) || ($account_type == 0)) {
+
+								if((filter_var($contact_mail, FILTER_VALIDATE_EMAIL) && $account_type == 1) || ($account_type == 0)){
+
+									if(!database::query('SELECT email FROM utilisateurs WHERE email=:email AND id<>:id', array(':email'=>$email, ':id'=>Login::isLoggedIn()))) {
 				
 				
-							database::query('INSERT INTO utilisateurs VALUES (:id, :username, :first_name, :last_name, :company_name, :phone, :contact_mail)', array('id'=>NULL, ':username'=>$username,':first_name'=>$first_name, 'last_name'=>$last_name, 'company_name'=>$company_name, 'phone'=>$phone, 'contact_mail'=>$contact_mail));
+										database::query("UPDATE utilisateurs SET username=:username, first_name=:first_name, last_name=:last_name, email=:email, phone=:phone, contact_mail=:contact_mail, company_name=:company_name WHERE id=:id", array(':id'=>Login::isLoggedIn(),':username'=>$username,':first_name'=>$first_name, ':last_name'=>$last_name, ':email'=>$email, ':phone'=>$phone, ':contact_mail'=>$contact_mail, ':company_name'=>$company_name));
 
 
-							//Tout fonctionne
+										//Tout fonctionne
 
-			 				header('Location: ' . LOGIN_PAGE);
-			 				exit();
+			 							header('Location: ' . PROFILE_PAGE);
+			 							exit();
 
-			 			
-		 			} else {
-		 				echo 'Email de contact invalide';
-		 			}
-		 		} else {
-		 		echo'numéro de telephone incorrect';
-		 		}		
+			 						} else {
+			 							echo 'Email deja utilisée';
+		 							}
+		 						} else {
+		 							echo 'Email de contact invalide';
+		 						}
+		 					} else {
+		 						echo'numéro de telephone incorrect';
+		 					}
+
+						}else{
+							echo'Votre adresse mail ressemble a R';
+						}
+					}else{
+						echo'Votre nom utilisateur ne peut contenir pas contenir des caractères spécifiques';
+					}
+				}else{
+					echo'Votre nom doit contenir entre 2 et 32 caractères';
+				}
 			}else{
-				echo'Votre nom utilisateur ne peut contenir pas contenir des caractères spécifiques';
+		 		echo'Votre prenom doit contenir entre 2 et 32 caractères ';
 			}
 		}else{
 			echo'VOtre nom utilisateur doit contenir entre 3 et 32 caractères';
 		}	
-	
+	}else{
+		echo'Nom utilisateur déjà utilisé';
+	}
 }
+
+
 
 ?>
 
@@ -164,83 +189,72 @@ if(isset($_POST['modifierCompte'])){
 		    </ul>
 		</nav>
 
-
-
-	<div class="profile_titre_container">
-		<h1 class="profile_titre">Mon Compte</h1>
-	</div>
-
-
+	<br>
 
 	<div class="profile_container">
-		
-		<!-- <?php
 
-		// switch($user["account_type"])
-		//  {
-		 	
-		//  	// Si le type de compte de l'utilisateur actuel vaut 1 -> C'est un gestionnaire
-		//  	case 1 :
-		//  		ech"";
+		<div class="profile_titre_container">
+		<h1 class="profile_titre">Mon Compte</h1>
+		</div>
 
-		//  	break;
-
-		//  	// Si le type de compte de l'utilisateur actuel vaut 2 -> C'est un administrateur
-		//  	case 2 :
-		//  		echo"";
-		//  	break;
-
-		//  	// Si pas 1 ni 2 -> C'est un membre normal
-		//  	default: 
-		//  		echo"";
-		//  	break;
-
-
-		// }
-
- 		?> -->
+		<hr>
+		<br>
 
  		<div class="lower_profile_container">
 
  			<form action="<?php echo PROFILE_PAGE ?>" method="post">
- 				<div class="line">
-	  				<label class="six columns" for="first_nameInput">Prénom</label>
-	  				<label class="six columns" for="last_nameInput">Nom de famille</label>
+ 				<div class="row">
+	  				<label class="six columns" for="first_nameInput">Etat Civil</label>
 	  			</div>
 	  		<!-- <label class='offset-by-six columns' for="last_nameInput">Nom de famille</label> -->
-	  			<div class="line">
+	  			<div class="row">
 					
 					<input class="six columns" type="text" name="first_name" value="<?php echo $user["first_name"]?>" style="border-radius: 50px;" autofocus required maxlength="60">
 					<!-- <label for="last_nameInput">Nom de famille</label> -->
 		      		<input class="six columns" type="text" name="last_name" value="<?php echo $user["last_name"]?>" style="border-radius: 50px;" required maxlength="60">
 		  		</div>
 
-		  		<div class="line">
+		  		<div class="row">
 					<label for="usernameInput">Nom d'utilisateur</label>
 		      		<input class="u-full-width" type="text" name="username" value="<?php echo $user["username"]?>" style="border-radius: 50px;" required maxlength="60">
 		  		</div>
+				<div class="row">
+					<label>Adresse électronique</label>
+		  		<input class="u-full-width" type="text" name="email" value="<?php echo $user["email"]?>" style="border-radius: 50px;" required maxlength="60">
+		  		</div>
+				<!-- SI L'UTILISATEUR EST UN GESTIONNAIRE -->
+				<?php if($user["account_type"]==1){ ?>
 
+					<br>
+
+					<div class="row">
+		  				<label>Entreprise | Telephone de contact</label>
+		  			</div>
+
+		  			<div class="row">
+			  			<input class="six columns" id="gest_entreprise" type="text" name="gest_entreprise" value="<?php echo $user["company_name"]?>" style="border-radius: 50px;" required maxlength="60">
+			  			<input class="six columns" id="gest_phone" type="text" name="gest_phone" value="<?php echo $user["phone"]?>"  style="border-radius: 50px;" required maxlength="10">
+
+			  		</div>
+			  		<div class="row">
+			  			<label>Adresse électronique de contact</label>
+			  			<input class="u-full-width" type="text" name="gest_mail" value="<?php echo $user["contact_mail"]?>"  style="border-radius: 50px;" required maxlength="60">
+			  		</div>
+
+			  	<?php } ?>
 		  		
-		  			<!-- SI L'UTILISATEUR EST UN GESTIONNAIRE -->
-		  			<!-- <div class="line">
-			  			<input class="six columns" id="gest_entreprise" type="text" name="gest_entreprise" value="" placeholder="Nom de l'entreprise" style="border-radius: 50px;" required maxlength="60">
-			  			<input class="six columns" id="gest_phone" type="text" name="gest_phone" value="" placeholder="Numéro de téléphone" style="border-radius: 50px;" required maxlength="10">
-
-			  		</div>
-			  		<div class="line">
-			  			<input class="u-full-width" type="text" name="gest_mail" value="" placeholder="Adresse Mail de contact" style="border-radius: 50px;" required maxlength="60">
-			  		</div>
-		  		 -->
-		  		<input type="hidden" name="accountType" id="accType" value="0">
+		  
 
 		  		<br>
-		  		
+
 		  		
 		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
 		  		<!-- type="submit" pour confirmer la form -->
-		  		<input class="u-full-width button-primary" type="submit" name="modifierCompte" value="Modifier les informations" style="border-radius: 50px;">
-
-	  		
+			  		
+			  		<center>
+			  			<input class="button-primary" type="submit" name="modifierCompte" value="Modifier les informations" style="max-width :500px ;border-radius: 50px;">
+					</center>
+		  	
 	  			</div>
 		  
 			</form>
