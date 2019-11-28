@@ -95,7 +95,7 @@ hr{
 .profile_titre {
 	text-transform: none;
     font-weight: 300;
-    font-size: 1.6em;
+    font-size: 2em;
     color: #34495E;
     text-align: center;
 }
@@ -175,6 +175,9 @@ hr{
 	max-width: 300px;
 	margin-top: -30px;
 }
+
+.fa-stack { font-size: 0.5em; margin-top: 0.5em;}
+.fa-stack i {  vertical-align: middle; }
 
 
 @media (min-width: 550px) {

@@ -18,16 +18,7 @@ if (Login::isLoggedIn()) {
 
 
 
-if (isset($_GET['id']) && !empty($_GET['id'])) {
-	$requested_id = $_GET['id'];
-	$requested_id = filter_var($requested_id, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
-	if (database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))) {
-
-	 $user_all_info= database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))[0];
-
-	}
-}
 // 	 {
  	
 //  	// Si le type de compte de l'utilisateur actuel vaut 1 -> C'est un gestionnaire
@@ -60,7 +51,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 if(isset($_POST['modifierCompte'])){
 
-
 	$username = $_POST['username'];
 	$first_name = $_POST['first_name'];
 	$last_name = $_POST['last_name'];
@@ -71,7 +61,7 @@ if(isset($_POST['modifierCompte'])){
 	$company_name = ((isset($_POST['gest_entreprise']) && ($user["account_type"]== 1)) ? $_POST['gest_entreprise'] : NULL);
 	$phone = ((isset($_POST ['gest_phone']) && ($user["account_type"]== 1)) ? $_POST ['gest_phone'] : NULL);
 	$contact_mail = ((isset($_POST ['gest_mail']) && ($user["account_type"]== 1)) ? $_POST ['gest_mail'] : NULL);
-		
+	echo $account_type;
 
 	if (!database::query('SELECT username FROM utilisateurs WHERE username=:username AND id<>:id', array(':username'=>$username, ':id'=>Login::isLoggedIn()))) {
 
@@ -88,9 +78,9 @@ if(isset($_POST['modifierCompte'])){
 						//Si l'email est sous la forme d'une vraie email
 						if (filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-							if((strlen($phone) == 10 && $account_type == 1) || ($account_type == 0)) {
+							if((strlen($phone) == 10 && $account_type == 1) || ($account_type != 1)) {
 
-								if((filter_var($contact_mail, FILTER_VALIDATE_EMAIL) && $account_type == 1) || ($account_type == 0)){
+								if((filter_var($contact_mail, FILTER_VALIDATE_EMAIL) && $account_type == 1) || ($account_type != 1)){
 
 									if(!database::query('SELECT email FROM utilisateurs WHERE email=:email AND id<>:id', array(':email'=>$email, ':id'=>Login::isLoggedIn()))) {
 				
@@ -191,77 +181,226 @@ if(isset($_POST['modifierCompte'])){
 
 	<br>
 
-	<div class="profile_container">
+	<?php
+	$differentProfil = false;
+	if (isset($_GET['id']) && !empty($_GET['id'])) {
+		$requested_id = $_GET['id'];
+		$requested_id = filter_var($requested_id, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
-		<div class="profile_titre_container">
-		<h1 class="profile_titre">Mon Compte</h1>
-		</div>
+		if (database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))) {
 
-		<hr>
-		<br>
+			if ($requested_id != Login::isLoggedIn()) {
+				//Utilisateur connecté différent de celui demandé
+				$differentProfil = true;
+				$user_all_info = database::query("SELECT * from utilisateurs WHERE id=:id", array(':id'=>$requested_id))[0];
 
- 		<div class="lower_profile_container">
+				
+			} else {
+				//Utilisateur connecté égale à l'utilisateur demandé
+				$user_all_info = $user;
+				$differentProfil = true;
 
- 			<form action="<?php echo PROFILE_PAGE ?>" method="post">
- 				<div class="row">
-	  				<label class="six columns" for="first_nameInput">Etat Civil</label>
-	  			</div>
-	  		<!-- <label class='offset-by-six columns' for="last_nameInput">Nom de famille</label> -->
-	  			<div class="row">
-					
-					<input class="six columns" type="text" name="first_name" value="<?php echo $user["first_name"]?>" style="border-radius: 50px;" autofocus required maxlength="60">
-					<!-- <label for="last_nameInput">Nom de famille</label> -->
-		      		<input class="six columns" type="text" name="last_name" value="<?php echo $user["last_name"]?>" style="border-radius: 50px;" required maxlength="60">
-		  		</div>
+			}
+		} else {
+			$user_all_info = $user;
+		}
+	} else {
+		$user_all_info = $user;
+	}
 
-		  		<div class="row">
-					<label for="usernameInput">Nom d'utilisateur</label>
-		      		<input class="u-full-width" type="text" name="username" value="<?php echo $user["username"]?>" style="border-radius: 50px;" required maxlength="60">
-		  		</div>
+
+	if (!$differentProfil) {
+
+
+	?>
+
+			<div class="profile_container">
+
+				<div class="profile_titre_container">
+				<h1 class="profile_titre">Mon Compte</h1>
+				</div>
+
+				<hr>
+				<br>
+
+		 		<div class="lower_profile_container">
+
+		 			<form action="<?php echo PROFILE_PAGE ?>" method="post">
+		 				<div class="row">
+			  				<label class="six columns" for="first_nameInput">Etat Civil</label>
+			  			</div>
+			  		<!-- <label class='offset-by-six columns' for="last_nameInput">Nom de famille</label> -->
+			  			<div class="row">
+							
+							<input class="six columns" type="text" placeholder="Prénom" name="first_name" value="<?php echo $user["first_name"]?>" style="border-radius: 50px;" autofocus required maxlength="60">
+							<!-- <label for="last_nameInput">Nom de famille</label> -->
+				      		<input class="six columns" type="text" name="last_name" placeholder="Nom" value="<?php echo $user["last_name"]?>" style="border-radius: 50px;" required maxlength="60">
+				  		</div>
+
+				  		<div class="row">
+							<label for="usernameInput">Nom d'utilisateur</label>
+				      		<input class="u-full-width" type="text" placeholder="Nom d'utilisateur" name="username" value="<?php echo $user["username"]?>" style="border-radius: 50px;" required maxlength="60">
+				  		</div>
+						<div class="row">
+							<label>Adresse électronique</label>
+				  		<input class="u-full-width" type="text" name="email" placeholder="Adresse mail de connexion" value="<?php echo $user["email"]?>" style="border-radius: 50px;" required maxlength="60">
+				  		</div>
+						<!-- SI L'UTILISATEUR EST UN GESTIONNAIRE -->
+						<?php if($user["account_type"]==1){ ?>
+
+							<br>
+
+							<div class="row">
+				  				<label>Entreprise | Telephone de contact</label>
+				  			</div>
+
+				  			<div class="row">
+					  			<input class="six columns" id="gest_entreprise" type="text" placeholder="Nom de l'entreprise" name="gest_entreprise" value="<?php echo $user["company_name"]?>" style="border-radius: 50px;" required maxlength="60">
+					  			<input class="six columns" id="gest_phone" type="text" name="gest_phone" placeholder="Numéro de téléphone de contact" value="<?php echo $user["phone"]?>"  style="border-radius: 50px;" required maxlength="10">
+
+					  		</div>
+					  		<div class="row">
+					  			<label>Adresse électronique de contact</label>
+					  			<input class="u-full-width" type="text" name="gest_mail" placeholder="Adresse mail de contact" value="<?php echo $user["contact_mail"]?>"  style="border-radius: 50px;" required maxlength="60">
+					  		</div>
+
+					  	<?php } ?>
+				  		
+				  
+
+				  		<br>
+
+				  		
+				  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
+				  		<!-- type="submit" pour confirmer la form -->
+					  		
+					  		<center>
+					  			<input class="button-primary" type="submit" name="modifierCompte" value="Modifier les informations" style="max-width :500px ;border-radius: 50px;">
+							</center>
+				  	
+			  			</div>
+				  
+					</form>
+		 		</div>
+
+			</div>
+	<?php
+
+	} else {
+
+		$gravatar_email = $user_all_info["email"];
+		$gravatar_default = "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg";
+		$gravatar_size = 100;
+		$gravatar_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $gravatar_email ) ) ) . "?d=" . urlencode( $gravatar_default ) . "&s=" . $gravatar_size;
+
+		?>
+
 				<div class="row">
-					<label>Adresse électronique</label>
-		  		<input class="u-full-width" type="text" name="email" value="<?php echo $user["email"]?>" style="border-radius: 50px;" required maxlength="60">
-		  		</div>
-				<!-- SI L'UTILISATEUR EST UN GESTIONNAIRE -->
-				<?php if($user["account_type"]==1){ ?>
+						<center>
+		 					<img src="<?php echo $gravatar_url; ?>" style="width: 150px; border-radius: 50%" alt="" />
+		 					<br>
+		 					<?php
 
-					<br>
+		 					if ($user_all_info["account_type"] == 1) {
 
-					<div class="row">
-		  				<label>Entreprise | Telephone de contact</label>
-		  			</div>
+		 						?>
+		 						<h1 class="profile_titre"><i class="far fa-building"></i> <?php echo $user_all_info["company_name"] ?></h1>
+		 						<h1 class="profile_titre" style="font-size: 1.5em;"><i class="fas fa-at"></i> <?php echo $user_all_info["username"] ?></h1>
+		 						<?php
 
-		  			<div class="row">
-			  			<input class="six columns" id="gest_entreprise" type="text" name="gest_entreprise" value="<?php echo $user["company_name"]?>" style="border-radius: 50px;" required maxlength="60">
-			  			<input class="six columns" id="gest_phone" type="text" name="gest_phone" value="<?php echo $user["phone"]?>"  style="border-radius: 50px;" required maxlength="10">
+		 					} else {
 
-			  		</div>
-			  		<div class="row">
-			  			<label>Adresse électronique de contact</label>
-			  			<input class="u-full-width" type="text" name="gest_mail" value="<?php echo $user["contact_mail"]?>"  style="border-radius: 50px;" required maxlength="60">
-			  		</div>
+		 						?>
+		 						<h1 class="profile_titre"><i class="fas fa-at"></i> <?php echo $user_all_info["username"] ?></h1>
+		 						<?php
 
-			  	<?php } ?>
-		  		
-		  
+		 					}
 
-		  		<br>
+		 					?>
+		 					
+		 					<div class="statut"><?php
+		 						switch ($user_all_info["account_type"]) {
+		 							case '0':
+		 								echo "<i class='fas fa-user'></i> Utilisateur";
+		 								break;
 
-		  		
-		  		<!-- button-primary créé par Skeleton.css et change la couleur du bouton par la couleur primaire (à changer par la couleur de l'école) -->
-		  		<!-- type="submit" pour confirmer la form -->
-			  		
-			  		<center>
-			  			<input class="button-primary" type="submit" name="modifierCompte" value="Modifier les informations" style="max-width :500px ;border-radius: 50px;">
-					</center>
-		  	
-	  			</div>
-		  
-			</form>
- 		</div>
+		 							case '1':
+		 								echo "<i class='fas fa-user-tie'></i> Gestionnaire";
+		 								break;
 
-	</div>
+		 							case '2':
+		 								echo "<span class='fa-stack' style='vertical-align: top;'><i class='fas fa-circle fa-stack-2x'></i><i class='fas fa-check fa-stack-1x fa-inverse'></i></span> <span style='font-weight: bold'>Administrateur</span>";
+		 								break;
+		 							
+		 							default:
+		 								echo "Utilisateur non vérifié";
+		 								break;
+		 						}
+		 					?></div>
+		 				</center>
+		 			</div>
+		 			<br>
+			<div class="profile_container">
 
+
+
+				<!--<div class="profile_titre_container">
+
+					
+				</div>-->
+
+				
+
+		 		<div class="lower_profile_container">
+
+		 			<div class="row">
+		 				<div class="six columns">
+		 					<center>
+		 						<?php echo $user_all_info["first_name"] ?>
+		 					</center>
+		 				</div>
+		 				<div class="six columns">
+		 					<center>
+		 						<?php echo $user_all_info["last_name"] ?>
+		 					</center>
+		 				</div>
+		 			</div>
+
+		 			
+
+		 				<?php
+
+		 					if ($user_all_info["account_type"] == 1) {
+
+		 						?>
+		 						<div class="row">
+		 							<center>
+		 						Contact: <?php echo $user_all_info["contact_mail"]; ?>
+		 						</center>
+		 						</div>
+		 						<?php
+
+		 					}
+
+		 					?>
+		 				
+		 			
+		 				
+
+		 			
+		 		</div>
+
+			</div>
+
+
+
+
+		<?php
+
+
+	}
+
+	?>
 	
 
 
