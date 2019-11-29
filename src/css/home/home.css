@@ -90,6 +90,19 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 }
 
 
+.user_container  {
+	display: flex;
+	flex-direction: row;
+	height: 30px;
+	padding: 10px 0;
+}
+
+.user_container_text {
+	display: flex;
+	padding-left: 10px;
+	overflow: hidden;
+	align-items: center;
+}
 
 
 /* Annonces */
@@ -106,6 +119,13 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	margin-bottom: 22px; /* 20px - (-2px) */
 	box-shadow: 0 12px 22px 0 rgba(160,160,160,.24);
 	cursor: pointer;
+}
+
+.no_hover:hover{
+	margin-top: 0;
+	margin-bottom: 20px;
+	cursor: pointer;
+	box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
 }
 
 .annonce_inner_container {
