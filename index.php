@@ -13,7 +13,6 @@ if (Login::isLoggedIn()) {
 	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0]; //[0] premier résultat, car il est unique donc pas de pb
 	//$user contient les champs username, email, first_name et last_name
 } else {
-	echo 'Not logged in';
 	
 	header('Location: ' . LOGIN_PAGE);
 	die(); //On arrete tout et on n'execute pas le reste (évite les erreurs)
@@ -124,7 +123,7 @@ if (Login::isLoggedIn()) {
 		if (!isset($_GET['categorie']) || empty($_GET['categorie'])) {
 			$get_categorie = 1; // Categorie par défaut : Toutes catégories (id=1)
 		} else {
-			$get_categorie = filter_var($_GET['categorie'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			$get_categorie = filter_var($_GET['categorie'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 			if (database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$get_categorie))) {
 				$get_categorie = database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$get_categorie))[0]["id"];
 			} else {
@@ -132,45 +131,46 @@ if (Login::isLoggedIn()) {
 			}
 		}
 
+		$users_found  = false;
 
-
-		$searchValue = (!empty($_GET['search']) ? $_GET['search'] : ""); // ":" = sinon
-		$searchValue_Ville = (!empty($_GET['position']) ? $_GET['position'] : "");
+		$searchValue = (!empty($_GET['search']) ? filter_var($_GET['search'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW) : ""); // ":" = sinon
+		$searchValue_Ville = (!empty($_GET['position']) ?  filter_var($_GET['position'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW)  : "");
 
 		$text_search = "titre LIKE '%{$searchValue}%'";
 		$text_position = "ville LIKE '%{$searchValue_Ville}%'";
 		$text_categorie = "numCategorie={$get_categorie}";
 		$text_order_by = "ORDER BY id DESC";
 
+		$text_users = "";
+		$text_users_search = "username LIKE '%{$searchValue}%' OR first_name LIKE '%{$searchValue}%' OR last_name LIKE '%{$searchValue}%'";
+		$text_users_limit = "LIMIT 0,5";
+
 		$text_total = "";
 
 		$categorie_if_not_1 = (($get_categorie != "1") ? (" AND " . $text_categorie) : " AND 1=1");
+
 
 		//Si on recherche par mots clés et par ville
 		if(isset($_GET['search']) && isset($_GET['position']) && !empty($_GET['search']) && !empty($_GET['position']) ){
 
 			/* filtrage des deux valeurs */
-			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
 			$text_total = "SELECT * FROM annonces WHERE " . $text_search . " AND " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
+
 			
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages contenant <b>'" . $searchValue . "'</b>, à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 
 			//Si on recherche seulement par mots clés
 		} else if (isset($_GET['search']) && !empty($_GET['search'])) {
-
-			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 			
 			$text_total = "SELECT * FROM annonces WHERE " . $text_search .  $categorie_if_not_1 . " " . $text_order_by;
+			$text_users = "SELECT * FROM utilisateurs WHERE " . $text_users_search;
 
-			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages pour <b>'" . $searchValue . "'</b></h5>";
+			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) pour <b>'" . $searchValue . "'</b></h5>";
 
 			//Si on recherche seulement par ville
 		} else if (isset($_GET['position']) && !empty($_GET['position'])) {
-
-			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
 			$text_total = "SELECT * FROM annonces WHERE " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
 
@@ -183,18 +183,76 @@ if (Login::isLoggedIn()) {
 		}
 
 		//Execution
+		$time_start = microtime(true);
+
+
 		$annonces = database::query($text_total);
+
+		if ($text_users != "") {
+			$req_users = database::query($text_users);
+			if (!empty($req_users)) {
+				$users_found = true;
+			}
+			
+		}
+
+		$time_end = microtime(true);
+		$time = $time_end - $time_start;
+
+		echo "<span style=\" color: grey; margin-bottom: 0.5em\">Résultats trouvés en " . round($time,4) . " secondes</span>";
+
+			if ($users_found) {
+				?>
+				<div>Utilisateurs trouvés : </div>
+				<div class="annonce_container no_hover">
+				<?php
+				$i = 0;
+				foreach ($req_users as $user_founded) {
+
+					$gravatar_email = $user_founded["email"];
+					$gravatar_default = "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg";
+					$gravatar_size = 10;
+					$gravatar_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $gravatar_email ) ) ) . "?d=" . urlencode( $gravatar_default ) . "&s=" . $gravatar_size;
+
+					?>
+					<div class="user_container">
+						<img src="<?php echo $gravatar_url; ?>" style="width: 30px; border-radius: 50%;" alt="" />
+						
+						<?php echo "<div class=\"user_container_text\">@ <a style=\"text-decoration: none\" href=\"". PROFIL_PAGE . "?id=" . $user_founded["id"] ."\" >" .$user_founded["username"] . "</a> " . "&emsp;(" . $user_founded["first_name"] . " " . $user_founded["last_name"] . ")</div>";
+
+							?>
+
+							</div>
+
+							<?
+
+							if (++$i != count($req_users)) {
+								echo "<hr style=\"margin-bottom: 0.5em; margin-top: 0.5em\">";
+							}
+
+						 ?>
+					
+
+					<?php
+				}
+
+				?>
+				</div>
+				<hr>
+				<?php
+			}
+			
 
 
 			//Pour chaque annonces trouvées selon les critères au dessus
 
 			foreach ($annonces as $annonce) {
 				//Filtrage
-				$annonce["titre"] = filter_var($annonce["titre"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+				$annonce["titre"] = filter_var($annonce["titre"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				//Supprime les balises et les char ASCII > 127
-				$annonce["entreprise"] = filter_var($annonce["entreprise"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-				$annonce["ville"] = filter_var($annonce["ville"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-				$annonce["duree"] = filter_var($annonce["duree"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+				$annonce["entreprise"] = filter_var($annonce["entreprise"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+				$annonce["ville"] = filter_var($annonce["ville"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+				$annonce["duree"] = filter_var($annonce["duree"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				?>
 
 				<!-- affichage des résultats -->
