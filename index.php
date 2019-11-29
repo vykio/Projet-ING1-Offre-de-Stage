@@ -217,7 +217,7 @@ if (Login::isLoggedIn()) {
 					<div class="user_container">
 						<img src="<?php echo $gravatar_url; ?>" style="width: 30px; border-radius: 50%;" alt="" />
 						
-						<?php echo "<div class=\"user_container_text\">@ <a style=\"text-decoration: none\" href=\"". PROFIL_PAGE . "?id=" . $user_founded["id"] ."\" >" .$user_founded["username"] . "</a> " . "&emsp;(" . $user_founded["first_name"] . " " . $user_founded["last_name"] . ")</div>";
+						<?php echo "<div class=\"user_container_text\">@ <a style=\"text-decoration: none\" href=\"". PROFILE_PAGE . "?id=" . $user_founded["id"] ."\" >" .$user_founded["username"] . "</a> " . "&emsp;(" . $user_founded["first_name"] . " " . $user_founded["last_name"] . ")</div>";
 
 							?>
 
