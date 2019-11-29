@@ -1,0 +1,227 @@
+.main_container {
+	padding-top: 10px;
+	padding-bottom: 100px;
+}
+
+
+/* Taille de notre header */
+.profile_header {
+	position: absolute;
+	width: 100%;
+	height: 200px;
+	z-index: -1;
+}
+.profile_header2 {
+	height: 195px;
+}
+
+/* Style pour le slogan du site (affiché au milieu de searchContainer ) */
+.header_slogan  {
+/* Non relatif aux éléments dans la div parent, mais équivaut je pense à prendre comme réf de base le container parent*/
+	position: absolute; 
+	
+/* Ancrages en haut, en bas, a droite et a gauche pour centrer */
+	top: 0;			
+	bottom: 0;
+	right: 0;
+	left: 0;
+
+/* Ce qui parait le mieux pour les utilisateurs mobiles, tout en évitant les débordements */
+	font-size: 1.4em; 
+/* Couleur du texte blanc */
+	color: white;
+/* Alignement du texte au milieu de sa propre div */
+	text-align: center; 
+/* Ombre de texte noire avec opacité de 0.3/1 */
+	text-shadow: rgba(0,0,0,0.5) 1px 0 10px; 
+	
+/* Espacement depuis le haut de 70px */
+	padding-top: 70px; 
+/* Hauteur maximal de la div */
+	max-height: 100px;	
+	/*padding-bottom: 100px;*/
+}
+
+/* Afficher les info rapides sur l'utilisateur */
+.header_information_utilisateur {
+/* Position par rapport au body de la page */
+	position: absolute; 
+/* Ancrage en haut et à droite */
+	top: 0;
+	right: 0;
+
+/* Espacements par rapport a la droite et le haut */
+	padding-right: 50px;
+	padding-top: 15px;
+
+/* Couleur du texte */
+	color: white;
+
+	text-shadow: rgba(0,0,0,0.5) 3px 3px 5px;
+
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+/* profile_container  */
+
+.profile_container {
+	padding: 10px 20px 10px 20px;
+	box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
+	margin-bottom: 20px;
+	border-radius: 6px;
+}
+
+.lower_profile_container {
+	padding: 10px 20px 10px 20px;
+}
+
+.profile_titre_container {
+	padding: 10px 20px 10px 20px;
+	/*box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);*/
+	margin-top : 0 ;
+	padding-bottom: 0;
+	
+	/*padding-top: 20px;
+	border-top-width: 2px;
+	border-top-style: groove;*/
+}
+
+hr{
+	margin-top : 0 ;
+	margin-bottom:1rem;
+}
+
+.profile_titre {
+	text-transform: none;
+    font-weight: 300;
+    font-size: 2em;
+    color: #34495E;
+    text-align: center;
+}
+
+.profile_titre a {
+	color: #006BA8;
+	text-decoration: none;
+}
+
+.profile_titre a:hover {
+	text-decoration: underline;
+}
+
+.profile_data {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+
+
+
+/* nav_menu contient .menu */
+.nav_menu {
+	margin-bottom: 10px;
+}
+
+.nav_menu li {
+	margin-bottom: 0px;
+	flex-grow: 1;
+
+}
+.nav_menu li:hover {
+	background-color: #EFEFEF;
+}
+
+.nav_menu ul {
+	padding: 0px;
+	margin: 0px;
+	list-style: none; /*enleve les points de ul */
+
+}
+
+.nav_menu a {
+	text-decoration: none;
+	text-align: center;
+	display: block;
+	padding: 1em;
+	vertical-align: center;
+	font-size: 1.6rem;
+	
+
+}
+
+.nav_menu .menu {
+	display: flex;
+	flex-direction: row; /* En ligne */
+	justify-content: space-around;
+	flex-flow: column wrap;
+
+}
+
+.menu_item {
+	display:none;
+
+}
+
+.menu_toggle_icon {
+	align-self: flex-end;
+	display: initial;
+	cursor: pointer;
+	position: absolute;
+	top: 10px;
+
+}
+
+.img_logo {
+	max-width: 300px;
+	margin-top: -30px;
+}
+
+.fa-stack { font-size: 0.5em; margin-top: 0.5em;}
+.fa-stack i {  vertical-align: middle; }
+
+
+@media (min-width: 550px) {
+	.home_header {
+		height: 300px;
+	}
+
+	.header {
+		height: 300px;
+	}
+	.nav_menu .menu {
+		flex-flow: row;
+	}
+
+	.menu_item {
+		display: block;
+	}
+	.menu_toggle_icon {
+		display: none;
+	}
+	.img_logo {
+	max-width: 300px;
+	margin-top: -30px;
+	}
+
+
+		/*.footer {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		padding: 1rem;
+		background-color: #efefef;
+		text-align: center;
+		opacity: 0.3;
+		color: black;
+	}*/
+}
+
+@media (min-width: 1000px) {
+
+.profile_container {
+margin-right: 150px;
+margin-left:150px;
+}
+
+}
