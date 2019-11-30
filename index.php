@@ -224,7 +224,7 @@ if (Login::isLoggedIn()) {
 
 							</div>
 
-							<?
+							<?php
 
 							if (++$i != count($req_users)) {
 								echo "<hr style=\"margin-bottom: 0.5em; margin-top: 0.5em\">";
