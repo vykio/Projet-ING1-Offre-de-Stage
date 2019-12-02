@@ -118,23 +118,23 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 
 		<div class="annonce_container">
-						<div class="annonce_inner_container">
-							<div class="annonce_titre">
-								<?php echo $annonce["titre"] ?>
-							</div>
-							<div class="row">
-								<div class="annonce_entreprise four columns"><?php echo $annonce["entreprise"] ?></div>
-								<div class="annonce_location three columns"><span>&#128204 </span><?php echo $annonce["ville"] ?></div>
-								<div class="annonce_duree five columns"><?php echo $annonce["duree"] ?> mois</div>
-							</div>
-						
-							<div class="annonce_description">
-								<span style="white-space: pre-line;"><?php
-									echo $annonce["description"];
-								?></span>
-							
-							</div>
-						</div>
+			<div class="annonce_inner_container">
+				<div class="annonce_titre">
+					<?php echo $annonce["titre"] ?>
+				</div>
+				<div class="row">
+					<div class="annonce_entreprise four columns"><?php echo $annonce["entreprise"] ?></div>
+					<div class="annonce_location three columns"><span>&#128204 </span><?php echo $annonce["ville"] ?></div>
+					<div class="annonce_duree five columns"><?php echo $annonce["duree"] ?> mois</div>
+				</div>
+			
+				<div class="annonce_description">
+					<span style="white-space: pre-line;"><?php
+						echo $annonce["description"];
+					?></span>
+				
+				</div>
+			</div>
 		</div>
 	
 
