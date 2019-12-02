@@ -14,9 +14,7 @@ if (Login::isLoggedIn()) {
 	die(); 
 }
 
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<?php
@@ -90,7 +88,7 @@ if (Login::isLoggedIn()) {
 
 			
  <?php 
- 	if($user[account_type]='1'){
+ 	if($user["account_type"]=='1'){
 
 ?>
 	<input type="button" class="u-full-width" value="Créer annonce" onclick="location.href='<?php echo CREERANNONCE_PAGE ?>'">
@@ -142,21 +140,26 @@ if (Login::isLoggedIn()) {
 					</div>
 		</div>
 	<?php
-	}}
+	}
 
-	if($user[account_type]='2'){
+	} else if ($user["account_type"]=='2'){
+		//Code POUR ADMINISTRATEUR
 
+		?>
+
+		<div>Administrateur</div>
+
+		<?php
+
+
+	} else if ($user["account_type"] == '0') {
+		?>
+
+		<div>Utilisateur</div>
+
+		<?php
+
+	}
 	?>
 
 </div>
-	
-
-
-
-
-
-
-
-
-
-	
