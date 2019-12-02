@@ -29,6 +29,9 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	z-index: -1;
 }
 
+
+
+
 /* Style pour le slogan du site (affiché au milieu de searchContainer ) */
 .header_slogan  {
 /* Non relatif aux éléments dans la div parent, mais équivaut je pense à prendre comme réf de base le container parent*/
@@ -97,13 +100,14 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	background-color: white;
 }
 
-
+)
 /* Annonces */
 .annonce_container {
 	padding: 10px 20px 10px 20px;
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
 	margin-bottom: 20px;
 	border-radius: 6px;
+
 }
 
 .annonce_inner_container {
@@ -123,6 +127,7 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 .annonce_titre a {
 	color: #006BA8;
 	text-decoration: none;
+
 }
 
 .annonce_titre a:hover {
