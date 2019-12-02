@@ -25,7 +25,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 		$annonce = database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))[0];
 
 		// echo "<span style=\"white-space: pre-line;\">" . $annonce["description"] ."</span>";
-
+		$vue =$annonce["nbVue"];
+		$vue++;
+		database::query("UPDATE annonces set nbVue=:nbvue WHERE id=:id", array(":nbvue"=> $vue, ":id"=> $annonce["id"]));
 	} else {
 
 		header('Location: ' . LOGIN_PAGE);
@@ -78,10 +80,10 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 			
 			<!-- Slogan pour le site -->
 			<div class="header_slogan">
-				<img src="imgs/logo1.png" class="img_logo">
+				<a href="<?php echo INDEX_PAGE ?>"><img src="imgs/logo1.png" class="img_logo"></a>
 			</div>
 
-			<?php include('templates/find.php'); ?>
+			<?php include('templates/top.php'); ?>
 
 		</div>
 
@@ -107,7 +109,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 	  		  		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 	    			<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
 	  				<li class="menu_item"><a href="#">Catégories</a></li>
-		      	  <li class="menu_item"><a href="#">À Propos</a></li>
+		      	  <li class="menu_item"><a href="<?php echo MYSPACE_PAGE ?>">Mon espace</a></li>
 		      	  <li class="menu_item"><a href="#"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
 		  	  </ul>
 			</nav>
@@ -138,40 +140,40 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 		<div class= "postuler_buttom">
 
-							<div class="annonce_titre">
-								<h3> Postuler</h3>
-							</div>
-							<form>
-  						
-  							<div class="row">
-    							<div class="six columns">
-    								  <label for="exampleEmailInput">Email</label>
-    								  <input class="u-full-width" type="email" placeholder=".....@gmail.com" id="exampleEmailInput">
-   								</div>
+			<div class="annonce_titre">
+				<h3> Postuler</h3>
+			</div>
+			<form>
+			
+				<div class="row">
+				<div class="six columns">
+					  <label for="exampleEmailInput">Email</label>
+					  <input class="u-full-width" type="email" placeholder=".....@mail.com" id="exampleEmailInput">
+					</div>
 
-   								<div class="six columns">
-   									<div class= "row">
-   										<label for="exampleEmailInput">CV Upload</label>
-   										<button>chercher le fichier</button>
-   										<input class="button-primary" type="button" value=" Telechargement">
-   									</div>
-   								</div>
+					<div class="six columns">
+						<div class= "row">
+							<label for="exampleEmailInput">CV Upload</label>
+							<button>chercher le fichier</button>
+							<input class="button-primary" type="button" value=" Telechargement">
+						</div>
+					</div>
 
-   
-  							</div>
- 
-			 						 <label for="exampleMessage">Message</label>
-			 						 <textarea class="u-full-width" placeholder="Votre motivation en quelques lignes" id="exampleMessage"></textarea>
-			 						 <label class="example-send-yourself-copy">
-			  						  <input type="checkbox">
-			  						  <span class="label-body">Envoi d'une confirmation par mail</span>
-			  							</label>
-			  						<input class="button-primary" type="submit" value="Envoyer">
-								</form>
-							
-						
-							
-							</div>
+
+				</div>
+
+						 <label for="exampleMessage">Message</label>
+						 <textarea class="u-full-width" placeholder="Votre motivation en quelques lignes" id="exampleMessage"></textarea>
+						 <label class="example-send-yourself-copy">
+						  <input type="checkbox">
+						  <span class="label-body">Envoi d'une confirmation par mail</span>
+							</label>
+						<input class="button-primary" type="submit" value="Envoyer">
+				</form>
+			
+		
+			
+			</div>
 			
 
 		</div>

@@ -21,4 +21,4 @@
 						<button type="submit" class="u-full-width button-primary" style="font-size: 1.2rem;"><i class="fas fa-search"></i>&emsp;Recherche</button>
 					</div>
 				 </form>
-				</div>
+			</div>
