@@ -23,17 +23,17 @@ if (Login::isLoggedIn()) {
 
 <!DOCTYPE html>
 <html>
-<head>
-	<?php
-	//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
-	include('templates/header.php');
-	?>
+	<head>
+		<?php
+		//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
+		include('templates/header.php');
+		?>
 
 
-	<!-- Fichier uniquement importé pour la page d'accueil donc pas dans le fichier générique -->
-	<link rel="stylesheet" type="text/css" href="src/css/home/home.css">
-	
-</head>
+		<!-- Fichier uniquement importé pour la page d'accueil donc pas dans le fichier générique -->
+		<link rel="stylesheet" type="text/css" href="src/css/home/home.css">
+		
+	</head>
 <body>
 
 	<!-- Image Derriere le header -->
@@ -91,10 +91,11 @@ if (Login::isLoggedIn()) {
 		<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
 			<div class="header_information_utilisateur">
 				<div class="row">
-					<?php echo $user['username'] ?> (<?php echo $user['email'] ?>)
+					<a href="<?php echo PROFILE_PAGE ?>" style="color: white; text-decoration: none" title ="Profil" ><?php echo $user['username'] ?> (<?php echo $user['email'] ?>) <br> Vers mon Profil &emsp; </br></a>
+
 				</div>
-				
-				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none" title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a>
+				<br>
+				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none"  title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a> </br>
 			</div>
 
 		
@@ -110,9 +111,9 @@ if (Login::isLoggedIn()) {
 	    		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 	    		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
 	  			<li class="menu_item"><a href="#">Catégories</a></li>
-	  			<li><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
-		        
-		        <li class="menu_item"><a href="#"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
+            <li><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
+		        <li class="menu_item"><a href="<?php echo PROFILE_PAGE ?>"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
+
 		    </ul>
 		</nav>
 		
@@ -132,15 +133,19 @@ if (Login::isLoggedIn()) {
 			}
 		}
 
+		$users_found  = false;
 
-
-		$searchValue = (!empty($_GET['search']) ? $_GET['search'] : ""); // ":" = sinon
-		$searchValue_Ville = (!empty($_GET['position']) ? $_GET['position'] : "");
+		$searchValue = (!empty($_GET['search']) ? filter_var($_GET['search'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW) : ""); // ":" = sinon
+		$searchValue_Ville = (!empty($_GET['position']) ?  filter_var($_GET['position'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW)  : "");
 
 		$text_search = "titre LIKE '%{$searchValue}%'";
 		$text_position = "ville LIKE '%{$searchValue_Ville}%'";
 		$text_categorie = "numCategorie={$get_categorie}";
 		$text_order_by = "ORDER BY id DESC";
+
+		$text_users = "";
+		$text_users_search = "username LIKE '%{$searchValue}%' OR first_name LIKE '%{$searchValue}%' OR last_name LIKE '%{$searchValue}%'";
+		$text_users_limit = "LIMIT 0,5";
 
 		$text_total = "";
 
@@ -151,27 +156,23 @@ if (Login::isLoggedIn()) {
 		if(isset($_GET['search']) && isset($_GET['position']) && !empty($_GET['search']) && !empty($_GET['position']) ){
 
 			/* filtrage des deux valeurs */
-			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 
 			$text_total = "SELECT * FROM annonces WHERE " . $text_search . " AND " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
+
 			
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages contenant <b>'" . $searchValue . "'</b>, à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 
 			//Si on recherche seulement par mots clés
 		} else if (isset($_GET['search']) && !empty($_GET['search'])) {
-
-			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 			
 			$text_total = "SELECT * FROM annonces WHERE " . $text_search .  $categorie_if_not_1 . " " . $text_order_by;
+			$text_users = "SELECT * FROM utilisateurs WHERE " . $text_users_search;
 
-			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages pour <b>'" . $searchValue . "'</b></h5>";
+			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) pour <b>'" . $searchValue . "'</b></h5>";
 
 			//Si on recherche seulement par ville
 		} else if (isset($_GET['position']) && !empty($_GET['position'])) {
-
-			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 
 			$text_total = "SELECT * FROM annonces WHERE " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
 
@@ -186,13 +187,64 @@ if (Login::isLoggedIn()) {
 		//Execution
 		$time_start = microtime(true);
 
+
 		$annonces = database::query($text_total);
 		
+
+		if ($text_users != "") {
+			$req_users = database::query($text_users);
+			if (!empty($req_users)) {
+				$users_found = true;
+			}
+			
+		}
 
 		$time_end = microtime(true);
 		$time = $time_end - $time_start;
 
-		echo "<span style=\" color: grey; \">Résultats trouvés en " . round($time,4) . " secondes</span>";
+		echo "<span style=\" color: grey; margin-bottom: 0.5em\">Résultats trouvés en " . round($time,4) . " secondes</span>";
+
+			if ($users_found) {
+				?>
+				<div>Utilisateurs trouvés : </div>
+				<div class="annonce_container no_hover">
+				<?php
+				$i = 0;
+				foreach ($req_users as $user_founded) {
+
+					$gravatar_email = $user_founded["email"];
+					$gravatar_default = "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg";
+					$gravatar_size = 10;
+					$gravatar_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $gravatar_email ) ) ) . "?d=" . urlencode( $gravatar_default ) . "&s=" . $gravatar_size;
+
+					?>
+					<div class="user_container">
+						<img src="<?php echo $gravatar_url; ?>" style="width: 30px; border-radius: 50%;" alt="" />
+						
+						<?php echo "<div class=\"user_container_text\">@ <a style=\"text-decoration: none\" href=\"". PROFILE_PAGE . "?id=" . $user_founded["id"] ."\" >" .$user_founded["username"] . "</a> " . "&emsp;(" . $user_founded["first_name"] . " " . $user_founded["last_name"] . ")</div>";
+
+							?>
+
+							</div>
+
+							<?php
+
+							if (++$i != count($req_users)) {
+								echo "<hr style=\"margin-bottom: 0.5em; margin-top: 0.5em\">";
+							}
+
+						 ?>
+					
+
+					<?php
+				}
+
+				?>
+				</div>
+				<hr>
+				<?php
+			}
+			
 
 
 			//Pour chaque annonces trouvées selon les critères au dessus

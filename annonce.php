@@ -25,9 +25,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 		$annonce = database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))[0];
 
 		// echo "<span style=\"white-space: pre-line;\">" . $annonce["description"] ."</span>";
+
 		$vue =$annonce["nbVue"];
 		$vue++;
 		database::query("UPDATE annonces set nbVue=:nbvue WHERE id=:id", array(":nbvue"=> $vue, ":id"=> $annonce["id"]));
+
 	} else {
 
 		header('Location: ' . LOGIN_PAGE);
@@ -94,6 +96,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 				</div>
 				
 				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none" title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a>
+
 			</div>
 
 		
@@ -184,6 +187,3 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 
 </html>
-
-
-
