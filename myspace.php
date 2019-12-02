@@ -8,7 +8,7 @@ include('database.php');
 include('src/classes/CLASS_login.php');
 
 if (Login::isLoggedIn()) {
-	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
+	$user = database::query('SELECT username, email, first_name, last_name, account_type FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
 } else {
 	header('Location: ' . LOGIN_PAGE);
 	die(); 
@@ -89,8 +89,10 @@ if (Login::isLoggedIn()) {
 
 
 			
+ <?php 
+ 	if($user[account_type]='1'){
 
-
+?>
 	<input type="button" class="u-full-width" value="Créer annonce" onclick="location.href='<?php echo CREERANNONCE_PAGE ?>'">
 				
 	
@@ -140,9 +142,10 @@ if (Login::isLoggedIn()) {
 					</div>
 		</div>
 	<?php
+	}}
 
+	if($user[account_type]='2'){
 
-	}
 	?>
 
 </div>
