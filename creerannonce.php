@@ -21,18 +21,22 @@ if (isset($_POST["btnConfirmer"])) {
 	$duree = $_POST["nbMois"];
 	$description = $_POST["description"];
 	$categorie = $_POST["categorie"];
+	$categorie = database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$categorie))[0]["id"];
 
 	// FAIRE VERIFICATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	database::query("INSERT INTO annonces VALUES (null, :titre, :description, :ville, :user_id, :entreprise, :duree, :numCategorie, null)", array(
+	database::query("INSERT INTO annonces VALUES (null, :titre, :description, :ville, :user_id, :entreprise, :duree, :numCategorie, 0)", array(
 		":titre"=>$titre,
 		":description"=>$description,
 		":ville"=>$ville,
 		":user_id"=>Login::isLoggedIn(),
 		":entreprise"=>$user["company_name"],
 		":duree"=>$duree,
-		":categorie"=>$categorie
+		":numCategorie"=>$categorie
 	));
+
+	header('Location: ' . INDEX_PAGE);
+	exit();
 
 }
 
