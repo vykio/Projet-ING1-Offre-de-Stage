@@ -37,7 +37,8 @@ if (Login::isLoggedIn()) {
 <body>
 
 	<!-- Image Derriere le header -->
-	<div class="header" style="background: url('imgs/login_3.jpg') no-repeat center center fixed; background-color: #EEEEEE;
+	<div class="header" 
+		style="background: url('imgs/login_3.jpg') no-repeat center center fixed; background-color: #EEEEEE;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
@@ -54,7 +55,7 @@ if (Login::isLoggedIn()) {
 			
 			<!-- Slogan pour le site -->
 			<div class="header_slogan">
-				<img src="imgs/logo1.png" class="img_logo">
+				<a href="<?php echo INDEX_PAGE ?>"><img src="imgs/logo1.png" class="img_logo"></a>
 			</div>
 
 			<!-- class="row" de SKELETON CSS permet d'avoir sur la meme ligne la textbox et le bouton rechercher.
@@ -110,8 +111,9 @@ if (Login::isLoggedIn()) {
 	    		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 	    		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
 	  			<li class="menu_item"><a href="#">Catégories</a></li>
-		        <li class="menu_item"><a href="#">À Propos</a></li>
+            <li><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
 		        <li class="menu_item"><a href="<?php echo PROFILE_PAGE ?>"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
+
 		    </ul>
 		</nav>
 		
@@ -187,6 +189,7 @@ if (Login::isLoggedIn()) {
 
 
 		$annonces = database::query($text_total);
+		
 
 		if ($text_users != "") {
 			$req_users = database::query($text_users);
@@ -265,7 +268,8 @@ if (Login::isLoggedIn()) {
 							
 						</div>
 						<div class="row">
-							<div class="annonce_entreprise four columns"><?php echo $annonce["entreprise"] ?></div>
+							<div class="annonce_entreprise four columns"><?php echo $annonce["entreprise"] ?>
+							</div>
 							<div class="annonce_location three columns"><span>&#128204 </span><?php echo $annonce["ville"] ?></div>
 							<div class="annonce_duree five columns"><?php echo $annonce["duree"] ?> mois</div>
 						</div>
