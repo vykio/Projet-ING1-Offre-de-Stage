@@ -1,32 +1,18 @@
-/*
-
-Le code utilisé par défaut correspond à celui pour mobile
-
-Si l'on veut afficher du code différent pour un ordinateur ou une tablette on utilise le :
-@media (min-width: AAAApx) {
-	//Code utilisé pour les écran supérieurs à AAAA pixels	
-}
-
-    Desktop HD: 1200px
-    Desktop: 1000px
-    Tablet: 750px
-    Phablet: 550px
-    Mobile: 400px
-
-(source: http://www.getskeleton.com)
-*/
-
 .main_container {
 	padding-top: 10px;
 	padding-bottom: 100px;
 }
 
-/* Utilisé pour afficher l'image (de l'école) de fond avec un index sur coordonnée z = -1 (afficher en dessous des éléments de la page) */
-.header {
+
+/* Taille de notre header */
+.profile_header {
 	position: absolute;
 	width: 100%;
-	height: 370px;
+	height: 200px;
 	z-index: -1;
+}
+.profile_header2 {
+	height: 195px;
 }
 
 /* Style pour le slogan du site (affiché au milieu de searchContainer ) */
@@ -77,87 +63,59 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	overflow: hidden;
 }
 
+/* profile_container  */
 
-/* Taille de notre header */
-.home_header {
-	height: 370px;
-}
-
-/* Notre container searchContainer */
-.searchContainer {
-	max-width: 800px;
-	padding-top: 150px;
-}
-
-.postuler_buttom{
-	padding: 10px 10px 10px 10px;
-	
-	border-radius: 6px;
-	box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
-	background-color: white;
-}
-
-
-/* Annonces */
-.annonce_container {
+.profile_container {
 	padding: 10px 20px 10px 20px;
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
 	margin-bottom: 20px;
 	border-radius: 6px;
 }
 
-.annonce_inner_container {
+.lower_profile_container {
+	padding: 10px 20px 10px 20px;
+}
+
+.profile_titre_container {
+	padding: 10px 20px 10px 20px;
+	/*box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);*/
+	margin-top : 0 ;
+	padding-bottom: 0;
 	
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: -webkit-box;
-  -webkit-box-orient: vertical; 
+	/*padding-top: 20px;
+	border-top-width: 2px;
+	border-top-style: groove;*/
 }
 
-.annonce_titre {
-	font-size: 1.6em;
-	text-overflow: ellipsis;
-	overflow: hidden;
+hr{
+	margin-top : 0 ;
+	margin-bottom:1rem;
 }
 
-.annonce_titre a {
+.profile_titre {
+	text-transform: none;
+    font-weight: 300;
+    font-size: 2em;
+    color: #34495E;
+    text-align: center;
+}
+
+.profile_titre a {
 	color: #006BA8;
 	text-decoration: none;
 }
 
-.annonce_titre a:hover {
+.profile_titre a:hover {
 	text-decoration: underline;
 }
 
-.annonce_entreprise {
+.profile_data {
 	text-overflow: ellipsis;
 	overflow: hidden;
-	color: #006BA8;
-	margin-bottom: 10px;
-	margin-top: 20px;
 }
 
-.annonce_location {
-	text-overflow: ellipsis;
-	overflow: hidden;
-	margin-bottom: 10px;
-	margin-top: 20px;
-}
 
-.annonce_duree {
-	text-overflow: ellipsis;
-	overflow: hidden;
-	margin-bottom: 10px;
-	margin-top: 20px;
-}
 
-.annonce_description {
-	
-	
-	overflow: hidden;
-  word-break: break-word;
-	/*white-space: nowrap;*/
-}
 
 /* nav_menu contient .menu */
 .nav_menu {
@@ -187,6 +145,8 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	padding: 1em;
 	vertical-align: center;
 	font-size: 1.6rem;
+	
+
 }
 
 .nav_menu .menu {
@@ -216,21 +176,10 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	margin-top: -30px;
 }
 
+.fa-stack { font-size: 0.5em; margin-top: 0.5em;}
+.fa-stack i {  vertical-align: middle; }
 
-/* min-width trouvée avec plusieurs tests pour éviter les débordements du texte du slogan et avoir un rendu plus fluide */
-@media (min-width: 460px) {
-/* Les propriétés de .header_slogan écrites au dessus sont quand meme éxécutées. Les propriétés écrites en dessous vont modifier les autres sans modifier celles qui n'ont pas bougées.  */
 
-	.header_slogan {
-		padding-top: 50px;
-		font-size: 2em;
-	}
-
-	
-
-}
-
-/* 550px est la taille à laquelle SKELETON CSS passe la classe container en mode mobile */
 @media (min-width: 550px) {
 	.home_header {
 		height: 300px;
@@ -249,6 +198,10 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	.menu_toggle_icon {
 		display: none;
 	}
+	.img_logo {
+	max-width: 300px;
+	margin-top: -30px;
+	}
 
 
 		/*.footer {
@@ -264,3 +217,11 @@ Si l'on veut afficher du code différent pour un ordinateur ou une tablette on u
 	}*/
 }
 
+@media (min-width: 1000px) {
+
+.profile_container {
+margin-right: 150px;
+margin-left:150px;
+}
+
+}
