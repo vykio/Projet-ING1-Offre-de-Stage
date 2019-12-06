@@ -14,6 +14,11 @@ if (Login::isLoggedIn()) {
 	die(); 
 }
 
+if ($user["account_type"]=='2'){
+	header('Location:' . ADMINISTRATION_PAGE);
+	die;
+}
+
 ?><!DOCTYPE html>
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -134,8 +139,9 @@ if (Login::isLoggedIn()) {
 						</div>
 						<div class= "row action"> 
 							<span class="action-vue two columns"><?php echo $annonce["nbVue"] . " vues"?></span>
-							<input type="button" class="button-primary five columns" value="Modifier">
-							<input type="button" class="five columns" value="Supprimer">
+							<input type="button" class="button-primary five columns" value="Modifier" onclick="location.href='<?php echo MODIFANNONCE_PAGE . "?id=" . $annonce["id"] ?>'">
+
+							<input type="button" class="five columns" value="Supprimer" onclick="location.href='<?php echo DELETEANNONCE_PAGE . "?id=" . $annonce["id"] ?>'">
 						</div>
 					</div>
 		</div>

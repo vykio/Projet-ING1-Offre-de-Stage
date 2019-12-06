@@ -1,6 +1,6 @@
 <?php 
 
-$pagename = "Annonce";
+$pagename = "Supprimer une annonce";
 define('PAGE_NAME', $pagename);
 
 include('templates/short_links.php');
@@ -8,44 +8,41 @@ include('database.php');
 include('src/classes/CLASS_login.php');
 
 if (Login::isLoggedIn()) {
-	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
+	$user = database::query('SELECT username, email, first_name, last_name, account_type FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
 } else {
 	header('Location: ' . LOGIN_PAGE);
 	die(); 
 }
-
 
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
 	$requested_id = $_GET['id'];
 	$requested_id = filter_var($requested_id, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
+
+
 	if (database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))) {
+
 
 		$annonce = database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))[0];
 
-		// echo "<span style=\"white-space: pre-line;\">" . $annonce["description"] ."</span>";
+		if (isset($_POST["confirm"])) {
+			database::query("DELETE FROM annonces WHERE id=:id", array(":id"=>$requested_id));
 
-		$vue =$annonce["nbVue"];
-		$vue++;
-		database::query("UPDATE annonces set nbVue=:nbvue WHERE id=:id", array(":nbvue"=> $vue, ":id"=> $annonce["id"]));
+			header('Location:'.MYSPACE_PAGE);
+			die();
+
+		}
 
 	} else {
-
-		header('Location: ' . LOGIN_PAGE);
-		die(); 
-
-
+		header("Location:".INDEX_PAGE);
+		die();
 	}
 
 } else {
-
-	header('Location: ' . LOGIN_PAGE);
-	die(); 
-
+	header("Location:".INDEX_PAGE);
+	die();
 }
-
-
 
 
 ?>
@@ -58,9 +55,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 	include('templates/header.php');
 	?>
 	<!-- CSS custom pour la page login (non utilisé par les autres pages -->
-	<link rel="stylesheet" type="text/css" href="src/css/annonce/annonce.css">
+
+	<link rel="stylesheet" type="text/css" href="src/css/deleteannonce/deleteannonce.css">
 
 </head>
+
 
 <body>
 	<div class="header" style="background: url('imgs/login_3.jpg') no-repeat center left fixed; background-color: #EEEEEE;
@@ -73,7 +72,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 	
 </body>
 
-<div class="home_header">
+	<div class="home_header">
 		
 
 
@@ -96,13 +95,13 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 				</div>
 				
 				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none" title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a>
-
 			</div>
 
-		
 	</div>
 
-		<div class="container main_container">
+<div class="container">
+	
+	<div class="main_container">
 			<!-- Contenus de la page -->
 
 			<!-- Utilisé pour créer la barre de navigation -->
@@ -116,74 +115,33 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 		      	  <li class="menu_item"><a href="#"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
 		  	  </ul>
 			</nav>
-	
+	</div>
 
-
-
-		<div class="annonce_container">
+	<div class="annonce_container">
 			<div class="annonce_inner_container">
 				<div class="annonce_titre">
-					<?php echo $annonce["titre"] ?>
+					Supprimer une annonce
 				</div>
-				<div class="row">
-					<div class="annonce_entreprise four columns"><?php echo $annonce["entreprise"] ?></div>
-					<div class="annonce_location three columns"><span>&#128204 </span><?php echo $annonce["ville"] ?></div>
-					<div class="annonce_duree five columns"><?php echo $annonce["duree"] ?> mois</div>
-				</div>
+				
+				<div class= "buttonsup">
+					Titre de l'annonce pour suppression : <?php echo $annonce[titre] ?>
+				</div>	
 			
-				<div class="annonce_description">
-					<span style="white-space: pre-line;"><?php
-						echo $annonce["description"];
-					?></span>
+
+
+				<div class="buttonsup">
+					<form action="<?php echo DELETEANNONCE_PAGE . "?id=" . $annonce["id"] ?>" method="POST">
+						<input type="submit" class="u-full-width button-primary" name="confirm" value="Supprimer cette annonce">
+					</form>
+					
 				
 				</div>
 			</div>
 		</div>
-	
 
-		<div class= "postuler_buttom">
-
-			<div class="annonce_titre">
-				<h3> Postuler</h3>
-			</div>
-			<form>
-			
-				<div class="row">
-				<div class="six columns">
-					  <label>Email</label>
-					  <input class="u-full-width" type="email" placeholder=".....@mail.com" >
-					</div>
-
-					<div class="six columns">
-						<div class= "row">
-							<label>CV Upload</label>
-							<button>chercher le fichier</button>
-							<input class="button-primary" type="button" value=" Telechargement">
-						</div>
-					</div>
-
-
-				</div>
-
-						 <label>Message</label>
-						 <textarea class="u-full-width" placeholder="Votre motivation en quelques lignes" id="exampleMessage"></textarea>
-						 <label class="example-send-yourself-copy">
-						  <input type="checkbox">
-						  <span class="label-body">Envoi d'une confirmation par mail</span>
-							</label>
-						<input class="button-primary" type="submit" value="Envoyer">
-				</form>
-			
-		
-			
-			</div>
-			
-
-		</div>
-
-
-	</div>
+</div>
 
 
 
-</html>
+
+
