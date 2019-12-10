@@ -28,13 +28,14 @@ if (isset($_GET['id']) && !empty($_GET['id'])) { //prblm ici
 
 			
 		
-/*
-		if(isset($POST['modifierAnnonce'])){
+
+		if(isset($_POST['modifierAnnonce'])){
 
 	$titre= $_POST['titre'];
 	$ville= $_POST['ville'];
 	$duree= $_POST['duree'];
-	$description= $_POST['decription'];
+	$dateDebut = $_POST['dateDebut'];
+	$description= $_POST['description'];
 	$categorie = $_POST["categorie"];
 	$categorie = database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$categorie))[0]["id"];
 
@@ -44,48 +45,49 @@ if (isset($_GET['id']) && !empty($_GET['id'])) { //prblm ici
 
 			if (strlen($ville) >= 2 && strlen($ville) <= 32){
 
-				if(strlen($duree) >= 0 && strlen($duree) <= 2){
+				if(strlen($duree) > 0 && strlen($duree) <= 2){
 
-					if(strlen($description) >= 8 && strlen($description) <= 5000){
+					if(strlen($description) >= 8 && strlen($description) <= 50000){
 
-						
 
 							if (preg_match('/[0-9_]+/', $duree)){
 
-								if (preg_match('/[a-zA-Z0-9_]+/', $ville)){
-
 									
 
-										if(!database::query('SELECT email FROM utilisateurs WHERE email=:email AND id<>:id', array(':email'=>$email, ':id'=>Login::isLoggedIn()))) {
+								database::query("UPDATE annonces SET titre=:titre, ville=:ville, duree=:duree, description=:description, numCategorie=:categorie, dateDebut=:dateDebut WHERE id=:id", array(':id'=>$annonce["id"],':titre'=>$titre,':ville'=>$ville, ':duree'=>$duree, ':description'=>$description, ':categorie'=>$categorie, ':dateDebut'=>$dateDebut));
 
-											database::query("UPDATE annonce SET titre=:titre, ville=:ville, duree=:duree, description=:description,  WHERE id=:id", array(':id'=>Login::isLoggedIn(),':titre'=>$titre,':ville'=>$ville, ':duree'=>$duree, ':description'=>$description));
 
-												hearder('Location'.MYSPACE_PAGE);
-												exit();
+									header('Location: '.MYSPACE_PAGE);
+									exit();
 
-									}
-								else{
-									echo'Caractere invalide ville';
-									}
-							else{
+								
+							} else{
 								echo'Caractere invalide duree (chiffre)';
 							}
 						
 						
-					else{
+					} else{
 						echo'Nombre de caratere invalide (min 8 max 5000)';
 					}
-				else{
-					echo'Nombre de caratere duree invalide (min 0 max 2)';
+				} else{
+					echo'Nombre de caratere duree invalide (min 0 max 24)';
 				}
-			else{
+			} else{
 				echo'Nombre de caratere invalide ville (min 2 max 32)';
 			}
-		else{
+		} else{
 			echo'Nombre de caratere invalide titre (min 3 max 64)';
 		}
 	}
-}*/
+}
+
+		if(isset($_POST['retour'])){
+			header("Location:".MYSPACE_PAGE);
+			die();
+		}
+
+
+
 
 	} else {
 		header("Location:".INDEX_PAGE);
@@ -199,12 +201,12 @@ if (isset($_GET['id']) && !empty($_GET['id'])) { //prblm ici
 
 				<div class=" three columns">
 					<label>Date début</label>
-					<input class="u-full-width" type="text" placeholder="JJ/MM/AAAA" name="date" value="<?php echo $annonce["date_debut"]?>">
+					<input class="u-full-width" type="text" placeholder="AAAA-MM-JJ" name="dateDebut" value="<?php echo $annonce["dateDebut"]?>">
 				</div>
 
 				<div class=" three columns">
 				  <label>Durée</label>
-				  <input class="u-full-width" type="text" placeholder="Nombre de mois" name="nbMois" value="<?php echo $annonce["duree"]?>">
+				  <input class="u-full-width" type="text" placeholder="Nombre de mois" name="duree" value="<?php echo $annonce["duree"]?>">
 				</div>
 
 					<label style="">Catégorie</label>
@@ -216,7 +218,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) { //prblm ici
 					 			$categ = database::query("SELECT * FROM categorie_annonce");
 					 			foreach ($categ as $categorie) {
 
-					 				echo "<option value=\"".$categorie["Nom_url"]."\">".$categorie["Nom"]."</option>";
+
+					 				echo "<option value=\"".$categorie["Nom_url"]."\"" . (($annonce["numCategorie"] == $categorie["id"] ) ? "selected" : "") . ">".$categorie["Nom"]."</option>";
 						 		
 					 			}
 					 		?>

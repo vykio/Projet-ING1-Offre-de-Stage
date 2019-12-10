@@ -110,9 +110,9 @@ if (Login::isLoggedIn()) {
 		    <ul class="menu">
 	    		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 	    		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
-	  			<li class="menu_item"><a href="#">Catégories</a></li>
+	  			
             <li><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
-		        <li class="menu_item"><a href="<?php echo PROFILE_PAGE ?>"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
+		        <li class="menu_item"><a href="<?php echo PROFILE_PAGE . "?id="  . Login::isLoggedIn() ?>"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
 
 		    </ul>
 		</nav>
@@ -270,10 +270,16 @@ if (Login::isLoggedIn()) {
 							
 						</div>
 						<div class="row">
-							<div class="annonce_entreprise four columns"><?php echo $annonce["entreprise"] ?>
+							<div class="annonce_entreprise three columns"><?php echo $annonce["entreprise"] ?>
 							</div>
 							<div class="annonce_location three columns"><span>&#128204 </span><?php echo $annonce["ville"] ?></div>
-							<div class="annonce_duree five columns"><?php echo $annonce["duree"] ?> mois</div>
+							<div class="annonce_duree three columns"><?php echo $annonce["duree"] ?> mois</div>
+
+							<div class="annonce_duree three columns"><?php
+
+									$categ = database::query("SELECT Nom FROM categorie_annonce, annonces WHERE categorie_annonce.id = annonces.numCategorie AND annonces.id={$annonce["id"]}")[0]["Nom"];
+									echo $categ;
+							?></div>
 						</div>
 						
 						<div class="annonce_description">

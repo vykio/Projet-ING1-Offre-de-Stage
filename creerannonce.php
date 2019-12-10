@@ -17,22 +17,23 @@ if (Login::isLoggedIn()) {
 if (isset($_POST["btnConfirmer"])) {
 	$titre = $_POST["titre"];
 	$ville = $_POST["ville"];
-	$date = $_POST["date"];
 	$duree = $_POST["nbMois"];
 	$description = $_POST["description"];
+	$dateDebut = $_POST["dateDebut"];
 	$categorie = $_POST["categorie"];
 	$categorie = database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$categorie))[0]["id"];
 
 	// FAIRE VERIFICATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	database::query("INSERT INTO annonces VALUES (null, :titre, :description, :ville, :user_id, :entreprise, :duree, :numCategorie, 0)", array(
+	database::query("INSERT INTO annonces VALUES (null, :titre, :description, :ville, :user_id, :entreprise, :duree, :numCategorie, 0, :dateDebut)", array(
 		":titre"=>$titre,
 		":description"=>$description,
 		":ville"=>$ville,
 		":user_id"=>Login::isLoggedIn(),
 		":entreprise"=>$user["company_name"],
 		":duree"=>$duree,
-		":numCategorie"=>$categorie
+		":numCategorie"=>$categorie,
+		":dateDebut"=>$dateDebut
 	));
 
 	header('Location: ' . INDEX_PAGE);
@@ -141,7 +142,7 @@ if (isset($_POST["btnConfirmer"])) {
 
 				<div class=" three columns">
 					<label>Date début</label>
-					<input class="u-full-width" type="text" placeholder="JJ/MM/AAAA" name="date">
+					<input class="u-full-width" type="text" placeholder="AAAA-MM-JJ" name="dateDebut">
 				</div>
 
 				<div class=" three columns">
