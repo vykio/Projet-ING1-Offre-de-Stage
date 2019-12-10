@@ -253,7 +253,9 @@ if (Login::isLoggedIn()) {
 				//Filtrage
 				$annonce["titre"] = filter_var($annonce["titre"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				//Supprime les balises et les char ASCII > 127
-				$annonce["entreprise"] = filter_var($annonce["entreprise"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+				$entrep = database::query("SELECT company_name FROM utilisateurs WHERE id=:user_id", array(":user_id"=>$annonce["user_id"]))[0]["company_name"];
+				$entrep = (empty($entrep) ? "étu-stage" : $entrep);
+				$annonce["entreprise"] = filter_var($entrep, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				$annonce["ville"] = filter_var($annonce["ville"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				$annonce["duree"] = filter_var($annonce["duree"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				?>
