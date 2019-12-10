@@ -10,7 +10,7 @@ include('src/classes/CLASS_login.php');
 
 //La fonction isLoggedIn() de la classe Login, return l'id de l'utilisateur connecté
 if (Login::isLoggedIn()) {
-	$user = database::query('SELECT username, email, first_name, last_name, account_type, company_name, phone, contact_mail FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
+	$user = database::query('SELECT id, username, email, first_name, last_name, account_type, company_name, phone, contact_mail FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
 } else {
 	header('Location: ' . LOGIN_PAGE);
 	die(); 
@@ -90,7 +90,7 @@ if(isset($_POST['modifierCompte'])){
 
 										//Tout fonctionne
 
-			 							header('Location: ' . PROFILE_PAGE);
+			 							header('Location: ' . PROFILE_PAGE . "?id=" . Login::isLoggedIn());
 			 							exit();
 
 			 						} else {
@@ -155,7 +155,7 @@ if(isset($_POST['modifierCompte'])){
 	<div class="profile_header2">
 
 		<div class="header_slogan">
-				<img src="imgs/logo1.png" class="img_logo">
+				<a href="<?php echo INDEX_PAGE ?>"><img src="imgs/logo1.png" class="img_logo" >
 			</div>
 
 	</div>	
@@ -174,8 +174,10 @@ if(isset($_POST['modifierCompte'])){
 		    <ul class="menu">
 	    		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 	    		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
-	  			<li class="menu_item"><a href="#">Mon espace</a></li>
-	  			<li class="menu_item"><a href="#">Créer mon CV</a></li>
+	  			
+            <li><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
+		        <li class="menu_item"><a href="<?php echo PROFILE_PAGE . "?id="  . Login::isLoggedIn() ?>"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
+
 		    </ul>
 		</nav>
 
@@ -264,6 +266,8 @@ if(isset($_POST['modifierCompte'])){
 					  			<input class="u-full-width" type="text" name="gest_mail" placeholder="Adresse mail de contact" value="<?php echo $user["contact_mail"]?>"  style="border-radius: 50px;" required maxlength="60">
 					  		</div>
 
+
+
 					  	<?php } ?>
 				  		
 				  
@@ -277,6 +281,8 @@ if(isset($_POST['modifierCompte'])){
 					  		<center>
 					  			<input class="button-primary" type="submit" name="modifierCompte" value="Modifier les informations" style="max-width :500px ;border-radius: 50px;">
 							</center>
+
+
 				  	
 			  			</div>
 				  
@@ -338,6 +344,9 @@ if(isset($_POST['modifierCompte'])){
 		 						}
 		 					?></div>
 		 				</center>
+
+
+
 		 			</div>
 		 			<br>
 			<div class="profile_container">
@@ -384,7 +393,16 @@ if(isset($_POST['modifierCompte'])){
 
 		 					?>
 		 				
-		 			
+		 			<?php
+	 					if ($user_all_info["id"] == Login::isLoggedIn()) {
+	 				
+	 				?>
+	 				<div class="row">
+			  			<input type="button" name="modifier" value="modifProfile" onclick="document.location.href='<?php echo PROFILE_PAGE ?>'">
+			  		</div>
+			  		<?php
+			  			}
+			  		?>
 		 				
 
 		 			
