@@ -39,7 +39,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) { //prblm ici
 	$categorie = $_POST["categorie"];
 	$categorie = database::query("SELECT id FROM categorie_annonce WHERE Nom_url=:param", array(":param"=>$categorie))[0]["id"];
 
-	if (!database::query('SELECT username FROM utilisateurs WHERE username=:username AND id<>:id', array(':username'=>$username, ':id'=>Login::isLoggedIn()))) {
+	if (!database::query('SELECT username FROM utilisateurs WHERE username=:username AND id<>:id', array(':username'=>$user["username"], ':id'=>Login::isLoggedIn()))) {
 
 		if (strlen($titre) >= 3 && strlen($titre) <= 64){
 
@@ -113,7 +113,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) { //prblm ici
 	?>
 	<!-- CSS custom pour la page login (non utilisé par les autres pages -->
 
-	<link rel="stylesheet" type="text/css" href="src/css/deleteannonce/deleteannonce.css">
+	<link rel="stylesheet" type="text/css" href="src/css/modifannonce/modifannonce.css">
 
 </head>
 
@@ -187,8 +187,10 @@ if (isset($_GET['id']) && !empty($_GET['id'])) { //prblm ici
 			<div class="row">
 				<div class="u-full-width">
 				  <label>Titre</label>
-				  <input class="u-full-width" type="text" placeholder="Titre de l'annonce" name="titre"value="<?php echo $annonce["titre"]?>"
-				  
+				  <div class="date_div">
+					  <input class="u-full-width" type="text" placeholder="Titre de l'annonce" name="titre"value="<?php echo $annonce["titre"]?>" required>
+					  <span class="validity"></span>
+					</div>
 				</div>	
 
 			</div>
@@ -196,17 +198,28 @@ if (isset($_GET['id']) && !empty($_GET['id'])) { //prblm ici
 			<div class="row">
 				<div class=" three columns">
 				  <label>Lieux</label>
-				  <input class="u-full-width" type="text" placeholder="Ville" name="ville" value="<?php echo $annonce["ville"]?>">
+				  <div class="date_div">
+					  	<input class="u-full-width" type="text" placeholder="Ville" name="ville" value="<?php echo $annonce["ville"]?>" required>
+					  	<span class="validity"></span>
+					</div>
 				</div>	
 
-				<div class=" three columns">
+				<div class="three columns">
 					<label>Date début</label>
-					<input class="u-full-width" type="text" placeholder="AAAA-MM-JJ" name="dateDebut" value="<?php echo $annonce["dateDebut"]?>">
+					<!--<input class="u-full-width" type="text" placeholder="AAAA-MM-JJ" name="dateDebut" value="<?php echo $annonce["dateDebut"]?>">-->
+					<div class="date_div">
+						<input type="date" name="dateDebut" id="date" value="<?php echo $annonce["dateDebut"]?>" min="<?php echo date("Y-m-j"); ?>" max="2025-01-01" required>
+						<span class="validity"></span>
+					</div>
+					
 				</div>
 
 				<div class=" three columns">
 				  <label>Durée</label>
-				  <input class="u-full-width" type="text" placeholder="Nombre de mois" name="duree" value="<?php echo $annonce["duree"]?>">
+				  	<div class="date_div">
+					  <input class="u-full-width" type="text" placeholder="Nombre de mois" name="duree" value="<?php echo $annonce["duree"]?>" required>
+					  <span class="validity"></span>
+					</div>
 				</div>
 
 					<label style="">Catégorie</label>
@@ -227,7 +240,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) { //prblm ici
 				</div>
 
 					 <label>Description de l'annonce</label>
-					 	<textarea class="u-full-width" placeholder="Veuillez détailler un maximum l'annonce..." name="description" ><?php echo $annonce["description"]?>
+					 	<textarea class="u-full-width" placeholder="Veuillez détailler un maximum l'annonce..." name="description" required ><?php echo $annonce["description"]?>
 						 </textarea>
 					<div class="row">
 					<input class="button-primary six columns" type="submit" value="Modifier" name="modifierAnnonce">

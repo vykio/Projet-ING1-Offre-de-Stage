@@ -8,7 +8,7 @@ include('database.php');
 include('src/classes/CLASS_login.php');
 
 if (Login::isLoggedIn()) {
-	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
+	$user = database::query('SELECT username, email, first_name, last_name, account_type FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
 } else {
 	header('Location: ' . LOGIN_PAGE);
 	die(); 
@@ -22,6 +22,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 	if (database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))) {
 
 		$annonce = database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))[0];
+		$user_annonce = database::query("SELECT id FROM utilisateurs WHERE id=:id", array(":id"=>$annonce["user_id"]))[0]["id"];
 
 		// echo "<span style=\"white-space: pre-line;\">" . $annonce["description"] ."</span>";
 
@@ -240,7 +241,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 					<?php echo $annonce["titre"] ?>
 				</div>
 				<div class="row">
-					<div class="annonce_entreprise three columns"><?php echo $annonce["entreprise"] ?></div>
+					<div class="annonce_entreprise three columns"><a href="<?php echo PROFILE_PAGE . "?id=" . $user_annonce  ?>"><?php echo $annonce["entreprise"] ?></a></div>
 					<div class="annonce_location three columns"><span>&#128204 </span><?php echo $annonce["ville"] ?></div>
 					<div class="annonce_duree three columns"><?php echo $annonce["duree"] ?> mois</div>
 					<div class="annonce_duree three columns"><?php
@@ -259,6 +260,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 			</div>
 		</div>
 	
+		<?php
+
+		if ($user["account_type"] == 0) {
+
+		?>
 
 		<div class= "postuler_buttom">
 
@@ -300,6 +306,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 			
 			</div>
 			
+			<?php
+		}
+			 ?>
 
 		</div>
 
