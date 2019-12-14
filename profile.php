@@ -398,7 +398,8 @@ if(isset($_POST['modifierCompte'])){
 	 				
 	 				?>
 	 				<div class="row">
-			  			<input type="button" name="modifier" value="modifProfile" onclick="document.location.href='<?php echo PROFILE_PAGE ?>'">
+	 					<br>
+			  			<center><input type="button" name="modifier" class="button-primary" value="Modifier le profil" onclick="document.location.href='<?php echo PROFILE_PAGE ?>'"></center>
 			  		</div>
 			  		<?php
 			  			}

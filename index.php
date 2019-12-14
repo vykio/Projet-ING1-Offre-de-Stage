@@ -91,10 +91,10 @@ if (Login::isLoggedIn()) {
 		<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
 			<div class="header_information_utilisateur">
 				<div class="row">
-					<a href="<?php echo PROFILE_PAGE ?>" style="color: white; text-decoration: none" title ="Profil" ><?php echo $user['username'] ?> (<?php echo $user['email'] ?>) <br> Vers mon Profil &emsp; </br></a>
+					<a href="<?php echo PROFILE_PAGE ?>" style="color: white; text-decoration: none" title ="Profil" ><?php echo $user['username'] ?> (<?php echo $user['email'] ?>)</a>
 
 				</div>
-				<br>
+				
 				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none"  title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a> </br>
 			</div>
 
