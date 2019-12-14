@@ -127,6 +127,11 @@ if(isset($_POST['creerCompte'])){
 	<!-- div blanche sur le site contenant la form -->
 	<div class="super">
 
+		<!-- Logo pour le site -->
+		<div class="logo">
+			<a href="<?php echo INDEX_PAGE ?>"><img src="imgs/logo1.png" class="img_logo"></a>
+		</div>
+
 	  	<form action="<?php echo REGISTER_PAGE ?>" method="post">
 	  		
 	  		<!-- Contenu dans la form pour mettre un padding left et right sur le contenu de la forme -->
