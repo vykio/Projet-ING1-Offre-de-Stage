@@ -145,26 +145,63 @@ if(isset($_POST['modifierCompte'])){
 
 
 	<!-- Image Derriere le header -->
-	<div class="profile_header" style="background: url('imgs/login_3.jpg') no-repeat center center fixed; background-color: #EEEEEE;
+	<div class="header" style="background: url('imgs/login_3.jpg') no-repeat center center fixed; background-color: #EEEEEE;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
 		background-size: cover;">
 	</div>
 
-	<div class="profile_header2">
+	<div class="home_header">
 
-		<div class="header_slogan">
-				<a href="<?php echo INDEX_PAGE ?>"><img src="imgs/logo1.png" class="img_logo" >
+		<!-- Class Container de SKELETON CSS et searchContainer de src/css/home/home.css -->
+		<div class="container searchContainer">
+			
+			<!-- Slogan pour le site -->
+			<div class="header_slogan">
+				<a href="<?php echo INDEX_PAGE ?>"><img src="imgs/logo1.png" class="img_logo"></a>
 			</div>
 
-	</div>	
+			<!-- class="row" de SKELETON CSS permet d'avoir sur la meme ligne la textbox et le bouton rechercher.
+			Si l'écran est trop petit, (< 400 ou 500px) le bouton passe en dessous. Pour avoir un design plus fluide et
+			beau pour les utilisateurs mobiles -->
+			<div class="row" >
+				<!-- Dans SKELETON CSS on peut diviser les lignes en colonnes en spécifiant pour chaque élément, la place qu'il va prendre 
+				sur 12. Par exemple, ici on a dit que la textbox doit prendre 8 colonnes (class "eight columns") sur 12. Et 4 / 12 pour le bouton.
+				 -->
+				 <form action="<?php echo INDEX_PAGE ?>" method="GET">
+				 	<div class="row" >
+					 	<select class="three columns" name="categorie" style="padding-left: 15px" >
+					 		<?php 
+					 			$categ = database::query("SELECT * FROM categorie_annonce");
+					 			foreach ($categ as $categorie) {
 
-	<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
+					 				echo "<option value=\"".$categorie["Nom_url"]."\">".$categorie["Nom"]."</option>";
+						 		
+					 			}
+					 		?>
+					 	</select>
+					 	<input type="text" name="search" placeholder="Rechercher un stage par mots clés ..." class="six columns home_header_searchbox" maxlength="60" style="padding-left: 20px; padding-right: 20px">
+						<input type="text" name="position" placeholder="Ville" maxlength="20" class="three columns home_header_searchbox" style="padding-left: 20px; padding-right: 20px">
+					</div>
+					<div class="row" >
+						<button type="submit" class="u-full-width button-primary" style="font-size: 1.2rem;"><i class="fas fa-search"></i>&emsp;Recherche</button>
+					</div>
+				 </form>
+				</div>
+			
+		</div>
+
+		<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
 			<div class="header_information_utilisateur">
-				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none"  title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a>
+				<div class="row">
+					<a href="<?php echo PROFILE_PAGE ?>" style="color: white; text-decoration: none" title ="Profil" ><?php echo $user['username'] ?> (<?php echo $user['email'] ?>)</a>
+
+				</div>
+				
+				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none"  title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a> </br>
 			</div>
-	
+	</div>	
 
 	<div class="container main_container">
 	<!-- Contenus de la page -->
@@ -216,13 +253,8 @@ if(isset($_POST['modifierCompte'])){
 
 	?>
 
-			<div class="profile_container">
+			<div class="annonce_container">
 
-				<div class="profile_titre_container">
-				<h1 class="profile_titre">Mon Compte</h1>
-				</div>
-
-				<hr>
 				<br>
 
 		 		<div class="lower_profile_container">
@@ -349,7 +381,7 @@ if(isset($_POST['modifierCompte'])){
 
 		 			</div>
 		 			<br>
-			<div class="profile_container">
+			<div class="annonce_container">
 
 
 

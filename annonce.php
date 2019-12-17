@@ -167,6 +167,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 <!DOCTYPE html>
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
 	<?php
 	//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
 	include('templates/header.php');
@@ -266,7 +267,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 		?>
 
-		<div class= "postuler_buttom">
+		<div class= "postuler_div">
 
 			<div class="annonce_titre">
 				<h3> Postuler</h3>

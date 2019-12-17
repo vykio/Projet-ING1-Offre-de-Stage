@@ -143,6 +143,9 @@ if ($user["account_type"]=='2'){
 							?></span>
 							
 						</div>
+
+						<br>
+
 						<div class= "row action"> 
 							<span class="action-vue two columns"><?php echo $annonce["nbVue"] . " vues"?></span>
 							<input type="button" class="button-primary five columns" value="Modifier" onclick="location.href='<?php echo MODIFANNONCE_PAGE . "?id=" . $annonce["id"] ?>'">

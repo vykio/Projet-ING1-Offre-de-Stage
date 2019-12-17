@@ -109,6 +109,8 @@ if(isset($_POST['creerCompte'])){
 	?>
 
 	<!-- CSS custom pour la page register (non utilisé par les autres pages -->
+	<link rel="stylesheet" type="text/css" href="src/css/global/global_register_login.css">
+
 	<link rel="stylesheet" type="text/css" href="src/css/register/register.css">
 
 </head>
@@ -137,7 +139,7 @@ if(isset($_POST['creerCompte'])){
 	  		<!-- Contenu dans la form pour mettre un padding left et right sur le contenu de la forme -->
 	  		<div class="lower">
 
-	  			<h2><strong>Inscription au service en ligne</strong></h2>
+	  			<h3><strong><center>Inscription</center></strong></h3>
 
 	  			<!-- class = "row" créé par Skeleton CSS pour faire une "ligne" -->
 	  			<div class="row">

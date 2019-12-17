@@ -82,6 +82,8 @@ if (!Login::isLoggedIn()) {
 	?>
 
 	<!-- CSS custom pour la page login (non utilisé par les autres pages -->
+	<link rel="stylesheet" type="text/css" href="src/css/global/global_register_login.css">
+
 	<link rel="stylesheet" type="text/css" href="src/css/login/login.css">
 
 </head>
@@ -115,7 +117,7 @@ if (!Login::isLoggedIn()) {
 	  		<!-- Contenu dans la form pour mettre un padding left et right sur le contenu de la forme -->
 	  		<div class="lower">
 
-	  			<h2><strong>Connexion au service en ligne</strong></h2>
+	  			<h3><strong><center>Connexion</center></strong></h3>
 
 	  			<!-- Message à afficher quand erreur connexion -->
 	  			<div id="message_erreur_login" class="erreur_login" style="display: none">Erreur, le nom d'utilisateur ou le mot de passe est incorrect</div>

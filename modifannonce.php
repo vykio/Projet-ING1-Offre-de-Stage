@@ -168,7 +168,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 			    <ul class="menu">
 	  		  		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 	    			<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
-	  				<li class="menu_item"><a href="#">Catégories</a></li>
+	  				
 		      	  <li class="menu_item"><a href="<?php echo MYSPACE_PAGE ?>">Mon espace</a></li>
 		      	  <li class="menu_item"><a href="#"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
 		  	  </ul>
@@ -178,7 +178,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 
 
-<div class= "postuler_buttom">
+<div class= "modifAnnonce_div">
 
 		<div class="annonce_titre">
 			<h3> Modification d'annonce</h3>
