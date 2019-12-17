@@ -29,6 +29,7 @@ if(isset($_POST['creerCompte'])){
 	$phone = (isset($_POST ['gest_phone']) ? $_POST ['gest_phone'] : NULL);
 	$contact_mail = (isset($_POST ['gest_mail']) ? $_POST ['gest_mail'] : NULL);
 		
+	$is_activated = ($account_type == 1 ? 0 : 1); //Compte activé par défaut si utilisateur normal, non activé si gestionnaire
 
 	//Si le nom d'utilisateur n'est pas utilisé
 	if (!database::query('SELECT username FROM utilisateurs WHERE username=:username', array(':username'=>$username))) {
@@ -54,7 +55,7 @@ if(isset($_POST['creerCompte'])){
 									if(!database::query('SELECT email FROM utilisateurs WHERE email=:email', array(':email'=>$email))) {
 				
 				
-										database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :email, :first_name, :last_name, :account_type , :company_name, :phone, :contact_mail)', array('id'=>NULL, ':username'=>$username,':password'=>password_hash($password, PASSWORD_BCRYPT), ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name, 'account_type' =>$account_type, 'company_name'=>$company_name, 'phone'=>$phone, 'contact_mail'=>$contact_mail));
+										database::query('INSERT INTO utilisateurs VALUES (:id, :username, :password, :email, :first_name, :last_name, :account_type , :company_name, :phone, :contact_mail, :is_activated)', array('id'=>NULL, ':username'=>$username,':password'=>password_hash($password, PASSWORD_BCRYPT), ':email'=>$email, ':first_name'=>$first_name, 'last_name'=>$last_name, 'account_type' =>$account_type, 'company_name'=>$company_name, 'phone'=>$phone, 'contact_mail'=>$contact_mail, ':is_activated'=>$is_activated));
 
 
 										//Tout fonctionne
@@ -63,32 +64,32 @@ if(isset($_POST['creerCompte'])){
 			 							exit();
 
 			 						} else {
-			 							echo 'Email deja utilisée';
+			 							$error = 'Email deja utilisée';
 		 							}
 		 						} else {
-		 							echo 'Email de contact invalide';
+		 							$error = 'Email de contact invalide';
 		 						}
 		 					} else {
-		 						echo'numéro de telephone incorrect';
+		 						$error = 'Numéro de telephone invalide';
 		 					}
 
 						}else{
-							echo'Votre adresse mail ressemble a R';
+							$error = 'Votre adresse mail n\'est pas conforme';
 						}
 					} else {
-						echo'Votre mot de passe doit être le même dans les deux champs. Il doit contenir entre 6 et 60 caractères.';
+						$error = 'Votre mot de passe doit contenir entre 6 et 60 caractères.';
 					}
 				}else{
-					echo'Votre mot de passe doit être le même dans les deux champs';
+					$error = 'Votre mot de passe doit être le même dans les deux champs';
 				}
 			}else{
-				echo'Votre nom utilisateur ne peut contenir pas contenir des caractères spécifiques';
+				$error = 'Votre nom d\'utilisateur ne peut pas contenir de caractères spéciaux';
 			}
 		}else{
-			echo'VOtre nom utilisateur doit contenir entre 3 et 32 caractères';
+			$error = 'Votre nom utilisateur doit contenir entre 3 et 32 caractères';
 		}	
 	}else{
-		echo'Nom utilisateur déjà utilisé';
+		$error = 'Nom utilisateur déjà utilisé';
 	}
 }
 
@@ -140,6 +141,10 @@ if(isset($_POST['creerCompte'])){
 	  		<div class="lower">
 
 	  			<h3><strong><center>Inscription</center></strong></h3>
+
+	  			<!-- Message à afficher quand erreur inscription -->
+	  			<div class="erreur_login"><?php 
+	  			if (!empty($error)) echo $error; ?></div>
 
 	  			<!-- class = "row" créé par Skeleton CSS pour faire une "ligne" -->
 	  			<div class="row">

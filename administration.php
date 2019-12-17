@@ -441,14 +441,10 @@ if (Login::isLoggedIn()) {
 				<input type="button" value="Charger Plus" class="load-more u-full-width" id="load-more-annonce" onclick="getAnnonceData()" style="border-radius: 5px;">
 				
 
-
-				lbabaqzd qzd qzd qzdqzdqz dqzd lbdlqkzdblqdkzbqzld qlzdkb qlzdk bq
-				qzdlqzdihqz d
-
-				<span class="fa-stack" style="vertical-align: top;">
+				<!--<span class="fa-stack" style="vertical-align: top;">
 				  <i class="fas fa-circle fa-stack-2x"></i>
 				  <i class="fas fa-check fa-stack-1x fa-inverse"></i>
-				</span>
+				</span>-->
 			</div>
 
 			<input type="radio" name="tabs" id="tab_three">
@@ -509,6 +505,14 @@ if (Login::isLoggedIn()) {
 					
 					</div>
 				</div>
+			</div>
+
+			<input type="radio" name="tabs" id="tab_five">
+			<?php $number = database::query("SELECT COUNT(*) AS Cpt FROM utilisateurs WHERE is_activated=0")[0]["Cpt"]; ?>
+			<label for="tab_five"><i class="fas fa-user-clock"></i> <?php echo $number ?> Demande(s) activation</label>
+			<div class="tab">
+
+
 			</div>
 
 
