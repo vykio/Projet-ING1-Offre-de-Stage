@@ -103,22 +103,9 @@ if (Login::isLoggedIn()) {
 	
 	<div class="container main_container">
 		<!-- Contenus de la page -->
-
-		<!-- Utilisé pour créer la barre de navigation -->
-		<nav class="nav_menu" role="navigation">
-			<!-- Liste d'éléments <li> -->
-		    <ul class="menu">
-	    		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
-	    		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
-	  			
-            <li><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
-		        <li class="menu_item"><a href="<?php echo PROFILE_PAGE . "?id="  . Login::isLoggedIn() ?>"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
-
-		    </ul>
-		</nav>
-		
-
 		<?php 
+
+		include('templates/menu.php');
 
 		/* Categorie par défaut numéro 1
 		si elle est trouvé on donne son id sinon on fixe son id à 1 (toutes catégories) */ 
@@ -141,6 +128,7 @@ if (Login::isLoggedIn()) {
 		$text_search = "titre LIKE '%{$searchValue}%'";
 		$text_position = "ville LIKE '%{$searchValue_Ville}%'";
 		$text_categorie = "numCategorie={$get_categorie}";
+
 		$text_order_by = "ORDER BY id DESC";
 
 		$text_users = "";
@@ -157,7 +145,7 @@ if (Login::isLoggedIn()) {
 
 			/* filtrage des deux valeurs */
 
-			$text_total = "SELECT * FROM annonces WHERE " . $text_search . " AND " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
+			$text_total = "SELECT * FROM annonces WHERE " . $text_search . " AND " . $text_position .  $categorie_if_not_1 . " AND dateDebut > DATE(NOW()) " . $text_order_by;
 
 			
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages contenant <b>'" . $searchValue . "'</b>, à <b>'" . $searchValue_Ville . "'</b></h5>";
@@ -166,21 +154,21 @@ if (Login::isLoggedIn()) {
 			//Si on recherche seulement par mots clés
 		} else if (isset($_GET['search']) && !empty($_GET['search'])) {
 			
-			$text_total = "SELECT * FROM annonces WHERE " . $text_search .  $categorie_if_not_1 . " " . $text_order_by;
-			$text_users = "SELECT * FROM utilisateurs WHERE " . $text_users_search;
+			$text_total = "SELECT * FROM annonces WHERE " . $text_search .  $categorie_if_not_1 . " AND dateDebut > DATE(NOW()) " . $text_order_by;
+			$text_users = "SELECT * FROM utilisateurs WHERE " . $text_users_search . " " . $text_users_limit;
 
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) pour <b>'" . $searchValue . "'</b></h5>";
 
 			//Si on recherche seulement par ville
 		} else if (isset($_GET['position']) && !empty($_GET['position'])) {
 
-			$text_total = "SELECT * FROM annonces WHERE " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
+			$text_total = "SELECT * FROM annonces WHERE " . $text_position .  $categorie_if_not_1 . " AND dateDebut > DATE(NOW()) " . $text_order_by;
 
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 		} else {
 			
-			$text_total = "SELECT * FROM annonces WHERE 1=1 " . $categorie_if_not_1 . " " . $text_order_by;
+			$text_total = "SELECT * FROM annonces WHERE 1=1 " . $categorie_if_not_1 . " AND dateDebut > DATE(NOW()) " . $text_order_by;
 
 		}
 
@@ -308,21 +296,7 @@ if (Login::isLoggedIn()) {
 		include("templates/footer.php");
 	?>
 
-	<script type="text/javascript">
-		//Fonction Javascript utilisé pour afficher ou non le menu en mode mobile
-		function menu_toggle_fn() {
-			var menu_toggle_btn = document.getElementsByClassName("menu_item");
-			for (i = 0; i < menu_toggle_btn.length; i++) {
-				if (menu_toggle_btn[i].style.display != "block") {
-					menu_toggle_btn[i].style.display = "block";
-				} else {
-					menu_toggle_btn[i].style.display = "";
-				}
-			}
-			
-		}
-		
-	</script>
+	
 
 </body>
 </html>

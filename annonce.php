@@ -22,7 +22,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 	if (database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))) {
 
 		$annonce = database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))[0];
-		$user_annonce = database::query("SELECT id FROM utilisateurs WHERE id=:id", array(":id"=>$annonce["user_id"]))[0]["id"];
+		$user_annonce = database::query("SELECT id, company_name FROM utilisateurs WHERE id=:id", array(":id"=>$annonce["user_id"]))[0];
 
 		// echo "<span style=\"white-space: pre-line;\">" . $annonce["description"] ."</span>";
 
@@ -154,13 +154,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 }
 
 
- 
-
-
-
-
-
-
 
 ?>
 
@@ -220,21 +213,10 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 		<div class="container main_container">
 			<!-- Contenus de la page -->
 
-			<!-- Utilisé pour créer la barre de navigation -->
-			<nav class="nav_menu" role="navigation">
-			<!-- Liste d'éléments <li> -->
-		    <ul class="menu">
-	    		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
-	    		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
-	  			
-            <li><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
-		        <li class="menu_item"><a href="<?php echo PROFILE_PAGE . "?id="  . Login::isLoggedIn() ?>"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
-
-		    </ul>
-		</nav>
+			<?php 
+			include('templates/menu.php');
+			?>
 	
-
-
 
 		<div class="annonce_container">
 			<div class="annonce_inner_container">
@@ -242,7 +224,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 					<?php echo $annonce["titre"] ?>
 				</div>
 				<div class="row">
-					<div class="annonce_entreprise three columns"><a href="<?php echo PROFILE_PAGE . "?id=" . $user_annonce  ?>"><?php echo $annonce["entreprise"] ?></a></div>
+					<div class="annonce_entreprise three columns"><a href="<?php echo PROFILE_PAGE . "?id=" . $user_annonce["id"]  ?>"><?php echo $user_annonce["company_name"] ?></a></div>
 					<div class="annonce_location three columns"><span>&#128204 </span><?php echo $annonce["ville"] ?></div>
 					<div class="annonce_duree three columns"><?php echo $annonce["duree"] ?> mois</div>
 					<div class="annonce_duree three columns"><?php
@@ -268,6 +250,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 		?>
 
 		<div class= "postuler_div">
+
+			<?php if ($annonce["dateDebut"] > database::query("SELECT DATE(NOW()) AS DATE;")[0]["DATE"]) { 
+				?>
 
 			<div class="annonce_titre">
 				<h3> Postuler</h3>
@@ -302,7 +287,13 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 							</label>
 						<input class="button-primary" name="confirm" type="submit" value="Envoyer">
 				</form>
-			
+			<?php 
+			} else {
+			?>
+			<center>L'annonce n'est plus disponible.</center>
+			<?php
+			}
+			?>
 		
 			
 			</div>

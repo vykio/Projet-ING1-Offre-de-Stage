@@ -8,7 +8,7 @@ include('database.php');
 include('src/classes/CLASS_login.php');
 
 if (Login::isLoggedIn()) {
-	$user = database::query('SELECT username, email, first_name, last_name, company_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
+	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
 } else {
 	header('Location: ' . LOGIN_PAGE);
 	die(); 
@@ -25,12 +25,11 @@ if (isset($_POST["btnConfirmer"])) {
 
 	// FAIRE VERIFICATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	database::query("INSERT INTO annonces VALUES (null, :titre, :description, :ville, :user_id, :entreprise, :duree, :numCategorie, 0, :dateDebut)", array(
+	database::query("INSERT INTO annonces VALUES (null, :titre, :description, :ville, :user_id, :duree, :numCategorie, 0, :dateDebut)", array(
 		":titre"=>$titre,
 		":description"=>$description,
 		":ville"=>$ville,
 		":user_id"=>Login::isLoggedIn(),
-		":entreprise"=>$user["company_name"],
 		":duree"=>$duree,
 		":numCategorie"=>$categorie,
 		":dateDebut"=>$dateDebut
@@ -105,16 +104,9 @@ if (isset($_POST["btnConfirmer"])) {
 			<!-- Contenus de la page -->
 
 			<!-- Utilisé pour créer la barre de navigation -->
-			<nav class="nav_menu" role="navigation">
-				<!-- Liste d'éléments <li> -->
-			    <ul class="menu">
-	  		  		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
-	    			<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
-	  				<li class="menu_item"><a href="#">Catégories</a></li>
-		      	  <li class="menu_item"><a href="<?php echo MYSPACE_PAGE ?>">Mon espace</a></li>
-		      	  <li class="menu_item"><a href="#"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
-		  	  </ul>
-			</nav>
+			<?php 
+			include('templates/menu.php');
+			?>
 	</div>
 
 

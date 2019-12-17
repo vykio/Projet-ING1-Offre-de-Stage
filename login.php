@@ -27,39 +27,46 @@ if (!Login::isLoggedIn()) {
 
 			/*if(password_verify($password, database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'])) {*/
 			if (password_verify($password, database::query('SELECT password FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['password'])) {
-				//génération d'un token de longueur 64
-				$cstrong = True;
-				$token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
 
-				//Récupération de l'id de l'utilisateur avec ce nom
-				$user_id = database::query('SELECT id FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['id'];
+				if (database::query("SELECT is_activated FROM utilisateurs WHERE username=:username", array(':username'=>$username))[0]["is_activated"] == 1) {
 
-				//Insertion du token codé en sha256 dans la BDD dans la table login_tokens
-				database::query('INSERT INTO login_tokens VALUES (null, :token, :user_id)', array(':token' => hash('sha256', $token), ':user_id' => $user_id));
+					//génération d'un token de longueur 64
+					$cstrong = True;
+					$token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
+
+					//Récupération de l'id de l'utilisateur avec ce nom
+					$user_id = database::query('SELECT id FROM utilisateurs WHERE username=:username', array(':username'=>$username))[0]['id'];
+
+					//Insertion du token codé en sha256 dans la BDD dans la table login_tokens
+					database::query('INSERT INTO login_tokens VALUES (null, :token, :user_id)', array(':token' => hash('sha256', $token), ':user_id' => $user_id));
 
 
-				//Définition des cookies
-				//Le premier (7 jours) contient le token non codé
-				setcookie("SFID", $token, time() + 60* 60 * 24 * 7, '/', NULL, NULL, TRUE);
-				// 		1er NULL : Domain cookie's valid on
-				//		2me NULL : Pour que le cookie soit accessible en HTTP et HTTPS
-								//METTRE A TRUE
-				//		3me NULL : Prevent Javascript from accessing the cookie!
+					//Définition des cookies
+					//Le premier (7 jours) contient le token non codé
+					setcookie("SFID", $token, time() + 60* 60 * 24 * 7, '/', NULL, NULL, TRUE);
+					// 		1er NULL : Domain cookie's valid on
+					//		2me NULL : Pour que le cookie soit accessible en HTTP et HTTPS
+									//METTRE A TRUE
+					//		3me NULL : Prevent Javascript from accessing the cookie!
 
-				//Le deuxième (3 jours) contient nimporte quoi et nous sert à regénérer le token de connection au dela de 3 jours sans connexion
-				setcookie("SFID_verif", '1', time() + 60* 60 * 24 * 2, '/', NULL, NULL, TRUE);
-				header('Location: ' . INDEX_PAGE);
-				exit();
+					//Le deuxième (3 jours) contient nimporte quoi et nous sert à regénérer le token de connection au dela de 3 jours sans connexion
+					setcookie("SFID_verif", '1', time() + 60* 60 * 24 * 2, '/', NULL, NULL, TRUE);
+					header('Location: ' . INDEX_PAGE);
+					exit();
+
+				} else {
+					$error = "Votre compte n'a pas encore été validé par un administrateur";
+				}
 
 			} else {
-
-				echo'<center><b>Utilisateur ou mot de passe incorrect!</b></center>';
+				$error = "Utilisateur ou mot de passe incorrect!";
 
 			}
 
 
 		} else {
-			echo'<center><b>Utilisateur ou mot de passe incorrect!</b></center>';
+
+			$error = "Utilisateur ou mot de passe incorrect!";
 
 		}
 
@@ -120,7 +127,8 @@ if (!Login::isLoggedIn()) {
 	  			<h3><strong><center>Connexion</center></strong></h3>
 
 	  			<!-- Message à afficher quand erreur connexion -->
-	  			<div id="message_erreur_login" class="erreur_login" style="display: none">Erreur, le nom d'utilisateur ou le mot de passe est incorrect</div>
+	  			<div id="message_erreur_login" class="erreur_login"><?php 
+	  			if (!empty($error)) echo $error; ?></div>
 
 	  			<!-- class = "row" créé par Skeleton CSS pour faire une "ligne" -->
 	  			<div class="row">
