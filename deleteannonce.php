@@ -21,7 +21,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 
 
-	if (database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))) {
+	if (database::query("SELECT * from annonces WHERE id=:id AND user_id=:user_id", array(':id'=>$requested_id, ':user_id'=>Login::isLoggedIn()))) {
 
 
 		$annonce = database::query("SELECT * from annonces WHERE id=:id", array(':id'=>$requested_id))[0];
@@ -124,7 +124,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 				</div>
 				
 				<div class= "buttonsup">
-					Titre de l'annonce pour suppression : <?php echo $annonce[titre] ?>
+					Titre de l'annonce pour suppression : <?php echo $annonce["titre"] ?>
 				</div>	
 			
 

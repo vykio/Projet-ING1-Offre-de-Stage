@@ -284,3 +284,8 @@ input:valid+span:after {
   content: '✓';
   padding-left: 5px;
 }
+.annonce_description {
+	height: 500px;
+	resize: vertical;
+	overflow-y: scroll;
+}
