@@ -119,7 +119,7 @@ if (isset($_POST["btnConfirmer"])) {
 
 
 
-<div class= "postuler_buttom">
+<div class= "creerAnnonce_div">
 
 		<div class="annonce_titre">
 			<h3> Création d'annonce</h3>

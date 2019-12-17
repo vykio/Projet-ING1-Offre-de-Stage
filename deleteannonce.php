@@ -56,7 +56,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 	?>
 	<!-- CSS custom pour la page login (non utilisé par les autres pages -->
 
-	<link rel="stylesheet" type="text/css" href="src/css/deleteannonce/deleteannonce.css">
+	
 
 </head>
 
@@ -110,7 +110,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 			    <ul class="menu">
 	  		  		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 	    			<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
-	  				<li class="menu_item"><a href="#">Catégories</a></li>
+	  				
 		      	  <li class="menu_item"><a href="<?php echo MYSPACE_PAGE ?>">Mon espace</a></li>
 		      	  <li class="menu_item"><a href="#"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
 		  	  </ul>
@@ -119,23 +119,26 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 	<div class="annonce_container">
 			<div class="annonce_inner_container">
+				<center>
 				<div class="annonce_titre">
-					Supprimer une annonce
+					Supprimer l'annonce :
 				</div>
-				
-				<div class= "buttonsup">
-					Titre de l'annonce pour suppression : <?php echo $annonce["titre"] ?>
-				</div>	
+				<br>
+				<h4>
+					<?php echo $annonce["titre"] ?>
+				</h4>	
 			
 
-
-				<div class="buttonsup">
-					<form action="<?php echo DELETEANNONCE_PAGE . "?id=" . $annonce["id"] ?>" method="POST">
-						<input type="submit" class="u-full-width button-primary" name="confirm" value="Supprimer cette annonce">
-					</form>
-					
+				<br>
 				
-				</div>
+				<form action="<?php echo DELETEANNONCE_PAGE . "?id=" . $annonce["id"] ?>" method="POST">
+					
+						<input type="submit" class="button-primary" name="confirm" value="Supprimer">
+					
+				</form>
+
+				</center>
+			
 			</div>
 		</div>
 
