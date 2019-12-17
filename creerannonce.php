@@ -70,7 +70,7 @@ if (isset($_POST["btnConfirmer"])) {
 	</div>
 
 	
-</body>
+
 
 	<div class="home_header">
 		
@@ -129,7 +129,10 @@ if (isset($_POST["btnConfirmer"])) {
 			<div class="row">
 				<div class="u-full-width">
 				  <label>Titre</label>
-				  <input class="u-full-width" type="text" placeholder="Titre de l'annonce" name="titre">
+				  <div class="date_div">
+				  	<input class="u-full-width" type="text" placeholder="Titre de l'annonce" name="titre" minlength="10" maxlength="64" required>
+				  	<span class="validity"></span>
+				  </div>
 				</div>	
 
 			</div>
@@ -137,39 +140,52 @@ if (isset($_POST["btnConfirmer"])) {
 			<div class="row">
 				<div class=" three columns">
 				  <label>Lieux</label>
-				  <input class="u-full-width" type="text" placeholder="Ville" name="ville">
+				  <div class="date_div">
+				  	<input class="u-full-width" type="text" placeholder="Ville" name="ville" minlength="2" maxlength="40" required>
+				  	<span class="validity"></span>
+				  </div>
 				</div>	
 
-				<div class=" three columns">
+				<div class="three columns">
 					<label>Date début</label>
-					<input class="u-full-width" type="text" placeholder="AAAA-MM-JJ" name="dateDebut">
+					<!--<input class="u-full-width" type="text" placeholder="AAAA-MM-JJ" name="dateDebut" value="<?php echo $annonce["dateDebut"]?>">-->
+					<div class="date_div">
+						<input type="date" name="dateDebut" id="date" min="<?php echo date("Y-m-j"); ?>" max="2025-01-01" required>
+						<span class="validity"></span>
+					</div>
+					
 				</div>
 
 				<div class=" three columns">
 				  <label>Durée</label>
-				  <input class="u-full-width" type="text" placeholder="Nombre de mois" name="nbMois">
+				  <div class="date_div">
+				  		<input class="u-full-width" type="text" placeholder="Nombre de mois" name="nbMois" maxlength="4" required>
+				  		<span class="validity"></span>
+					</div>
 				</div>
 
-					<label style="">Catégorie</label>
+				<div class=" three columns">
+					<label>Catégorie</label>
 					
-					<select name="categorie" class="three columns">
+					<select name="categorie" style="width: 100%"><?php 
+				 			$categ = database::query("SELECT * FROM categorie_annonce");
+				 			foreach ($categ as $categorie) {
 
-					 		<?php 
-					 			$categ = database::query("SELECT * FROM categorie_annonce");
-					 			foreach ($categ as $categorie) {
-
-					 				echo "<option value=\"".$categorie["Nom_url"]."\">".$categorie["Nom"]."</option>";
-						 		
-					 			}
-					 		?>
-					 	</select>
+				 				echo "<option value=\"".$categorie["Nom_url"]."\">".$categorie["Nom"]."</option>";
+					 		
+				 			}
+				 		?>
+				 	</select>
+				 </div>
 				
 
 			</div>
 
 					 <label>Description de l'annonce</label>
-					 <textarea class="u-full-width" placeholder="Veuillez détailler un maximum l'annonce..." name="description" ></textarea>
-					
+					 <div class="date_div">
+					 <textarea class="u-full-width annonce_description" placeholder="Veuillez détailler un maximum l'annonce..." name="description" minlength="20" maxlength="50000" required ></textarea>
+					 <span class="validity"></span>
+					</div>
 					<input class="button-primary" type="submit" value="Envoyer" name="btnConfirmer">
 			</form>
 		
@@ -180,4 +196,16 @@ if (isset($_POST["btnConfirmer"])) {
 
 		</div>
 </div>
+
+<script type="text/javascript">
+	//Code JQUERY pour changer le type de l'élement d'id "date" en datePicker 
+	//Pour SAFARI
+	if ( $('#date')[0].type != 'date' ) $('#date').datepicker({
+		format: 'dd/mm/yyyy',
+		changeYear: true,
+        minDate: 'D',
+        maxDate: '+2Y'
+	});
+</script>
+</body>
 </html>

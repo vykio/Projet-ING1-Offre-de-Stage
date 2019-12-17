@@ -420,12 +420,13 @@ if(isset($_POST['modifierCompte'])){
 	}
 
 	?>
-	
 
+</div>
 
-	<?php 
-		include("templates/footer.php");
-	?>
+<?php 
+	include("templates/footer.php");
+?>
+
 
 	<script type="text/javascript">
 		//Fonction Javascript utilisé pour afficher ou non le menu en mode mobile
@@ -444,4 +445,5 @@ if(isset($_POST['modifierCompte'])){
 	</script>
 
 </body>
+
 </html>
