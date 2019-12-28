@@ -8,7 +8,7 @@ include('database.php');
 include('src/classes/CLASS_login.php');
 
 if (Login::isLoggedIn()) {
-	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
+	$user = database::query('SELECT username, email, first_name, last_name, account_type FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
 } else {
 	header('Location: ' . LOGIN_PAGE);
 	die(); 
@@ -35,7 +35,7 @@ if (isset($_POST["btnConfirmer"])) {
 		":dateDebut"=>$dateDebut
 	));
 
-	header('Location: ' . INDEX_PAGE);
+	header('Location: ' . MYSPACE_PAGE . "?from=creer_annonce");
 	exit();
 
 }
@@ -163,7 +163,7 @@ if (isset($_POST["btnConfirmer"])) {
 				 			$categ = database::query("SELECT * FROM categorie_annonce");
 				 			foreach ($categ as $categorie) {
 
-				 				echo "<option value=\"".$categorie["Nom_url"]."\">".$categorie["Nom"]."</option>";
+				 				echo "<option value=\"".$categorie["Nom_url"]."\">".($categorie["Nom"] == "Toutes" ? "Non Définie" : $categorie["Nom"])."</option>";
 					 		
 				 			}
 				 		?>

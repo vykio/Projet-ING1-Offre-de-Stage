@@ -59,8 +59,9 @@ if(isset($_POST['creerCompte'])){
 
 
 										//Tout fonctionne
+										$redirect_url_comp = ($account_type == 1 ? "register_gest" : "register_user");
 
-			 							header('Location: ' . LOGIN_PAGE);
+			 							header('Location: ' . LOGIN_PAGE . "?from=" . $redirect_url_comp);
 			 							exit();
 
 			 						} else {

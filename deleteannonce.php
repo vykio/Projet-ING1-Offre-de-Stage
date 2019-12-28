@@ -29,7 +29,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 		if (isset($_POST["confirm"])) {
 			database::query("DELETE FROM annonces WHERE id=:id", array(":id"=>$requested_id));
 
-			header('Location:'.MYSPACE_PAGE);
+			header('Location:'.MYSPACE_PAGE . "?from=suppr_annonce");
 			die();
 
 		}

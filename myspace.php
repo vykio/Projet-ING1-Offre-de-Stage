@@ -16,7 +16,12 @@ if (Login::isLoggedIn()) {
 
 if ($user["account_type"]=='2'){
 	header('Location:' . ADMINISTRATION_PAGE);
-	die;
+	die();
+}
+
+if ($user["account_type"] == '0') {
+	header('Location: ' . INDEX_PAGE);
+	die();
 }
 
 ?><!DOCTYPE html>
@@ -31,6 +36,20 @@ if ($user["account_type"]=='2'){
 	<link rel="stylesheet" type="text/css" href="src/css/myspace/myspace.css">
 
 </head>
+
+
+
+<?php 
+if (isset($_GET["from"])) {
+	if ($_GET["from"] == "creer_annonce") {
+		echo "<script type=\"text/javascript\">showNotification('success', 'Votre annonce a été créée', 'Les informations ont été prises en compte');</script>";
+	} else if ($_GET["from"] == "modif_annonce") {
+		echo "<script type=\"text/javascript\">showNotification('info', 'Votre annonce a été modifiée', 'Les modifications ont été prises en compte');</script>";
+	} else if ($_GET["from"] == "suppr_annonce") {
+		echo "<script type=\"text/javascript\">showNotification('error', 'Votre annonce a été supprimée', '');</script>";
+	}
+}
+?>
 
 
 <body>
