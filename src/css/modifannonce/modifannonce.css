@@ -1,0 +1,42 @@
+.modifAnnonce_div{
+	padding: 10px 10px 10px 10px;
+	
+	border-radius: 6px;
+	box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
+	background-color: white;
+}
+
+#date {
+	height: 38px;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.date_div {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.validity {
+	padding-bottom: 10px;
+}
+
+input:invalid+span:after {
+  content: '✖';
+  padding-left: 5px;
+}
+
+input:valid+span:after {
+  content: '✓';
+  padding-left: 5px;
+}
+.annonce_description {
+	height: 500px;
+	resize: vertical;
+	overflow-y: scroll;
+}

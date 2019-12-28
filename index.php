@@ -10,7 +10,7 @@ include('src/classes/CLASS_login.php');
 
 //La fonction isLoggedIn() de la classe Login, return l'id de l'utilisateur connecté
 if (Login::isLoggedIn()) {
-	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0]; //[0] premier résultat, car il est unique donc pas de pb
+	$user = database::query('SELECT username, email, first_name, last_name, account_type FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0]; //[0] premier résultat, car il est unique donc pas de pb
 	//$user contient les champs username, email, first_name et last_name
 } else {
 	
@@ -23,21 +23,36 @@ if (Login::isLoggedIn()) {
 
 <!DOCTYPE html>
 <html>
-<head>
-	<?php
-	//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
-	include('templates/header.php');
-	?>
+	<head>
+		<?php
+		//Import de header.php qui contient tous les codes de liens CSS, et le titre de la page défini par la variable PAGE_NAME
+		include('templates/header.php');
+		?>
 
 
-	<!-- Fichier uniquement importé pour la page d'accueil donc pas dans le fichier générique -->
-	<link rel="stylesheet" type="text/css" href="src/css/home/home.css">
-	
-</head>
+		<!-- Fichier uniquement importé pour la page d'accueil donc pas dans le fichier générique -->
+		<link rel="stylesheet" type="text/css" href="src/css/home/home.css">
+		
+	</head>
+
+<?php 
+if (isset($_GET["from"])) {
+	if ($_GET["from"] == "login") {
+		echo "<script type=\"text/javascript\">showNotification('info', 'Bienvenue " . $user["first_name"] . "', '');</script>";
+	} else if ($_GET["from"] == "envoi_candidature") {
+		echo "<script type=\"text/javascript\">showNotification('success', 'Candidature envoyée avec succès', 'Le gestionnaire de l\'annonce recevra un email contenant votre candidature');</script>";
+	} else if ($_GET["from"] == "erreur_candidature") {
+		echo "<script type=\"text/javascript\">showNotification('error', 'La candidature n\'a pas pu être envoyée', 'Pas de panique, notre équipe fait son maximum pour régler ce problème');</script>";
+	} 
+}
+?>
+
 <body>
 
+
 	<!-- Image Derriere le header -->
-	<div class="header" style="background: url('imgs/login_3.jpg') no-repeat center center fixed; background-color: #EEEEEE;
+	<div class="header" 
+		style="background: url('imgs/login_3.jpg') no-repeat center center fixed; background-color: #EEEEEE;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
@@ -54,7 +69,7 @@ if (Login::isLoggedIn()) {
 			
 			<!-- Slogan pour le site -->
 			<div class="header_slogan">
-				<img src="imgs/logo1.png" class="img_logo">
+				<a href="<?php echo INDEX_PAGE ?>"><img src="imgs/logo1.png" class="img_logo"></a>
 			</div>
 
 			<!-- class="row" de SKELETON CSS permet d'avoir sur la meme ligne la textbox et le bouton rechercher.
@@ -90,10 +105,11 @@ if (Login::isLoggedIn()) {
 		<!-- Div pour afficher les infos en haut à droite (voir home.css pour le modifier) -->
 			<div class="header_information_utilisateur">
 				<div class="row">
-					<?php echo $user['username'] ?> (<?php echo $user['email'] ?>)
+					<a href="<?php echo PROFILE_PAGE ?>" style="color: white; text-decoration: none" title ="Profil" ><?php echo $user['username'] ?> (<?php echo $user['email'] ?>)</a>
+
 				</div>
 				
-				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none" title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a>
+				<a href="<?php echo LOGOUT_PAGE ?>" style="color: white; text-decoration: none"  title="Déconnexion" >Déconnexion &emsp;<i class="fas fa-sign-out-alt"></i></a> </br>
 			</div>
 
 		
@@ -101,21 +117,9 @@ if (Login::isLoggedIn()) {
 	
 	<div class="container main_container">
 		<!-- Contenus de la page -->
-
-		<!-- Utilisé pour créer la barre de navigation -->
-		<nav class="nav_menu" role="navigation">
-			<!-- Liste d'éléments <li> -->
-		    <ul class="menu">
-	    		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
-	    		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
-	  			<li class="menu_item"><a href="#">Catégories</a></li>
-		        <li class="menu_item"><a href="#">À Propos</a></li>
-		        <li class="menu_item"><a href="#"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
-		    </ul>
-		</nav>
-		
-
 		<?php 
+
+		include('templates/menu.php');
 
 		/* Categorie par défaut numéro 1
 		si elle est trouvé on donne son id sinon on fixe son id à 1 (toutes catégories) */ 
@@ -130,15 +134,20 @@ if (Login::isLoggedIn()) {
 			}
 		}
 
+		$users_found  = false;
 
-
-		$searchValue = (!empty($_GET['search']) ? $_GET['search'] : ""); // ":" = sinon
-		$searchValue_Ville = (!empty($_GET['position']) ? $_GET['position'] : "");
+		$searchValue = (!empty($_GET['search']) ? filter_var($_GET['search'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW) : ""); // ":" = sinon
+		$searchValue_Ville = (!empty($_GET['position']) ?  filter_var($_GET['position'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW)  : "");
 
 		$text_search = "titre LIKE '%{$searchValue}%'";
 		$text_position = "ville LIKE '%{$searchValue_Ville}%'";
 		$text_categorie = "numCategorie={$get_categorie}";
+
 		$text_order_by = "ORDER BY id DESC";
+
+		$text_users = "";
+		$text_users_search = "username LIKE '%{$searchValue}%' OR first_name LIKE '%{$searchValue}%' OR last_name LIKE '%{$searchValue}%'";
+		$text_users_limit = "LIMIT 0,5";
 
 		$text_total = "";
 
@@ -149,47 +158,95 @@ if (Login::isLoggedIn()) {
 		if(isset($_GET['search']) && isset($_GET['position']) && !empty($_GET['search']) && !empty($_GET['position']) ){
 
 			/* filtrage des deux valeurs */
-			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 
-			$text_total = "SELECT * FROM annonces WHERE " . $text_search . " AND " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
+			$text_total = "SELECT * FROM annonces WHERE " . $text_search . " AND " . $text_position .  $categorie_if_not_1 . " AND dateDebut > DATE(NOW()) " . $text_order_by;
+
 			
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages contenant <b>'" . $searchValue . "'</b>, à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 
 			//Si on recherche seulement par mots clés
 		} else if (isset($_GET['search']) && !empty($_GET['search'])) {
-
-			$searchValue = filter_var($searchValue, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 			
-			$text_total = "SELECT * FROM annonces WHERE " . $text_search .  $categorie_if_not_1 . " " . $text_order_by;
+			$text_total = "SELECT * FROM annonces WHERE " . $text_search .  $categorie_if_not_1 . " AND dateDebut > DATE(NOW()) " . $text_order_by;
+			$text_users = "SELECT * FROM utilisateurs WHERE " . $text_users_search . " " . $text_users_limit;
 
-			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages pour <b>'" . $searchValue . "'</b></h5>";
+			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) pour <b>'" . $searchValue . "'</b></h5>";
 
 			//Si on recherche seulement par ville
 		} else if (isset($_GET['position']) && !empty($_GET['position'])) {
 
-			$searchValue_Ville = filter_var($searchValue_Ville, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-
-			$text_total = "SELECT * FROM annonces WHERE " . $text_position .  $categorie_if_not_1 . " " . $text_order_by;
+			$text_total = "SELECT * FROM annonces WHERE " . $text_position .  $categorie_if_not_1 . " AND dateDebut > DATE(NOW()) " . $text_order_by;
 
 			echo "<a href='" . INDEX_PAGE . "'>Supprimer filtres</a><h5>Résultat(s) des stages à <b>'" . $searchValue_Ville . "'</b></h5>";
 
 		} else {
 			
-			$text_total = "SELECT * FROM annonces WHERE 1=1 " . $categorie_if_not_1 . " " . $text_order_by;
+			$text_total = "SELECT * FROM annonces WHERE 1=1 " . $categorie_if_not_1 . " AND dateDebut > DATE(NOW()) " . $text_order_by;
 
 		}
 
 		//Execution
 		$time_start = microtime(true);
 
+
 		$annonces = database::query($text_total);
+		
+
+		if ($text_users != "") {
+			$req_users = database::query($text_users);
+			if (!empty($req_users)) {
+				$users_found = true;
+			}
+			
+		}
 
 		$time_end = microtime(true);
 		$time = $time_end - $time_start;
 
-		echo "<span style=\" color: grey; \">Résultats trouvés en " . round($time,4) . " secondes</span>";
+		echo "<span style=\" color: grey; margin-bottom: 0.5em\">Résultats trouvés en " . round($time,4) . " secondes</span>";
+
+			if ($users_found) {
+				?>
+				<div>Utilisateurs trouvés : </div>
+				<div class="annonce_container no_hover">
+				<?php
+				$i = 0;
+				foreach ($req_users as $user_founded) {
+
+					$gravatar_email = $user_founded["email"];
+					$gravatar_default = "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg";
+					$gravatar_size = 10;
+					$gravatar_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $gravatar_email ) ) ) . "?d=" . urlencode( $gravatar_default ) . "&s=" . $gravatar_size;
+
+					?>
+					<div class="user_container">
+						<img src="<?php echo $gravatar_url; ?>" style="width: 30px; border-radius: 50%;" alt="" />
+						
+						<?php echo "<div class=\"user_container_text\">@ <a style=\"text-decoration: none\" href=\"". PROFILE_PAGE . "?id=" . $user_founded["id"] ."\" >" .$user_founded["username"] . "</a> " . "&emsp;(" . $user_founded["first_name"] . " " . $user_founded["last_name"] . ")</div>";
+
+							?>
+
+							</div>
+
+							<?php
+
+							if (++$i != count($req_users)) {
+								echo "<hr style=\"margin-bottom: 0.5em; margin-top: 0.5em\">";
+							}
+
+						 ?>
+					
+
+					<?php
+				}
+
+				?>
+				</div>
+				<hr>
+				<?php
+			}
+			
 
 
 			//Pour chaque annonces trouvées selon les critères au dessus
@@ -198,7 +255,9 @@ if (Login::isLoggedIn()) {
 				//Filtrage
 				$annonce["titre"] = filter_var($annonce["titre"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				//Supprime les balises et les char ASCII > 127
-				$annonce["entreprise"] = filter_var($annonce["entreprise"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+				$entrep = database::query("SELECT company_name FROM utilisateurs WHERE id=:user_id", array(":user_id"=>$annonce["user_id"]))[0]["company_name"];
+				$entrep = (empty($entrep) ? "étu-stage" : $entrep);
+				$annonce["entreprise"] = filter_var($entrep, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				$annonce["ville"] = filter_var($annonce["ville"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				$annonce["duree"] = filter_var($annonce["duree"], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 				?>
@@ -213,9 +272,16 @@ if (Login::isLoggedIn()) {
 							
 						</div>
 						<div class="row">
-							<div class="annonce_entreprise four columns"><?php echo $annonce["entreprise"] ?></div>
+							<div class="annonce_entreprise three columns"><?php echo $annonce["entreprise"] ?>
+							</div>
 							<div class="annonce_location three columns"><span>&#128204 </span><?php echo $annonce["ville"] ?></div>
-							<div class="annonce_duree five columns"><?php echo $annonce["duree"] ?> mois</div>
+							<div class="annonce_duree three columns"><?php echo $annonce["duree"] ?> mois</div>
+
+							<div class="annonce_duree three columns"><?php
+
+									$categ = database::query("SELECT Nom FROM categorie_annonce, annonces WHERE categorie_annonce.id = annonces.numCategorie AND annonces.id={$annonce["id"]}")[0]["Nom"];
+									echo $categ;
+							?></div>
 						</div>
 						
 						<div class="annonce_description">
@@ -244,21 +310,7 @@ if (Login::isLoggedIn()) {
 		include("templates/footer.php");
 	?>
 
-	<script type="text/javascript">
-		//Fonction Javascript utilisé pour afficher ou non le menu en mode mobile
-		function menu_toggle_fn() {
-			var menu_toggle_btn = document.getElementsByClassName("menu_item");
-			for (i = 0; i < menu_toggle_btn.length; i++) {
-				if (menu_toggle_btn[i].style.display != "block") {
-					menu_toggle_btn[i].style.display = "block";
-				} else {
-					menu_toggle_btn[i].style.display = "";
-				}
-			}
-			
-		}
-		
-	</script>
+	
 
 </body>
 </html>

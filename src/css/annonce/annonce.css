@@ -1,0 +1,27 @@
+
+.postuler_div{
+	padding: 10px 10px 10px 10px;
+	
+	border-radius: 6px;
+	box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
+	background-color: white;
+}
+
+.annonce_titre {
+	font-size: 1.6em;
+}
+
+.annonce_entreprise {
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+.annonce_location {
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+.annonce_duree {
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
