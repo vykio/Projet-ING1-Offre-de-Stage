@@ -9,8 +9,15 @@ class Request {
 			$user = database::query('SELECT account_type FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0];
 			
 			if ($user["account_type"] == '2') {
-				$output = database::query($request);
+				if (strpos(strtolower($request), "drop") === false) {
+					$output = database::query($request);
+					
+				} else {
+					$output = [["DROP Impossible"]];
+				}
+
 				return $output;
+				
 			}
 		}
 	} 
