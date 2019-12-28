@@ -61,7 +61,6 @@ if(isset($_POST['modifierCompte'])){
 	$company_name = ((isset($_POST['gest_entreprise']) && ($user["account_type"]== 1)) ? $_POST['gest_entreprise'] : NULL);
 	$phone = ((isset($_POST ['gest_phone']) && ($user["account_type"]== 1)) ? $_POST ['gest_phone'] : NULL);
 	$contact_mail = ((isset($_POST ['gest_mail']) && ($user["account_type"]== 1)) ? $_POST ['gest_mail'] : NULL);
-	echo $account_type;
 
 	if (!database::query('SELECT username FROM utilisateurs WHERE username=:username AND id<>:id', array(':username'=>$username, ':id'=>Login::isLoggedIn()))) {
 
@@ -90,7 +89,7 @@ if(isset($_POST['modifierCompte'])){
 
 										//Tout fonctionne
 
-			 							header('Location: ' . PROFILE_PAGE . "?id=" . Login::isLoggedIn());
+			 							header('Location: ' . PROFILE_PAGE . "?id=" . Login::isLoggedIn() . "&from=modif_profile");
 			 							exit();
 
 			 						} else {
@@ -141,6 +140,18 @@ if(isset($_POST['modifierCompte'])){
 	<!-- Fichier uniquement importé pour la page d'accueil donc pas dans le fichier générique -->
 	<link rel="stylesheet" type="text/css" href="src/css/profile/profile.css">
 </head>
+
+<?php
+
+if (isset($_GET["from"])) {
+	if ($_GET["from"] == "modif_profile") {
+		echo "<script type=\"text/javascript\">showNotification('info', 'Vos informations ont été modifiées avec succès', '');</script>";
+	}
+}
+
+?>
+
+
 <body>
 
 

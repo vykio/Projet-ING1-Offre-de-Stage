@@ -14,7 +14,6 @@ if (Login::isLoggedIn()) {
 	die(); 
 }
 
-
 if (isset($_GET['id']) && !empty($_GET['id'])) {
 	$requested_id = $_GET['id'];
 	$requested_id = filter_var($requested_id, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
@@ -51,6 +50,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 						// directory in which the uploaded file will be moved
 						$uploadFileDir = 'uploads/';
 						$dest_path = $uploadFileDir . $newFileName;
+
+						//Désactive le report d'erreurs PHP car sur windows, il peut y avoir une erreur due au répertoire
+						//et nous voulons éviter de l'afficher (nous remettons la valeur par défaut après)
+						$old_ER = error_reporting();
+						error_reporting(0);
 						 
 						if(move_uploaded_file($fileTmpPath, $dest_path))
 						{
@@ -121,37 +125,52 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 								$msg .= 'Content-type:'.$file_type.';name='.'CV.'.$fileExtension."\r\n";
 								$msg .= 'Content-transfer-encoding:base64'."\r\n\r\n";
 								$msg .= $content."\r\n";
-							}
-							 
-							// Fin
-							$msg .= '--'.$boundary."\r\n";
-							 
-							// Function mail()
-							$mail_sent = mail($to, $subject, $msg, $headers);
-							if ($mail_sent) {
-								unlink($dest_path);
-							} else {
-								header('Location: ' . INDEX_PAGE);
+
+
+								// Fin
+								$msg .= '--'.$boundary."\r\n";
+								 
+								// Function mail()
+								$mail_sent = mail($to, $subject, $msg, $headers);
+								if ($mail_sent) {
+									unlink($dest_path);
+								} else {
+									header('Location: ' . INDEX_PAGE . "?from=erreur_candidature");
+									die(); 
+
+								}
+
+
+								
+								header('Location: ' . INDEX_PAGE . "?from=envoi_candidature");
 								die(); 
 
+							} else {
+								$error = "<script type=\"text/javascript\">showNotification('error', 'La candidature n\'a pas pu être envoyée', 'Pas de panique, notre équipe fait son maximum pour gérer le problème (Code: FE_". $_FILES['uploadedFile']['error'] .")');</script>";
 							}
-
-
+							 
 							
-							header('Location: ' . ANNONCE_PAGE);
-							die(); 
 
 						}
 						else
 						{
-						  $message = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
-							echo $message;
+							
+						  $error = "<script type=\"text/javascript\">showNotification('error', 'La candidature n\'a pas pu être envoyée', 'Pas de panique, notre équipe fait son maximum pour gérer le problème (Code: MF_". $_FILES['uploadedFile']['error'] .")');</script>";
 						}
 
+						//Report des erreurs PHP par défaut
+						error_reporting($old_ER);
+
+					} else {
+						$error = "<script type=\"text/javascript\">showNotification('error', 'La candidature n\'a pas pu être envoyée', 'Le CV n\'est pas au bon format');</script>";
 					}
 
+				} else {
+					$error = "<script type=\"text/javascript\">showNotification('error', 'La candidature n\'a pas pu être envoyée', 'Le CV n\'a pas été téléchargé');</script>";
 				}
 
+			} else {
+				$error = "<script type=\"text/javascript\">showNotification('error', 'La candidature n\'a pas pu être envoyée', 'Les champs obligatoires n\'ont pas été remplis');</script>";
 			}
 		} else {
 			$vue =$annonce["nbVue"];
@@ -195,6 +214,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 	<!-- CSS custom pour la page login (non utilisé par les autres pages -->
 	<link rel="stylesheet" type="text/css" href="src/css/annonce/annonce.css">
 
+	<?php if (!empty($error)) {
+		echo $error;
+	} ?>
 </head>
 
 <body>

@@ -10,7 +10,7 @@ include('src/classes/CLASS_login.php');
 
 //La fonction isLoggedIn() de la classe Login, return l'id de l'utilisateur connecté
 if (Login::isLoggedIn()) {
-	$user = database::query('SELECT username, email, first_name, last_name FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0]; //[0] premier résultat, car il est unique donc pas de pb
+	$user = database::query('SELECT username, email, first_name, last_name, account_type FROM utilisateurs WHERE id=:id', array(':id'=>Login::isLoggedIn()))[0]; //[0] premier résultat, car il est unique donc pas de pb
 	//$user contient les champs username, email, first_name et last_name
 } else {
 	
@@ -34,7 +34,21 @@ if (Login::isLoggedIn()) {
 		<link rel="stylesheet" type="text/css" href="src/css/home/home.css">
 		
 	</head>
+
+<?php 
+if (isset($_GET["from"])) {
+	if ($_GET["from"] == "login") {
+		echo "<script type=\"text/javascript\">showNotification('info', 'Bienvenue " . $user["first_name"] . "', '');</script>";
+	} else if ($_GET["from"] == "envoi_candidature") {
+		echo "<script type=\"text/javascript\">showNotification('success', 'Candidature envoyée avec succès', 'Le gestionnaire de l\'annonce recevra un email contenant votre candidature');</script>";
+	} else if ($_GET["from"] == "erreur_candidature") {
+		echo "<script type=\"text/javascript\">showNotification('error', 'La candidature n\'a pas pu être envoyée', 'Pas de panique, notre équipe fait son maximum pour régler ce problème');</script>";
+	} 
+}
+?>
+
 <body>
+
 
 	<!-- Image Derriere le header -->
 	<div class="header" 

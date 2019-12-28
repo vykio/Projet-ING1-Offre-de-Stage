@@ -5,7 +5,16 @@
 		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
 			
-    	<li class="menu_item"><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
+    	<?php
+
+    	if ($user["account_type"] != 0) {
+    		?>
+    		<li class="menu_item"><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
+    		<?php
+    	}
+
+    	?>
+    	
         <li class="menu_item"><a href="<?php echo PROFILE_PAGE . "?id="  . Login::isLoggedIn() ?>"><i class="far fa-user"></i>&emsp;Mon profil</a></li>
 
     </ul>

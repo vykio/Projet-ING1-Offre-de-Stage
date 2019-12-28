@@ -51,7 +51,7 @@ if (!Login::isLoggedIn()) {
 
 					//Le deuxième (3 jours) contient nimporte quoi et nous sert à regénérer le token de connection au dela de 3 jours sans connexion
 					setcookie("SFID_verif", '1', time() + 60* 60 * 24 * 2, '/', NULL, NULL, TRUE);
-					header('Location: ' . INDEX_PAGE);
+					header('Location: ' . INDEX_PAGE . '?from=login');
 					exit();
 
 				} else {
@@ -71,6 +71,8 @@ if (!Login::isLoggedIn()) {
 		}
 
 	}
+
+	
 
 } else {
 	header('Location: ' . INDEX_PAGE);
@@ -94,6 +96,18 @@ if (!Login::isLoggedIn()) {
 	<link rel="stylesheet" type="text/css" href="src/css/login/login.css">
 
 </head>
+
+<?php
+
+if (isset($_GET["from"])) {
+	if ($_GET["from"] == "register_user") {
+		echo "<script type=\"text/javascript\">showNotification('success', 'Votre compte a été créé', 'Vous pouvez vous connecter');</script>";
+	} else if ($_GET["from"] == "register_gest") {
+		echo "<script type=\"text/javascript\">showNotification('success', 'Votre compte a été créé', 'Mais n\'a pas encore été validé par un administrateur');</script>";
+	}
+}
+
+?>
 
 <body>
 

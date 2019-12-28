@@ -58,7 +58,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 									database::query("UPDATE annonces SET titre=:titre, ville=:ville, duree=:duree, description=:description, numCategorie=:categorie, dateDebut=:dateDebut WHERE id=:id", array(':id'=>$annonce["id"],':titre'=>$titre,':ville'=>$ville, ':duree'=>$duree, ':description'=>$description, ':categorie'=>$categorie, ':dateDebut'=>$dateDebut));
 
 
-										header('Location: '.MYSPACE_PAGE);
+										header('Location: '.MYSPACE_PAGE . "?from=modif_annonce");
 										exit();
 
 									
@@ -226,7 +226,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 					 			foreach ($categ as $categorie) {
 
 
-					 				echo "<option value=\"".$categorie["Nom_url"]."\"" . (($annonce["numCategorie"] == $categorie["id"] ) ? "selected" : "") . ">".$categorie["Nom"]."</option>";
+					 				echo "<option value=\"".$categorie["Nom_url"]."\"" . (($annonce["numCategorie"] == $categorie["id"] ) ? "selected" : "") . ">".($categorie["Nom"] == "Toutes" ? "Non Définie" : $categorie["Nom"])."</option>";
 						 		
 					 			}
 					 		?>
