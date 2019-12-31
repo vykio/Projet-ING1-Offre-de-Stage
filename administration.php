@@ -307,6 +307,10 @@ if (Login::isLoggedIn()) {
 		  
 		}
 
+		.sim_btn {
+			cursor: pointer;
+		}
+
 	</style>
 </head>
 <body>
@@ -508,10 +512,37 @@ if (Login::isLoggedIn()) {
 			</div>
 
 			<input type="radio" name="tabs" id="tab_five">
-			<?php $number = database::query("SELECT COUNT(*) AS Cpt FROM utilisateurs WHERE is_activated=0")[0]["Cpt"]; ?>
-			<label for="tab_five"><i class="fas fa-user-clock"></i> <?php echo $number ?> Demande(s) activation</label>
+			<?php 
+			$number = database::query("SELECT COUNT(*) AS Cpt FROM utilisateurs WHERE is_activated=0")[0]["Cpt"];
+			$demandes = database::query("SELECT id, username, first_name, last_name, contact_mail, company_name FROM utilisateurs WHERE is_activated=0"); ?>
+			<label for="tab_five"><i class="fas fa-user-clock"></i> <?php echo $number; ?> Demande(s) activation</label>
 			<div class="tab">
+				<div class="sql-desc bg-white inner-sql warning-text">
+					<i class="fas fa-exclamation-circle"></i>&emsp;Il faut recharger la page pour voir les modifications
+				</div>
 
+				<div class="bg-white tab-ext">
+					<div class="inner-sql">
+						<?php 
+							foreach ($demandes as $demande) {
+								?>
+								<hr>
+								<div class="row">
+									<div class="two columns"><?php echo $demande["first_name"] . " " . $demande["last_name"]; ?></div>
+									<div class="four columns" style="overflow-wrap: anywhere;"><?php echo $demande["contact_mail"] ?></div>
+									<div class="two columns"><?php echo $demande["company_name"] ?></div>
+									<div class="two columns"><div class="sim_btn u-full-width" id="btn1" style="text-align: left; padding-left: 10px; color: #006BA8" onclick="getSqlOutput(1, <?php echo $demande["id"] ?>)"><i class="fas fa-check"></i>&emsp;Accepter</div></div>
+									<div class="two columns"><div class="sim_btn" id="btn2" style="text-align: right; padding-right: 10px; color: red;" onclick="getSqlOutput(2, <?php echo $demande["id"] ?>)"><i class="fas fa-times"></i>&emsp;Supprimer</div></div>
+								</div>
+
+								
+								<br>
+								<?php
+							}
+						
+							?>
+					</div>
+				</div>
 
 			</div>
 
@@ -631,7 +662,7 @@ if (Login::isLoggedIn()) {
         		
 		        
 		        // Converting JSON string to Javasript array
-		        console.log(data);
+		        
 		        var data = JSON.parse(this.responseText);
 		        var html = "";
 		        var type = "";
@@ -679,7 +710,7 @@ if (Login::isLoggedIn()) {
 
     function searchAnnonce() {
     	var temp = document.getElementById("annonce").value;
-    	console.log(temp);
+    	
     	
 		annonce_like = temp;
 		start_annonce = 0;
@@ -688,16 +719,24 @@ if (Login::isLoggedIn()) {
     	
     }
 
- 	function getSqlOutput() {
+ 	function getSqlOutput(num = 0, id = 0) {
 
         // Creating a built-in AJAX object
         var ajax = new XMLHttpRequest();
 
-        cmd = document.getElementById("sql-cmd").value;
+        if (num == 0) {
+        	cmd = document.getElementById("sql-cmd").value;
 
- 		if (document.getElementById("sql-output").innerHTML != "") {
- 			document.getElementById("sql-output").innerHTML = "";
- 		}
+	 		if (document.getElementById("sql-output").innerHTML != "") {
+	 			document.getElementById("sql-output").innerHTML = "";
+	 		}
+        } else if (num == 1) {
+        	cmd = "UPDATE utilisateurs SET is_activated=1 WHERE id=" + id;
+        } else if (num == 2) {
+        	cmd = "DELETE FROM utilisateurs WHERE id=" + id;
+        }
+
+        
 
         // Sending starting position
         ajax.open("GET", "src/ajax/sqlOutput.php?cmd=" + cmd, true);
@@ -705,55 +744,64 @@ if (Login::isLoggedIn()) {
         // Actually sending the request
         ajax.send();
 
-        document.getElementById("sql-confirm").disabled = true;
-        document.getElementById("sql-confirm").style.backgroundColor = "lightgrey";
-
+        if (num == 0) {
+        	document.getElementById("sql-confirm").disabled = true;
+        	document.getElementById("sql-confirm").style.backgroundColor = "lightgrey";
+    	} 
         // Detecting request state change
         ajax.onreadystatechange = function () {
 		    if (this.readyState == 4 && this.status == 200) {
 
-		    	document.getElementById("sql-confirm").disabled = false;
-		    	document.getElementById("sql-confirm").style.backgroundColor = "";
+		    	if (num == 0) {
+			    	document.getElementById("sql-confirm").disabled = false;
+			    	document.getElementById("sql-confirm").style.backgroundColor = "";
 		        
-		        // Converting JSON string to Javasript array
-		        //console.log(this.responseText);
-		        try {
-		        	var data = JSON.parse(this.responseText);
+			        // Converting JSON string to Javasript array
+			        //console.log(this.responseText);
+			        try {
+			        	var data = JSON.parse(this.responseText);
 
-			        var html = "";
+				        var html = "";
 
-			        html += "<ol>";
-			        
-			        for (var a = 0; a < data.length; a++) {
-			        	html += "<li>";
-			        	for ( var b = 0; b < Object.keys(data[a]).length /2 ; b++) {
-			        	//for (var b in data[a]) {
-			        		html += JSON.stringify(data[a][b]) + " ";
+				        html += "<ol>";
+				        
+				        for (var a = 0; a < data.length; a++) {
+				        	html += "<li>";
+				        	for ( var b = 0; b < Object.keys(data[a]).length /2 ; b++) {
+				        	//for (var b in data[a]) {
+				        		html += JSON.stringify(data[a][b]) + " ";
+				        	}
+				        	html += "</li>";
+				        }
+
+				        html += "</ol>";
+
+				        if (html == "<ol></ol>") {
+				        	html = "<center>Pas de résultats</center>";
+				        }
+
+			        } catch(error) {
+			        	if (error.name === "SyntaxError") {
+			        		html = "<center><i class=\"fas fa-bug\"></i>&emsp;Code 1: Erreur de syntaxe</center>";
+			        	} else if (error.name === "TypeError") {
+			        		html = "<center><i class=\"fas fa-info-circle\"></i>&emsp;Code 2: La commande n'a rien retourné</center>";
+			        	} else {
+			        		html = "<center><i class=\"fas fa-bug\"></i>&emsp;Code 3: " + error.name + " (" + error.message + ")</center>";
 			        	}
-			        	html += "</li>";
+			        	//html = "<center>Erreur<br><i class=\"fas fa-bug\"></i>&emsp;" + error.name + "</center>";
 			        }
+		        	
+		        	document.getElementById("sql-output").innerHTML = html;
 
-			        html += "</ol>";
-
-			        if (html == "<ol></ol>") {
-			        	html = "<center>Pas de résultats</center>";
-			        }
-
-		        } catch(error) {
-		        	if (error.name === "SyntaxError") {
-		        		html = "<center><i class=\"fas fa-bug\"></i>&emsp;Code 1: Erreur de syntaxe</center>";
-		        	} else if (error.name === "TypeError") {
-		        		html = "<center><i class=\"fas fa-info-circle\"></i>&emsp;Code 2: La commande n'a rien retourné</center>";
-		        	} else {
-		        		html = "<center><i class=\"fas fa-bug\"></i>&emsp;Code 3: " + error.name + " (" + error.message + ")</center>";
-		        	}
-		        	//html = "<center>Erreur<br><i class=\"fas fa-bug\"></i>&emsp;" + error.name + "</center>";
+		        } else if (num==1) {
+		        	alert("Compte gestionnaire accepté");
+		        	window.location.reload(false);
+		        } else if (num==2) {
+		        	alert("Compte supprimé");
+		        	window.location.reload(false);
 		        }
-		        
 
 		        
-
-		        document.getElementById("sql-output").innerHTML = html;
 		        
 		    }
 		};
