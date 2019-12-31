@@ -11,6 +11,7 @@ $page_creerannonce = "creerannonce.php";
 $page_deleteannonce = "deleteannonce.php";
 $page_modifannonce  = "modifannonce.php";
 $page_administration = "administration.php";
+$page_faq = "faq.php";
 
 define('INDEX_PAGE', $page_index);
 define('LOGIN_PAGE', $page_login);
@@ -23,4 +24,5 @@ define('CREERANNONCE_PAGE', $page_creerannonce);
 define('DELETEANNONCE_PAGE', $page_deleteannonce);
 define('MODIFANNONCE_PAGE', $page_modifannonce);
 define('ADMINISTRATION_PAGE', $page_administration);
+define('FAQ_PAGE',$page_faq);
 ?>
