@@ -156,6 +156,11 @@ if (Login::isLoggedIn()) {
 		  <p> Une fois que vous avez envoyé votre candidature, elle est transmise par mail à la personne de l'entreprise qui a publié l'annonce.</p>
 		</div>
 
+	<button class="collapsible"> Quand un stage doit-il être rémunéré ? </button>
+		<div class="content">
+		  <p> En France, tous les stages d'une durée de plus de deux mois à temps plein doit être rémunéré. Dans ce cas, un stagiaire à temps plein a donc le droit à un minimum de 554 € par mois.</p>
+		</div>
+
 	
 
 	
