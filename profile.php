@@ -433,8 +433,14 @@ if (isset($_GET["from"])) {
 	 				
 	 				?>
 	 				<div class="row">
-	 					<br>
-			  			<center><input type="button" name="modifier" class="button-primary" value="Modifier le profil" onclick="document.location.href='<?php echo PROFILE_PAGE ?>'"></center>
+	 					<br>	
+			  			<center>
+			  				<div class="row">
+			  					<input type="button" name="modifier" class="button-primary six columns" value="Modifier le profil" onclick="document.location.href='<?php echo PROFILE_PAGE ?>'">
+			  					<input type="button" name="modifier" class="six columns" value="Modifier le Gravatar" onclick="window.open('https://fr.gravatar.com/connect/?source=_signup', '_blank')">
+			  				</div>
+			  				
+			  			</center>
 			  		</div>
 			  		<?php
 			  			}

@@ -319,7 +319,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 							<!--<label for="exampleEmailInput">CV Upload</label>
 							<button>chercher le fichier</button>
 							<input class="button-primary" type="button" value=" Telechargement">-->
-							<label>Upload CV</label>
+							<label>CV (.pdf, .doc, .docx, .odt, .rtf)</label>
 							 <input type="file" name="uploadedFile" />
 						</div>
 					</div>

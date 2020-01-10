@@ -168,24 +168,7 @@ if (isset($_GET["from"])) {
 	<?php
 	}
 
-	} else if ($user["account_type"]=='2'){
-		//Code POUR ADMINISTRATEUR
-
-		?>
-
-		<div>Administrateur</div>
-
-		<?php
-
-
-	} else if ($user["account_type"] == '0') {
-		?>
-
-		<div>Utilisateur</div>
-
-		<?php
-
-	}
+	} 
 	?>
 
 </div>

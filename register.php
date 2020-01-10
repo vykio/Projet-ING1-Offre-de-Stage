@@ -147,17 +147,20 @@ if(isset($_POST['creerCompte'])){
 	  			<div class="erreur_login"><?php 
 	  			if (!empty($error)) echo $error; ?></div>
 
-	  			<!-- class = "row" créé par Skeleton CSS pour faire une "ligne" -->
-	  			<div class="row">
-	  				<label class="six columns" for="first_nameInput">Prénom</label>
-	  				<label class="six columns" for="last_nameInput">Nom de famille</label>
-	  			</div>
+	  			
 	  		<!-- <label class='offset-by-six columns' for="last_nameInput">Nom de famille</label> -->
 	  			<div class="row">
+	  				<div class="six columns">
+	  					<label class="u-full-width" for="first_nameInput">Prénom</label>
+						<input class="u-full-width" type="text" name="first_name" value="" placeholder="Prénom"  style="border-radius: 50px;" autofocus required maxlength="60">
+	  				</div>
+
+	  				<div class="six columns">
+	  					<label class="u-full-width" for="last_nameInput">Nom de famille</label>
+		      			<input class="u-full-width" type="text" name="last_name" value="" placeholder="Nom de famille" style="border-radius: 50px;" required maxlength="60">
+	  				</div>
 					
-					<input class="six columns" type="text" name="first_name" value="" placeholder="Prénom"  style="border-radius: 50px;" autofocus required maxlength="60">
-					<!-- <label for="last_nameInput">Nom de famille</label> -->
-		      		<input class="six columns" type="text" name="last_name" value="" placeholder="Nom de famille" style="border-radius: 50px;" required maxlength="60">
+					
 		  		</div>
 
 		  		<div class="row">
@@ -171,16 +174,17 @@ if(isset($_POST['creerCompte'])){
 		  		</div>
 
 		  		<div class="row">
-		  			<label class="six columns" for="passwordInput">Mot de passe</label>
-		  			<label class="six columns" for="passwordInput">Confirmer mot de passe</label>
-		  		</div>
-
-
-		  		<div class="row">
-					
-		      		<input class="six columns" type="password" name="password" value="" placeholder="Mot de passe" style="border-radius: 50px;" required maxlength="60">
-		 
-		      		<input class="six columns" type="password" name="password_verif" value="" placeholder="Confirmer mot de passe" style="border-radius: 50px;" required maxlength="60">
+		  			<div class="six columns">
+		  				<label class="u-full-width" for="passwordInput">Mot de passe</label>
+		  				<input class="u-full-width" type="password" name="password" value="" placeholder="Mot de passe" style="border-radius: 50px;" required maxlength="60">
+		  			</div>
+		  			
+		  			
+					<div class="six columns">
+						<label class="u-full-width" for="passwordInput">Confirmer mot de passe</label>
+		      			<input class="u-full-width" type="password" name="password_verif" value="" placeholder="Confirmer mot de passe" style="border-radius: 50px;" required maxlength="60">
+					</div>
+		      		
 		  		</div>
 
 		  		<div class="row">

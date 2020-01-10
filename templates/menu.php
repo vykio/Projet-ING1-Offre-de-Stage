@@ -7,11 +7,15 @@
 		<li class="menu_item"><a href="<?php echo FAQ_PAGE?>">Besoin d'aide ?</a></li>	
     	<?php
 
-    	if ($user["account_type"] != 0) {
+    	if ($user["account_type"] == 1) {
     		?>
     		<li class="menu_item"><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
     		<?php
-    	}
+    	} else if ($user["account_type"] == 2) {
+    		?>
+    		<li class="menu_item"><a href="<?php echo ADMINISTRATION_PAGE?>">Administration</a></li>
+    		<?php
+    	} 
 
     	?>
     	
