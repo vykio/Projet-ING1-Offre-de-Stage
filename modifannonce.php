@@ -259,6 +259,15 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         maxDate: '+2Y'
 	});
 </script>
+
+
+<br>
+<br>
+<br>
+<br>
+<?php 
+include("templates/footer.php");
+?>
 </body>
 </html>
 

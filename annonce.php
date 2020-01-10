@@ -355,6 +355,12 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 	</div>
 
+<br>
+<br>
+<?php 
+include("templates/footer.php");
+?>
+
 
 
 </html>

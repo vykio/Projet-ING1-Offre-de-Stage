@@ -172,3 +172,10 @@ if (isset($_GET["from"])) {
 	?>
 
 </div>
+
+<br>
+<br>
+<br>
+<?php 
+include("templates/footer.php");
+?>

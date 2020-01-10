@@ -239,5 +239,12 @@ for (i = 0; i < coll.length; i++) {
 }
 </script>
 
+
+<br>
+<br>
+<br>
+<?php 
+include("templates/footer.php");
+?>
 </body>
 </html>	

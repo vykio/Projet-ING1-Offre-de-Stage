@@ -199,5 +199,13 @@ if (isset($_POST["btnConfirmer"])) {
         maxDate: '+2Y'
 	});
 </script>
+
+<br>
+<br>
+<br>
+<br>
+<?php 
+include("templates/footer.php");
+?>
 </body>
 </html>
