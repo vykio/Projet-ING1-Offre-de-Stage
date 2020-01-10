@@ -126,7 +126,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 				
 				<form action="<?php echo DELETEANNONCE_PAGE . "?id=" . $annonce["id"] ?>" method="POST">
 					
-						<input type="submit" class="button-primary" name="confirm" value="Supprimer">
+						<input type="submit" class="button-primary" name="confirm" value="Supprimer définitivement">
 					
 				</form>
 

@@ -4,16 +4,16 @@
     <ul class="menu">
 		<li><a href="<?php echo INDEX_PAGE ?>"><i class="fas fa-home"></i>&emsp;Accueil</a></li>
 		<li class="menu_toggle_icon" id="menu_toggle_button"><a href="javascript:void(0);" onclick="menu_toggle_fn()"><i class="fas fa-bars"></i></a></li>
-		<li class="menu_item"><a href="<?php echo FAQ_PAGE?>">Besoin d'aide ?</a></li>	
+		<li class="menu_item"><a href="<?php echo FAQ_PAGE?>"><i class="fas fa-info-circle"></i>&emsp;Besoin d'aide ?</a></li>	
     	<?php
 
     	if ($user["account_type"] == 1) {
     		?>
-    		<li class="menu_item"><a href="<?php echo MYSPACE_PAGE?>">Mon espace</a></li>
+    		<li class="menu_item"><a href="<?php echo MYSPACE_PAGE?>"><i class="fas fa-th-list"></i>&emsp;Mon espace</a></li>
     		<?php
     	} else if ($user["account_type"] == 2) {
     		?>
-    		<li class="menu_item"><a href="<?php echo ADMINISTRATION_PAGE?>">Administration</a></li>
+    		<li class="menu_item"><a href="<?php echo ADMINISTRATION_PAGE?>"><i class="fas fa-users-cog"></i>&emsp;Administration</a></li>
     		<?php
     	} 
 

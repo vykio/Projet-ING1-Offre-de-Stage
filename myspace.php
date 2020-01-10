@@ -108,8 +108,7 @@ if (isset($_GET["from"])) {
  	if($user["account_type"]=='1'){
 
 ?>
-	<input type="button" class="u-full-width" value="Créer annonce" onclick="location.href='<?php echo CREERANNONCE_PAGE ?>'">
-				
+	<button class="u-full-width" onclick="location.href='<?php echo CREERANNONCE_PAGE ?>'"><i class="fas fa-plus"></i>&emsp;Créer annonce</button>				
 	
 
 	<div class="myspacerecherche_container">

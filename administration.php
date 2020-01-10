@@ -436,7 +436,6 @@ if (Login::isLoggedIn()) {
 				      <th>Auteur</th>
 				      <th>Catégorie</th>
 				      <th>Email Auteur</th>
-				      <th>Actions</th>
 				    </tr>
 				  </thead>
 				  <tbody id="annonces-data"></tbody>
